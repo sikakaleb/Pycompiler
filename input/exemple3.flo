@@ -1,0 +1,2 @@
+ecrire(42);
+si b alors ecrire(4 + 2);
