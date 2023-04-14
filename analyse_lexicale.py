@@ -22,7 +22,7 @@ class FloLexer(Lexer):
     # Les litéraux sont vérifiés en dernier, après toutes les autres règles définies par des expressions régulières.
     # Donc, si une règle commence par un de ces littérals (comme INFERIEUR_OU_EGAL), cette règle aura la priorité.
     literals = {'+', '*', '-', '/', '%', '!',
-                '{', '}', '(', ')', ',', ";", "=", '<', '>'}
+                '{', '}', '(', ')', ',', ";", "=", '<', '>', 'et', 'ou', 'non'}
 
     # Chaînes contenant les caractères à ignorer. Ici espace et tabulation
     ignore = ' \t'
