@@ -1,51 +1,67 @@
 """
 Affiche une chaine de caractère avec une certaine identation
 """
-def afficher(s,indent=0):
-	print(" "*indent+s)
-	
+
+
+def afficher(s, indent=0):
+    print(" "*indent+s)
+
+
 class Programme:
-	def __init__(self,listeInstructions):
-		self.listeInstructions = listeInstructions
-	def afficher(self,indent=0):
-		afficher("<programme>",indent)
-		self.listeInstructions.afficher(indent+1)
-		afficher("</programme>",indent)
+    def __init__(self, listeInstructions):
+        self.listeInstructions = listeInstructions
+
+    def afficher(self, indent=0):
+        afficher("<programme>", indent)
+        self.listeInstructions.afficher(indent+1)
+        afficher("</programme>", indent)
+
 
 class ListeInstructions:
-	def __init__(self):
-		self.instructions = []
-	def afficher(self,indent=0):
-		afficher("<listeInstructions>",indent)
-		for instruction in self.instructions:
-			instruction.afficher(indent+1)
-		afficher("</listeInstructions>",indent)
-			
+    def __init__(self):
+        self.instructions = []
+
+    def afficher(self, indent=0):
+        afficher("<listeInstructions>", indent)
+        # Inverser l'ordre des instructions
+        for instruction in reversed(self.instructions):
+            instruction.afficher(indent+1)
+        afficher("</listeInstructions>", indent)
+
+
 class Ecrire:
-	def __init__(self,exp):
-		self.exp = exp
-	def afficher(self,indent=0):
-		afficher("<ecrire>",indent)
-		self.exp.afficher(indent+1)
-		afficher("</ecrire>",indent)
-		
+    def __init__(self, exp):
+        self.exp = exp
+
+    def afficher(self, indent=0):
+        afficher("<ecrire>", indent)
+        self.exp.afficher(indent+1)
+        afficher("</ecrire>", indent)
+
+
 class Operation:
-	def __init__(self,op,exp1,exp2):
-		self.exp1 = exp1
-		self.op = op
-		self.exp2 = exp2
-	def afficher(self,indent=0):
-		afficher("<operation>",indent)
-		afficher(self.op,indent+1)
-		self.exp1.afficher(indent+1)
-		self.exp2.afficher(indent+1)
-		afficher("</operation>",indent)
+    def __init__(self, op, exp1, exp2=None):
+        self.exp1 = exp1
+        self.op = op
+        self.exp2 = exp2
+
+    def afficher(self, indent=0):
+        afficher("<operation>", indent)
+        afficher(self.op, indent+1)
+        self.exp1.afficher(indent+1)
+        if self.exp2 is not None:
+            self.exp2.afficher(indent+1)
+        afficher("</operation>", indent)
+
+
 class Entier:
-	def __init__(self,valeur):
-		self.valeur = valeur
-	def afficher(self,indent=0):
-		afficher("[Entier:"+str(self.valeur)+"]",indent)
-  
+    def __init__(self, valeur):
+        self.valeur = valeur
+
+    def afficher(self, indent=0):
+        afficher("[Entier:"+str(self.valeur)+"]", indent)
+
+
 class Declaration:
     def __init__(self, identifiant, expression):
         self.identifiant = identifiant
@@ -87,5 +103,22 @@ class Condition:
         afficher("</sinon>", indent)
         afficher("</condition>", indent)
 
-  
 
+class Identifiant:
+    def __init__(self, nom):
+        self.nom = nom
+
+    def afficher(self, indent=0):
+        afficher(f"[Identifiant:{self.nom}]", indent)
+
+
+class TantQue:
+    def __init__(self, expression, liste_instructions):
+        self.expression = expression
+        self.liste_instructions = liste_instructions
+
+    def afficher(self, indent=0):
+        afficher("<tantque>", indent)
+        self.expression.afficher(indent + 1)
+        self.liste_instructions.afficher(indent + 1)
+        afficher("</tantque>", indent)
