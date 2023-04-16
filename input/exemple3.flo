@@ -1,2 +1,2 @@
-ecrire(42);
-si b alors ecrire(4 + 2);
+si b alors ecrire((4*(7+8) + 2));
+entier y =(28+8)*(87*9);
