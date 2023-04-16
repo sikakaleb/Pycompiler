@@ -1,0 +1,5 @@
+booleen a = vrai;
+booleen b = faux;
+booleen c = a et b;
+booleen d = a ou b;
+booleen e = non a;

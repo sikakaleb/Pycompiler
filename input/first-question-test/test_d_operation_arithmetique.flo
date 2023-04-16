@@ -1,0 +1,3 @@
+entier a = 5 + 3;
+entier b = a * 2;
+entier c = b - a / 3;
