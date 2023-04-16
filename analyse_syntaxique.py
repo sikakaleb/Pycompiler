@@ -5,25 +5,22 @@ import arbre_abstrait
 
 
 class FloParser(Parser):
-    # On récupère la liste des lexèmes de l'analyse lexicale
     tokens = FloLexer.tokens
-
-    # Règles gramaticales et actions associées
 
     @_('listeInstructions')
     def prog(self, p):
-        return arbre_abstrait.Programme(p[0])
+        return arbre_abstrait.Programme(p.listeInstructions)
 
     @_('instruction')
     def listeInstructions(self, p):
         l = arbre_abstrait.ListeInstructions()
-        l.instructions.append(p[0])
+        l.instructions.append(p.instruction)
         return l
 
     @_('instruction listeInstructions')
     def listeInstructions(self, p):
-        p[1].instructions.append(p[0])
-        return p[1]
+        p.listeInstructions.instructions.append(p.instruction)
+        return p.listeInstructions
 
     @_('ecrire', 'declaration', 'affectation', 'structure_conditionnelle')
     def instruction(self, p):
@@ -41,26 +38,60 @@ class FloParser(Parser):
     def affectation(self, p):
         return arbre_abstrait.Affectation(p.IDENTIFIANT, p.expr)
 
-    @_('SI expr ALORS "{" listeInstructions "}" SINON "{" listeInstructions "}"')
+    # Combine two rules to prevent ambiguity
+    @_('SI expr ALORS "{" listeInstructions "}" SINON "{" listeInstructions "}"',
+       'TANTQUE expr "{" listeInstructions "}"')
     def structure_conditionnelle(self, p):
-        return arbre_abstrait.Condition(p.expr, p.listeInstructions0, p.listeInstructions1)
+        if p[0] == 'si':
+            return arbre_abstrait.Condition(p.expr, p.listeInstructions0, p.listeInstructions1)
+        else:
+            return arbre_abstrait.TantQue(p.expr, p.listeInstructions)
 
-    @_('expr "+" expr')
+    @_('expr PLUS term',
+       'expr MINUS term')
     def expr(self, p):
-        return arbre_abstrait.Operation('+', p[0], p[2])
+        return arbre_abstrait.Operation(p[1], p[0], p[2])
 
-    @_('expr "*" expr')
+    @_('term')
     def expr(self, p):
-        return arbre_abstrait.Operation('*', p[0], p[2])
+        return p.term
 
-    @_('"(" expr ")"')
-    def expr(self, p):
-        return p.expr
+    @_('term MULT factor',
+       'term DIV factor')
+    def term(self, p):
+        return arbre_abstrait.Operation(p[1], p.term, p.factor)
+
+    @_('factor')
+    def term(self, p):
+        return p.factor
 
     @_('ENTIER')
-    def expr(self, p):
+    def factor(self, p):
         return arbre_abstrait.Entier(p.ENTIER)
-    
+
+    @_('IDENTIFIANT')
+    def factor(self, p):
+        return arbre_abstrait.Identifiant(p.IDENTIFIANT)
+
+    @_(' "(" expr ")" ')
+    def factor(self, p):
+        return p.expr
+
+    @_('expr ET expr',
+       'expr OU expr',
+       'expr "<" expr',
+       'expr ">" expr',
+       'expr INFERIEUR_OU_EGAL expr')
+    def expr(self, p):
+        return arbre_abstrait.Operation(p[1], p[0], p[2])
+
+    @_('NON expr')
+    def expr(self, p):
+        return arbre_abstrait.Operation("non", p[1], None)
+
+    @_('BOOLEEN IDENTIFIANT "=" expr ";"')
+    def declaration(self, p):
+        return arbre_abstrait.Declaration(p.IDENTIFIANT, p.expr)
 
 
 if __name__ == '__main__':
