@@ -6,6 +6,7 @@ import arbre_abstrait
 
 class FloParser(Parser):
     tokens = FloLexer.tokens
+    debugfile = "parser.out"
 
     @_('listeInstructions')
     def prog(self, p):
