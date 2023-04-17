@@ -23,7 +23,7 @@ class FloParser(Parser):
         p.listeInstructions.instructions.append(p.instruction)
         return p.listeInstructions
 
-    @_('ecrire', 'declaration', 'affectation', 'structure_conditionnelle')
+    @_('ecrire')#, 'declaration', 'affectation', 'structure_conditionnelle')
     def instruction(self, p):
         return p[0]
 
@@ -31,22 +31,22 @@ class FloParser(Parser):
     def ecrire(self, p):
         return arbre_abstrait.Ecrire(p.expr)
 
-    @_('ENT IDENTIFIANT "=" expr ";"')
-    def declaration(self, p):
-        return arbre_abstrait.Declaration(p.IDENTIFIANT, p.expr)
-
-    @_('IDENTIFIANT "=" expr ";"')
-    def affectation(self, p):
-        return arbre_abstrait.Affectation(p.IDENTIFIANT, p.expr)
-
-    # Combine two rules to prevent ambiguity
-    @_('SI expr ALORS "{" listeInstructions "}" SINON "{" listeInstructions "}"',
-       'TANTQUE expr "{" listeInstructions "}"')
-    def structure_conditionnelle(self, p):
-        if p[0] == 'si':
-            return arbre_abstrait.Condition(p.expr, p.listeInstructions0, p.listeInstructions1)
-        else:
-            return arbre_abstrait.TantQue(p.expr, p.listeInstructions)
+    # @_('ENT IDENTIFIANT "=" expr ";"')
+    # def declaration(self, p):
+    #     return arbre_abstrait.Declaration(p.IDENTIFIANT, p.expr)
+    #
+    # @_('IDENTIFIANT "=" expr ";"')
+    # def affectation(self, p):
+    #     return arbre_abstrait.Affectation(p.IDENTIFIANT, p.expr)
+    #
+    # # Combine two rules to prevent ambiguity
+    # @_('SI expr ALORS "{" listeInstructions "}" SINON "{" listeInstructions "}"',
+    #    'TANTQUE expr "{" listeInstructions "}"')
+    # def structure_conditionnelle(self, p):
+    #     if p[0] == 'si':
+    #         return arbre_abstrait.Condition(p.expr, p.listeInstructions0, p.listeInstructions1)
+    #     else:
+    #         return arbre_abstrait.TantQue(p.expr, p.listeInstructions)
 
     @_('expr PLUS term',
        'expr MINUS term')
@@ -78,22 +78,22 @@ class FloParser(Parser):
     def factor(self, p):
         return p.expr
 
-    @_('expr ET expr',
-       'expr OU expr',
-       'expr "<" expr',
-       'expr ">" expr',
-       'expr INFERIEUR_OU_EGAL expr')
-    def expr(self, p):
-        return arbre_abstrait.Operation(p[1], p[0], p[2])
-
-    @_('NON expr')
-    def expr(self, p):
-        return arbre_abstrait.Operation("non", p[1], None)
-
-    @_('BOOLEEN IDENTIFIANT "=" expr ";"')
-    def declaration(self, p):
-        return arbre_abstrait.Declaration(p.IDENTIFIANT, p.expr)
-
+    # @_('expr ET expr',
+    #    'expr OU expr',
+    #    'expr "<" expr',
+    #    'expr ">" expr',
+    #    'expr INFERIEUR_OU_EGAL expr')
+    # def expr(self, p):
+    #     return arbre_abstrait.Operation(p[1], p[0], p[2])
+    #
+    # @_('NON expr')
+    # def expr(self, p):
+    #     return arbre_abstrait.Operation("non", p[1], None)
+    #
+    # @_('BOOLEEN IDENTIFIANT "=" expr ";"')
+    # def declaration(self, p):
+    #     return arbre_abstrait.Declaration(p.IDENTIFIANT, p.expr)
+    #
 
 if __name__ == '__main__':
     lexer = FloLexer()

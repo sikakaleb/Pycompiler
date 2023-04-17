@@ -12,26 +12,26 @@ class FloLexer(Lexer):
         ENT,
         ECRIRE,
         INFERIEUR_OU_EGAL,
-        TANTQUE,
-        BOOLEEN,
-        SI,
-        ALORS,
-        SINON,
-        ET,
-        OU,
-        NON,
-        PLUS,
-        MINUS,
-        MULT,
-        DIV
+       # TANTQUE,
+        # BOOLEEN,
+        # SI,
+        # ALORS,
+        # SINON,
+        # ET,
+        # OU,
+        # NON,
+         PLUS,
+         MINUS,
+         MULT,
+         DIV
     }
 
     literals = {'+', '*', '-', '/', '%', '!',
                 '[', ']', '{', '}', '(', ')', ',', ";", "=", '<', '>', '&'}
 
-    ET = r'et'
-    OU = r'ou'
-    NON = r'non'
+    # ET = r'et'
+    # OU = r'ou'
+    # NON = r'non'
     PLUS = r'\+'
     MINUS = r'-'
     MULT = r'\*'
@@ -49,12 +49,12 @@ class FloLexer(Lexer):
     IDENTIFIANT = r'[a-zA-Z][a-zA-Z0-9_]*'
 
     IDENTIFIANT['entier'] = ENT
-    IDENTIFIANT['booleen'] = BOOLEEN
+    #IDENTIFIANT['booleen'] = BOOLEEN
     IDENTIFIANT['ecrire'] = ECRIRE
-    IDENTIFIANT['si'] = SI
-    IDENTIFIANT['alors'] = ALORS
-    IDENTIFIANT['sinon'] = SINON
-    IDENTIFIANT['tantque'] = TANTQUE
+    # IDENTIFIANT['si'] = SI
+    # IDENTIFIANT['alors'] = ALORS
+    # IDENTIFIANT['sinon'] = SINON
+    # IDENTIFIANT['tantque'] = TANTQUE
 
     ignore_comment = r'\#.*'
 
