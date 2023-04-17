@@ -4,48 +4,56 @@ Rule 0     S' -> prog
 Rule 1     prog -> listeInstructions
 Rule 2     listeInstructions -> instruction listeInstructions
 Rule 3     listeInstructions -> instruction
-Rule 4     instruction -> ecrire
-Rule 5     ecrire -> ECRIRE ( expr ) ;
-Rule 6     expr -> term
-Rule 7     expr -> expr MINUS term
-Rule 8     expr -> expr PLUS term
-Rule 9     term -> factor
-Rule 10    term -> term DIV factor
-Rule 11    term -> term MULT factor
-Rule 12    factor -> ( expr )
-Rule 13    factor -> IDENTIFIANT
-Rule 14    factor -> ENTIER
+Rule 4     instruction -> affectation
+Rule 5     instruction -> declaration
+Rule 6     instruction -> ecrire
+Rule 7     ecrire -> ECRIRE ( expr ) ;
+Rule 8     declaration -> BOOLEEN IDENTIFIANT = expr ;
+Rule 9     declaration -> ENT IDENTIFIANT = expr ;
+Rule 10    affectation -> IDENTIFIANT = expr ;
+Rule 11    expr -> term
+Rule 12    expr -> expr MINUS term
+Rule 13    expr -> expr PLUS term
+Rule 14    term -> factor
+Rule 15    term -> term DIV factor
+Rule 16    term -> term MULT factor
+Rule 17    factor -> ( expr )
+Rule 18    factor -> IDENTIFIANT
+Rule 19    factor -> ENTIER
 
 Unused terminals:
 
     INFERIEUR_OU_EGAL
-    ENT
 
 Terminals, with rules where they appear:
 
-(                    : 5 12
-)                    : 5 12
-;                    : 5
-DIV                  : 10
-ECRIRE               : 5
-ENT                  : 
-ENTIER               : 14
-IDENTIFIANT          : 13
+(                    : 7 17
+)                    : 7 17
+;                    : 7 8 9 10
+=                    : 8 9 10
+BOOLEEN              : 8
+DIV                  : 15
+ECRIRE               : 7
+ENT                  : 9
+ENTIER               : 19
+IDENTIFIANT          : 8 9 10 18
 INFERIEUR_OU_EGAL    : 
-MINUS                : 7
-MULT                 : 11
-PLUS                 : 8
+MINUS                : 12
+MULT                 : 16
+PLUS                 : 13
 error                : 
 
 Nonterminals, with rules where they appear:
 
-ecrire               : 4
-expr                 : 5 7 8 12
-factor               : 9 10 11
+affectation          : 4
+declaration          : 5
+ecrire               : 6
+expr                 : 7 8 9 10 12 13 17
+factor               : 14 15 16
 instruction          : 2 3
 listeInstructions    : 1 2
 prog                 : 0
-term                 : 6 7 8 10 11
+term                 : 11 12 13 15 16
 
 
 state 0
@@ -54,14 +62,24 @@ state 0
     (1) prog -> . listeInstructions
     (2) listeInstructions -> . instruction listeInstructions
     (3) listeInstructions -> . instruction
-    (4) instruction -> . ecrire
-    (5) ecrire -> . ECRIRE ( expr ) ;
-    ECRIRE          shift and go to state 5
+    (4) instruction -> . affectation
+    (5) instruction -> . declaration
+    (6) instruction -> . ecrire
+    (10) affectation -> . IDENTIFIANT = expr ;
+    (8) declaration -> . BOOLEEN IDENTIFIANT = expr ;
+    (9) declaration -> . ENT IDENTIFIANT = expr ;
+    (7) ecrire -> . ECRIRE ( expr ) ;
+    IDENTIFIANT     shift and go to state 7
+    BOOLEEN         shift and go to state 8
+    ENT             shift and go to state 9
+    ECRIRE          shift and go to state 10
 
     prog                           shift and go to state 1
     listeInstructions              shift and go to state 2
     instruction                    shift and go to state 3
-    ecrire                         shift and go to state 4
+    affectation                    shift and go to state 4
+    declaration                    shift and go to state 5
+    ecrire                         shift and go to state 6
 
 state 1
 
@@ -80,254 +98,449 @@ state 3
     (3) listeInstructions -> instruction .
     (2) listeInstructions -> . instruction listeInstructions
     (3) listeInstructions -> . instruction
-    (4) instruction -> . ecrire
-    (5) ecrire -> . ECRIRE ( expr ) ;
+    (4) instruction -> . affectation
+    (5) instruction -> . declaration
+    (6) instruction -> . ecrire
+    (10) affectation -> . IDENTIFIANT = expr ;
+    (8) declaration -> . BOOLEEN IDENTIFIANT = expr ;
+    (9) declaration -> . ENT IDENTIFIANT = expr ;
+    (7) ecrire -> . ECRIRE ( expr ) ;
     $end            reduce using rule 3 (listeInstructions -> instruction .)
-    ECRIRE          shift and go to state 5
+    IDENTIFIANT     shift and go to state 7
+    BOOLEEN         shift and go to state 8
+    ENT             shift and go to state 9
+    ECRIRE          shift and go to state 10
 
     instruction                    shift and go to state 3
-    listeInstructions              shift and go to state 6
-    ecrire                         shift and go to state 4
+    listeInstructions              shift and go to state 11
+    affectation                    shift and go to state 4
+    declaration                    shift and go to state 5
+    ecrire                         shift and go to state 6
 
 state 4
 
-    (4) instruction -> ecrire .
-    ECRIRE          reduce using rule 4 (instruction -> ecrire .)
-    $end            reduce using rule 4 (instruction -> ecrire .)
+    (4) instruction -> affectation .
+    IDENTIFIANT     reduce using rule 4 (instruction -> affectation .)
+    BOOLEEN         reduce using rule 4 (instruction -> affectation .)
+    ENT             reduce using rule 4 (instruction -> affectation .)
+    ECRIRE          reduce using rule 4 (instruction -> affectation .)
+    $end            reduce using rule 4 (instruction -> affectation .)
 
 
 state 5
 
-    (5) ecrire -> ECRIRE . ( expr ) ;
-    (               shift and go to state 7
+    (5) instruction -> declaration .
+    IDENTIFIANT     reduce using rule 5 (instruction -> declaration .)
+    BOOLEEN         reduce using rule 5 (instruction -> declaration .)
+    ENT             reduce using rule 5 (instruction -> declaration .)
+    ECRIRE          reduce using rule 5 (instruction -> declaration .)
+    $end            reduce using rule 5 (instruction -> declaration .)
 
 
 state 6
+
+    (6) instruction -> ecrire .
+    IDENTIFIANT     reduce using rule 6 (instruction -> ecrire .)
+    BOOLEEN         reduce using rule 6 (instruction -> ecrire .)
+    ENT             reduce using rule 6 (instruction -> ecrire .)
+    ECRIRE          reduce using rule 6 (instruction -> ecrire .)
+    $end            reduce using rule 6 (instruction -> ecrire .)
+
+
+state 7
+
+    (10) affectation -> IDENTIFIANT . = expr ;
+    =               shift and go to state 12
+
+
+state 8
+
+    (8) declaration -> BOOLEEN . IDENTIFIANT = expr ;
+    IDENTIFIANT     shift and go to state 13
+
+
+state 9
+
+    (9) declaration -> ENT . IDENTIFIANT = expr ;
+    IDENTIFIANT     shift and go to state 14
+
+
+state 10
+
+    (7) ecrire -> ECRIRE . ( expr ) ;
+    (               shift and go to state 15
+
+
+state 11
 
     (2) listeInstructions -> instruction listeInstructions .
     $end            reduce using rule 2 (listeInstructions -> instruction listeInstructions .)
 
 
-state 7
-
-    (5) ecrire -> ECRIRE ( . expr ) ;
-    (6) expr -> . term
-    (7) expr -> . expr MINUS term
-    (8) expr -> . expr PLUS term
-    (9) term -> . factor
-    (10) term -> . term DIV factor
-    (11) term -> . term MULT factor
-    (12) factor -> . ( expr )
-    (13) factor -> . IDENTIFIANT
-    (14) factor -> . ENTIER
-    (               shift and go to state 8
-    IDENTIFIANT     shift and go to state 12
-    ENTIER          shift and go to state 13
-
-    expr                           shift and go to state 9
-    term                           shift and go to state 10
-    factor                         shift and go to state 11
-
-state 8
-
-    (12) factor -> ( . expr )
-    (6) expr -> . term
-    (7) expr -> . expr MINUS term
-    (8) expr -> . expr PLUS term
-    (9) term -> . factor
-    (10) term -> . term DIV factor
-    (11) term -> . term MULT factor
-    (12) factor -> . ( expr )
-    (13) factor -> . IDENTIFIANT
-    (14) factor -> . ENTIER
-    (               shift and go to state 8
-    IDENTIFIANT     shift and go to state 12
-    ENTIER          shift and go to state 13
-
-    expr                           shift and go to state 14
-    term                           shift and go to state 10
-    factor                         shift and go to state 11
-
-state 9
-
-    (5) ecrire -> ECRIRE ( expr . ) ;
-    (7) expr -> expr . MINUS term
-    (8) expr -> expr . PLUS term
-    )               shift and go to state 15
-    MINUS           shift and go to state 16
-    PLUS            shift and go to state 17
-
-
-state 10
-
-    (6) expr -> term .
-    (10) term -> term . DIV factor
-    (11) term -> term . MULT factor
-    )               reduce using rule 6 (expr -> term .)
-    MINUS           reduce using rule 6 (expr -> term .)
-    PLUS            reduce using rule 6 (expr -> term .)
-    DIV             shift and go to state 18
-    MULT            shift and go to state 19
-
-
-state 11
-
-    (9) term -> factor .
-    DIV             reduce using rule 9 (term -> factor .)
-    MULT            reduce using rule 9 (term -> factor .)
-    )               reduce using rule 9 (term -> factor .)
-    MINUS           reduce using rule 9 (term -> factor .)
-    PLUS            reduce using rule 9 (term -> factor .)
-
-
 state 12
 
-    (13) factor -> IDENTIFIANT .
-    DIV             reduce using rule 13 (factor -> IDENTIFIANT .)
-    MULT            reduce using rule 13 (factor -> IDENTIFIANT .)
-    )               reduce using rule 13 (factor -> IDENTIFIANT .)
-    MINUS           reduce using rule 13 (factor -> IDENTIFIANT .)
-    PLUS            reduce using rule 13 (factor -> IDENTIFIANT .)
+    (10) affectation -> IDENTIFIANT = . expr ;
+    (11) expr -> . term
+    (12) expr -> . expr MINUS term
+    (13) expr -> . expr PLUS term
+    (14) term -> . factor
+    (15) term -> . term DIV factor
+    (16) term -> . term MULT factor
+    (17) factor -> . ( expr )
+    (18) factor -> . IDENTIFIANT
+    (19) factor -> . ENTIER
+    (               shift and go to state 20
+    IDENTIFIANT     shift and go to state 16
+    ENTIER          shift and go to state 21
 
+    expr                           shift and go to state 17
+    term                           shift and go to state 18
+    factor                         shift and go to state 19
 
 state 13
 
-    (14) factor -> ENTIER .
-    DIV             reduce using rule 14 (factor -> ENTIER .)
-    MULT            reduce using rule 14 (factor -> ENTIER .)
-    )               reduce using rule 14 (factor -> ENTIER .)
-    MINUS           reduce using rule 14 (factor -> ENTIER .)
-    PLUS            reduce using rule 14 (factor -> ENTIER .)
+    (8) declaration -> BOOLEEN IDENTIFIANT . = expr ;
+    =               shift and go to state 22
 
 
 state 14
 
-    (12) factor -> ( expr . )
-    (7) expr -> expr . MINUS term
-    (8) expr -> expr . PLUS term
-    )               shift and go to state 20
-    MINUS           shift and go to state 16
-    PLUS            shift and go to state 17
+    (9) declaration -> ENT IDENTIFIANT . = expr ;
+    =               shift and go to state 23
 
 
 state 15
 
-    (5) ecrire -> ECRIRE ( expr ) . ;
-    ;               shift and go to state 21
+    (7) ecrire -> ECRIRE ( . expr ) ;
+    (11) expr -> . term
+    (12) expr -> . expr MINUS term
+    (13) expr -> . expr PLUS term
+    (14) term -> . factor
+    (15) term -> . term DIV factor
+    (16) term -> . term MULT factor
+    (17) factor -> . ( expr )
+    (18) factor -> . IDENTIFIANT
+    (19) factor -> . ENTIER
+    (               shift and go to state 20
+    IDENTIFIANT     shift and go to state 16
+    ENTIER          shift and go to state 21
 
+    expr                           shift and go to state 24
+    term                           shift and go to state 18
+    factor                         shift and go to state 19
 
 state 16
 
-    (7) expr -> expr MINUS . term
-    (9) term -> . factor
-    (10) term -> . term DIV factor
-    (11) term -> . term MULT factor
-    (12) factor -> . ( expr )
-    (13) factor -> . IDENTIFIANT
-    (14) factor -> . ENTIER
-    (               shift and go to state 8
-    IDENTIFIANT     shift and go to state 12
-    ENTIER          shift and go to state 13
+    (18) factor -> IDENTIFIANT .
+    DIV             reduce using rule 18 (factor -> IDENTIFIANT .)
+    MULT            reduce using rule 18 (factor -> IDENTIFIANT .)
+    ;               reduce using rule 18 (factor -> IDENTIFIANT .)
+    MINUS           reduce using rule 18 (factor -> IDENTIFIANT .)
+    PLUS            reduce using rule 18 (factor -> IDENTIFIANT .)
+    )               reduce using rule 18 (factor -> IDENTIFIANT .)
 
-    term                           shift and go to state 22
-    factor                         shift and go to state 11
 
 state 17
 
-    (8) expr -> expr PLUS . term
-    (9) term -> . factor
-    (10) term -> . term DIV factor
-    (11) term -> . term MULT factor
-    (12) factor -> . ( expr )
-    (13) factor -> . IDENTIFIANT
-    (14) factor -> . ENTIER
-    (               shift and go to state 8
-    IDENTIFIANT     shift and go to state 12
-    ENTIER          shift and go to state 13
+    (10) affectation -> IDENTIFIANT = expr . ;
+    (12) expr -> expr . MINUS term
+    (13) expr -> expr . PLUS term
+    ;               shift and go to state 25
+    MINUS           shift and go to state 26
+    PLUS            shift and go to state 27
 
-    term                           shift and go to state 23
-    factor                         shift and go to state 11
 
 state 18
 
-    (10) term -> term DIV . factor
-    (12) factor -> . ( expr )
-    (13) factor -> . IDENTIFIANT
-    (14) factor -> . ENTIER
-    (               shift and go to state 8
-    IDENTIFIANT     shift and go to state 12
-    ENTIER          shift and go to state 13
+    (11) expr -> term .
+    (15) term -> term . DIV factor
+    (16) term -> term . MULT factor
+    ;               reduce using rule 11 (expr -> term .)
+    MINUS           reduce using rule 11 (expr -> term .)
+    PLUS            reduce using rule 11 (expr -> term .)
+    )               reduce using rule 11 (expr -> term .)
+    DIV             shift and go to state 28
+    MULT            shift and go to state 29
 
-    factor                         shift and go to state 24
 
 state 19
 
-    (11) term -> term MULT . factor
-    (12) factor -> . ( expr )
-    (13) factor -> . IDENTIFIANT
-    (14) factor -> . ENTIER
-    (               shift and go to state 8
-    IDENTIFIANT     shift and go to state 12
-    ENTIER          shift and go to state 13
+    (14) term -> factor .
+    DIV             reduce using rule 14 (term -> factor .)
+    MULT            reduce using rule 14 (term -> factor .)
+    ;               reduce using rule 14 (term -> factor .)
+    MINUS           reduce using rule 14 (term -> factor .)
+    PLUS            reduce using rule 14 (term -> factor .)
+    )               reduce using rule 14 (term -> factor .)
 
-    factor                         shift and go to state 25
 
 state 20
 
-    (12) factor -> ( expr ) .
-    DIV             reduce using rule 12 (factor -> ( expr ) .)
-    MULT            reduce using rule 12 (factor -> ( expr ) .)
-    )               reduce using rule 12 (factor -> ( expr ) .)
-    MINUS           reduce using rule 12 (factor -> ( expr ) .)
-    PLUS            reduce using rule 12 (factor -> ( expr ) .)
+    (17) factor -> ( . expr )
+    (11) expr -> . term
+    (12) expr -> . expr MINUS term
+    (13) expr -> . expr PLUS term
+    (14) term -> . factor
+    (15) term -> . term DIV factor
+    (16) term -> . term MULT factor
+    (17) factor -> . ( expr )
+    (18) factor -> . IDENTIFIANT
+    (19) factor -> . ENTIER
+    (               shift and go to state 20
+    IDENTIFIANT     shift and go to state 16
+    ENTIER          shift and go to state 21
 
+    expr                           shift and go to state 30
+    term                           shift and go to state 18
+    factor                         shift and go to state 19
 
 state 21
 
-    (5) ecrire -> ECRIRE ( expr ) ; .
-    ECRIRE          reduce using rule 5 (ecrire -> ECRIRE ( expr ) ; .)
-    $end            reduce using rule 5 (ecrire -> ECRIRE ( expr ) ; .)
+    (19) factor -> ENTIER .
+    DIV             reduce using rule 19 (factor -> ENTIER .)
+    MULT            reduce using rule 19 (factor -> ENTIER .)
+    ;               reduce using rule 19 (factor -> ENTIER .)
+    MINUS           reduce using rule 19 (factor -> ENTIER .)
+    PLUS            reduce using rule 19 (factor -> ENTIER .)
+    )               reduce using rule 19 (factor -> ENTIER .)
 
 
 state 22
 
-    (7) expr -> expr MINUS term .
-    (10) term -> term . DIV factor
-    (11) term -> term . MULT factor
-    )               reduce using rule 7 (expr -> expr MINUS term .)
-    MINUS           reduce using rule 7 (expr -> expr MINUS term .)
-    PLUS            reduce using rule 7 (expr -> expr MINUS term .)
-    DIV             shift and go to state 18
-    MULT            shift and go to state 19
+    (8) declaration -> BOOLEEN IDENTIFIANT = . expr ;
+    (11) expr -> . term
+    (12) expr -> . expr MINUS term
+    (13) expr -> . expr PLUS term
+    (14) term -> . factor
+    (15) term -> . term DIV factor
+    (16) term -> . term MULT factor
+    (17) factor -> . ( expr )
+    (18) factor -> . IDENTIFIANT
+    (19) factor -> . ENTIER
+    (               shift and go to state 20
+    IDENTIFIANT     shift and go to state 16
+    ENTIER          shift and go to state 21
 
+    expr                           shift and go to state 31
+    term                           shift and go to state 18
+    factor                         shift and go to state 19
 
 state 23
 
-    (8) expr -> expr PLUS term .
-    (10) term -> term . DIV factor
-    (11) term -> term . MULT factor
-    )               reduce using rule 8 (expr -> expr PLUS term .)
-    MINUS           reduce using rule 8 (expr -> expr PLUS term .)
-    PLUS            reduce using rule 8 (expr -> expr PLUS term .)
-    DIV             shift and go to state 18
-    MULT            shift and go to state 19
+    (9) declaration -> ENT IDENTIFIANT = . expr ;
+    (11) expr -> . term
+    (12) expr -> . expr MINUS term
+    (13) expr -> . expr PLUS term
+    (14) term -> . factor
+    (15) term -> . term DIV factor
+    (16) term -> . term MULT factor
+    (17) factor -> . ( expr )
+    (18) factor -> . IDENTIFIANT
+    (19) factor -> . ENTIER
+    (               shift and go to state 20
+    IDENTIFIANT     shift and go to state 16
+    ENTIER          shift and go to state 21
 
+    expr                           shift and go to state 32
+    term                           shift and go to state 18
+    factor                         shift and go to state 19
 
 state 24
 
-    (10) term -> term DIV factor .
-    DIV             reduce using rule 10 (term -> term DIV factor .)
-    MULT            reduce using rule 10 (term -> term DIV factor .)
-    )               reduce using rule 10 (term -> term DIV factor .)
-    MINUS           reduce using rule 10 (term -> term DIV factor .)
-    PLUS            reduce using rule 10 (term -> term DIV factor .)
+    (7) ecrire -> ECRIRE ( expr . ) ;
+    (12) expr -> expr . MINUS term
+    (13) expr -> expr . PLUS term
+    )               shift and go to state 33
+    MINUS           shift and go to state 26
+    PLUS            shift and go to state 27
 
 
 state 25
 
-    (11) term -> term MULT factor .
-    DIV             reduce using rule 11 (term -> term MULT factor .)
-    MULT            reduce using rule 11 (term -> term MULT factor .)
-    )               reduce using rule 11 (term -> term MULT factor .)
-    MINUS           reduce using rule 11 (term -> term MULT factor .)
-    PLUS            reduce using rule 11 (term -> term MULT factor .)
+    (10) affectation -> IDENTIFIANT = expr ; .
+    IDENTIFIANT     reduce using rule 10 (affectation -> IDENTIFIANT = expr ; .)
+    BOOLEEN         reduce using rule 10 (affectation -> IDENTIFIANT = expr ; .)
+    ENT             reduce using rule 10 (affectation -> IDENTIFIANT = expr ; .)
+    ECRIRE          reduce using rule 10 (affectation -> IDENTIFIANT = expr ; .)
+    $end            reduce using rule 10 (affectation -> IDENTIFIANT = expr ; .)
+
+
+state 26
+
+    (12) expr -> expr MINUS . term
+    (14) term -> . factor
+    (15) term -> . term DIV factor
+    (16) term -> . term MULT factor
+    (17) factor -> . ( expr )
+    (18) factor -> . IDENTIFIANT
+    (19) factor -> . ENTIER
+    (               shift and go to state 20
+    IDENTIFIANT     shift and go to state 16
+    ENTIER          shift and go to state 21
+
+    term                           shift and go to state 34
+    factor                         shift and go to state 19
+
+state 27
+
+    (13) expr -> expr PLUS . term
+    (14) term -> . factor
+    (15) term -> . term DIV factor
+    (16) term -> . term MULT factor
+    (17) factor -> . ( expr )
+    (18) factor -> . IDENTIFIANT
+    (19) factor -> . ENTIER
+    (               shift and go to state 20
+    IDENTIFIANT     shift and go to state 16
+    ENTIER          shift and go to state 21
+
+    term                           shift and go to state 35
+    factor                         shift and go to state 19
+
+state 28
+
+    (15) term -> term DIV . factor
+    (17) factor -> . ( expr )
+    (18) factor -> . IDENTIFIANT
+    (19) factor -> . ENTIER
+    (               shift and go to state 20
+    IDENTIFIANT     shift and go to state 16
+    ENTIER          shift and go to state 21
+
+    factor                         shift and go to state 36
+
+state 29
+
+    (16) term -> term MULT . factor
+    (17) factor -> . ( expr )
+    (18) factor -> . IDENTIFIANT
+    (19) factor -> . ENTIER
+    (               shift and go to state 20
+    IDENTIFIANT     shift and go to state 16
+    ENTIER          shift and go to state 21
+
+    factor                         shift and go to state 37
+
+state 30
+
+    (17) factor -> ( expr . )
+    (12) expr -> expr . MINUS term
+    (13) expr -> expr . PLUS term
+    )               shift and go to state 38
+    MINUS           shift and go to state 26
+    PLUS            shift and go to state 27
+
+
+state 31
+
+    (8) declaration -> BOOLEEN IDENTIFIANT = expr . ;
+    (12) expr -> expr . MINUS term
+    (13) expr -> expr . PLUS term
+    ;               shift and go to state 39
+    MINUS           shift and go to state 26
+    PLUS            shift and go to state 27
+
+
+state 32
+
+    (9) declaration -> ENT IDENTIFIANT = expr . ;
+    (12) expr -> expr . MINUS term
+    (13) expr -> expr . PLUS term
+    ;               shift and go to state 40
+    MINUS           shift and go to state 26
+    PLUS            shift and go to state 27
+
+
+state 33
+
+    (7) ecrire -> ECRIRE ( expr ) . ;
+    ;               shift and go to state 41
+
+
+state 34
+
+    (12) expr -> expr MINUS term .
+    (15) term -> term . DIV factor
+    (16) term -> term . MULT factor
+    ;               reduce using rule 12 (expr -> expr MINUS term .)
+    MINUS           reduce using rule 12 (expr -> expr MINUS term .)
+    PLUS            reduce using rule 12 (expr -> expr MINUS term .)
+    )               reduce using rule 12 (expr -> expr MINUS term .)
+    DIV             shift and go to state 28
+    MULT            shift and go to state 29
+
+
+state 35
+
+    (13) expr -> expr PLUS term .
+    (15) term -> term . DIV factor
+    (16) term -> term . MULT factor
+    ;               reduce using rule 13 (expr -> expr PLUS term .)
+    MINUS           reduce using rule 13 (expr -> expr PLUS term .)
+    PLUS            reduce using rule 13 (expr -> expr PLUS term .)
+    )               reduce using rule 13 (expr -> expr PLUS term .)
+    DIV             shift and go to state 28
+    MULT            shift and go to state 29
+
+
+state 36
+
+    (15) term -> term DIV factor .
+    DIV             reduce using rule 15 (term -> term DIV factor .)
+    MULT            reduce using rule 15 (term -> term DIV factor .)
+    ;               reduce using rule 15 (term -> term DIV factor .)
+    MINUS           reduce using rule 15 (term -> term DIV factor .)
+    PLUS            reduce using rule 15 (term -> term DIV factor .)
+    )               reduce using rule 15 (term -> term DIV factor .)
+
+
+state 37
+
+    (16) term -> term MULT factor .
+    DIV             reduce using rule 16 (term -> term MULT factor .)
+    MULT            reduce using rule 16 (term -> term MULT factor .)
+    ;               reduce using rule 16 (term -> term MULT factor .)
+    MINUS           reduce using rule 16 (term -> term MULT factor .)
+    PLUS            reduce using rule 16 (term -> term MULT factor .)
+    )               reduce using rule 16 (term -> term MULT factor .)
+
+
+state 38
+
+    (17) factor -> ( expr ) .
+    DIV             reduce using rule 17 (factor -> ( expr ) .)
+    MULT            reduce using rule 17 (factor -> ( expr ) .)
+    ;               reduce using rule 17 (factor -> ( expr ) .)
+    MINUS           reduce using rule 17 (factor -> ( expr ) .)
+    PLUS            reduce using rule 17 (factor -> ( expr ) .)
+    )               reduce using rule 17 (factor -> ( expr ) .)
+
+
+state 39
+
+    (8) declaration -> BOOLEEN IDENTIFIANT = expr ; .
+    IDENTIFIANT     reduce using rule 8 (declaration -> BOOLEEN IDENTIFIANT = expr ; .)
+    BOOLEEN         reduce using rule 8 (declaration -> BOOLEEN IDENTIFIANT = expr ; .)
+    ENT             reduce using rule 8 (declaration -> BOOLEEN IDENTIFIANT = expr ; .)
+    ECRIRE          reduce using rule 8 (declaration -> BOOLEEN IDENTIFIANT = expr ; .)
+    $end            reduce using rule 8 (declaration -> BOOLEEN IDENTIFIANT = expr ; .)
+
+
+state 40
+
+    (9) declaration -> ENT IDENTIFIANT = expr ; .
+    IDENTIFIANT     reduce using rule 9 (declaration -> ENT IDENTIFIANT = expr ; .)
+    BOOLEEN         reduce using rule 9 (declaration -> ENT IDENTIFIANT = expr ; .)
+    ENT             reduce using rule 9 (declaration -> ENT IDENTIFIANT = expr ; .)
+    ECRIRE          reduce using rule 9 (declaration -> ENT IDENTIFIANT = expr ; .)
+    $end            reduce using rule 9 (declaration -> ENT IDENTIFIANT = expr ; .)
+
+
+state 41
+
+    (7) ecrire -> ECRIRE ( expr ) ; .
+    IDENTIFIANT     reduce using rule 7 (ecrire -> ECRIRE ( expr ) ; .)
+    BOOLEEN         reduce using rule 7 (ecrire -> ECRIRE ( expr ) ; .)
+    ENT             reduce using rule 7 (ecrire -> ECRIRE ( expr ) ; .)
+    ECRIRE          reduce using rule 7 (ecrire -> ECRIRE ( expr ) ; .)
+    $end            reduce using rule 7 (ecrire -> ECRIRE ( expr ) ; .)

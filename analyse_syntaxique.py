@@ -23,7 +23,7 @@ class FloParser(Parser):
         p.listeInstructions.instructions.append(p.instruction)
         return p.listeInstructions
 
-    @_('ecrire')#, 'declaration', 'affectation', 'structure_conditionnelle')
+    @_('ecrire', 'declaration', 'affectation')  # , 'structure_conditionnelle')
     def instruction(self, p):
         return p[0]
 
@@ -31,14 +31,14 @@ class FloParser(Parser):
     def ecrire(self, p):
         return arbre_abstrait.Ecrire(p.expr)
 
-    # @_('ENT IDENTIFIANT "=" expr ";"')
-    # def declaration(self, p):
-    #     return arbre_abstrait.Declaration(p.IDENTIFIANT, p.expr)
-    #
-    # @_('IDENTIFIANT "=" expr ";"')
-    # def affectation(self, p):
-    #     return arbre_abstrait.Affectation(p.IDENTIFIANT, p.expr)
-    #
+    @_('ENT IDENTIFIANT "=" expr ";"')
+    def declaration(self, p):
+        return arbre_abstrait.Declaration(p.IDENTIFIANT, p.expr)
+
+    @_('IDENTIFIANT "=" expr ";"')
+    def affectation(self, p):
+        return arbre_abstrait.Affectation(p.IDENTIFIANT, p.expr)
+
     # # Combine two rules to prevent ambiguity
     # @_('SI expr ALORS "{" listeInstructions "}" SINON "{" listeInstructions "}"',
     #    'TANTQUE expr "{" listeInstructions "}"')
@@ -89,11 +89,11 @@ class FloParser(Parser):
     # @_('NON expr')
     # def expr(self, p):
     #     return arbre_abstrait.Operation("non", p[1], None)
-    #
-    # @_('BOOLEEN IDENTIFIANT "=" expr ";"')
-    # def declaration(self, p):
-    #     return arbre_abstrait.Declaration(p.IDENTIFIANT, p.expr)
-    #
+
+    @_('BOOLEEN IDENTIFIANT "=" expr ";"')
+    def declaration(self, p):
+        return arbre_abstrait.Declaration(p.IDENTIFIANT, p.expr)
+
 
 if __name__ == '__main__':
     lexer = FloLexer()

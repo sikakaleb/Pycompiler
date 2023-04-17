@@ -12,18 +12,18 @@ class FloLexer(Lexer):
         ENT,
         ECRIRE,
         INFERIEUR_OU_EGAL,
-       # TANTQUE,
-        # BOOLEEN,
+        # TANTQUE,
+        BOOLEEN,
         # SI,
         # ALORS,
         # SINON,
         # ET,
         # OU,
         # NON,
-         PLUS,
-         MINUS,
-         MULT,
-         DIV
+        PLUS,
+        MINUS,
+        MULT,
+        DIV
     }
 
     literals = {'+', '*', '-', '/', '%', '!',
@@ -49,7 +49,7 @@ class FloLexer(Lexer):
     IDENTIFIANT = r'[a-zA-Z][a-zA-Z0-9_]*'
 
     IDENTIFIANT['entier'] = ENT
-    #IDENTIFIANT['booleen'] = BOOLEEN
+    IDENTIFIANT['booleen'] = BOOLEEN
     IDENTIFIANT['ecrire'] = ECRIRE
     # IDENTIFIANT['si'] = SI
     # IDENTIFIANT['alors'] = ALORS
