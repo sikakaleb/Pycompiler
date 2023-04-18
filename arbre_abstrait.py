@@ -63,13 +63,15 @@ class Entier:
 
 
 class Declaration:
-    def __init__(self, identifiant, expression):
+    def __init__(self, identifiant, expression, type):
         self.identifiant = identifiant
         self.expression = expression
+        self.type = type
 
     def afficher(self, indent=0):
         afficher("<declaration>", indent)
         afficher(f"[Identifiant: {self.identifiant}]", indent + 1)
+        afficher(f"[Type: {self.type}]", indent + 1)
         self.expression.afficher(indent + 1)
         afficher("</declaration>", indent)
 
