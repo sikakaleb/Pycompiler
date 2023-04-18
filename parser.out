@@ -15,7 +15,7 @@ Rule 11    declaration -> ENT IDENTIFIANT = expr ;
 Rule 12    affectation -> IDENTIFIANT = expr ;
 Rule 13    structure_conditionnelle -> TANTQUE expr { listeInstructions }
 Rule 14    structure_conditionnelle -> SI expr ALORS { listeInstructions } SINON { listeInstructions }
-Rule 15    expr -> NON expr
+Rule 15    expr -> NON expr  [precedence=nonassoc, level=7]
 Rule 16    expr -> term
 Rule 17    expr -> expr OU expr  [precedence=left, level=6]
 Rule 18    expr -> expr ET expr  [precedence=left, level=5]
@@ -30,12 +30,12 @@ Rule 26    factor -> ENTIER
 
 Unused terminals:
 
-    EGAL
-    INF
-    SUP_EGAL
+    SUP
     DIFF
     UMINUS
-    SUP
+    SUP_EGAL
+    EGAL
+    INF
     INF_EGAL
 
 Terminals, with rules where they appear:
@@ -613,18 +613,14 @@ state 33
     (18) expr -> expr . ET expr
     (19) expr -> expr . MINUS term
     (20) expr -> expr . PLUS term
-  ! shift/reduce conflict for OU resolved as shift
-  ! shift/reduce conflict for ET resolved as shift
-  ! shift/reduce conflict for MINUS resolved as shift
-  ! shift/reduce conflict for PLUS resolved as shift
     {               reduce using rule 15 (expr -> NON expr .)
+    OU              reduce using rule 15 (expr -> NON expr .)
+    ET              reduce using rule 15 (expr -> NON expr .)
+    MINUS           reduce using rule 15 (expr -> NON expr .)
+    PLUS            reduce using rule 15 (expr -> NON expr .)
     ALORS           reduce using rule 15 (expr -> NON expr .)
     )               reduce using rule 15 (expr -> NON expr .)
     ;               reduce using rule 15 (expr -> NON expr .)
-    OU              shift and go to state 29
-    ET              shift and go to state 30
-    MINUS           shift and go to state 31
-    PLUS            shift and go to state 32
 
 
 state 34
@@ -1058,11 +1054,3 @@ state 64
     ECRIRE          reduce using rule 14 (structure_conditionnelle -> SI expr ALORS { listeInstructions } SINON { listeInstructions } .)
     $end            reduce using rule 14 (structure_conditionnelle -> SI expr ALORS { listeInstructions } SINON { listeInstructions } .)
     }               reduce using rule 14 (structure_conditionnelle -> SI expr ALORS { listeInstructions } SINON { listeInstructions } .)
-
-
-Conflicts:
-
-shift/reduce conflict for OU in state 33 resolved as shift
-shift/reduce conflict for ET in state 33 resolved as shift
-shift/reduce conflict for MINUS in state 33 resolved as shift
-shift/reduce conflict for PLUS in state 33 resolved as shift

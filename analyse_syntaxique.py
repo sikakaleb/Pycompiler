@@ -15,7 +15,7 @@ class FloParser(Parser):
         ('nonassoc', 'UMINUS'),
         ('left', 'ET'),
         ('left', 'OU'),
-        # ('nonassoc', 'NON'),
+        ('nonassoc', 'NON'),
     )
 
     @_('prog')
