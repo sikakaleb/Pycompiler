@@ -1,7 +1,7 @@
 import sys
 from sly import Lexer
 
-import sys
+
 from sly import Lexer
 
 
@@ -11,35 +11,56 @@ class FloLexer(Lexer):
         ENTIER,
         ENT,
         ECRIRE,
-        INFERIEUR_OU_EGAL,
-        # TANTQUE,
+        INF,
+        SUP,
+        INF_EGAL,
+        SUP_EGAL,
+        EGAL,
+        DIFF,
+        TANTQUE,
         BOOLEEN,
-        # SI,
-        # ALORS,
-        # SINON,
-        # ET,
-        # OU,
-        # NON,
+        SI,
+        ALORS,
+        SINON,
+        ET,
+        OU,
+        NON,
         PLUS,
         MINUS,
         MULT,
-        DIV
+        DIV,
+        UMINUS
     }
 
-    literals = {'+', '*', '-', '/', '%', '!',
-                '[', ']', '{', '}', '(', ')', ',', ";", "=", '<', '>', '&'}
+    literals = {'+', '*', '/', '(', ')', '{', '}',
+                '[', ']', ',', ';', '=', '<', '>', '&', '!'}
 
-    # ET = r'et'
-    # OU = r'ou'
-    # NON = r'non'
+    ENT = r'entier'
+    BOOLEEN = r'booleen'
+    ECRIRE = r'ecrire'
+    SI = r'si'
+    ALORS = r'alors'
+    SINON = r'sinon'
+    TANTQUE = r'tantque'
+
+    ET = r'et'
+    OU = r'ou'
+    NON = r'non'
     PLUS = r'\+'
     MINUS = r'-'
     MULT = r'\*'
     DIV = r'/'
 
+    INF = r'<'
+    SUP = r'>'
+    INF_EGAL = r'<='
+    SUP_EGAL = r'>='
+    EGAL = r'=='
+    DIFF = r'!='
+
     ignore = ' \t'
 
-    INFERIEUR_OU_EGAL = r'<='
+    UMINUS = r'-'
 
     @_(r'0|[1-9][0-9]*')
     def ENTIER(self, t):
@@ -48,14 +69,6 @@ class FloLexer(Lexer):
 
     IDENTIFIANT = r'[a-zA-Z][a-zA-Z0-9_]*'
 
-    IDENTIFIANT['entier'] = ENT
-    IDENTIFIANT['booleen'] = BOOLEEN
-    IDENTIFIANT['ecrire'] = ECRIRE
-    # IDENTIFIANT['si'] = SI
-    # IDENTIFIANT['alors'] = ALORS
-    # IDENTIFIANT['sinon'] = SINON
-    # IDENTIFIANT['tantque'] = TANTQUE
-
     ignore_comment = r'\#.*'
 
     @_(r'\n+')
@@ -63,7 +76,7 @@ class FloLexer(Lexer):
         self.lineno += t.value.count('\n')
 
     def error(self, t):
-        print(f'Ligne {self.lineno}: caractère inattendu "{t.value[0]}"')
+        print(f"Ligne {self.lineno}: Caractère inattendu '{t.value[0]}'")
         self.index += 1
 
 
