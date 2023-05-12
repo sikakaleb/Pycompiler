@@ -1,6 +1,5 @@
-entier a = 10;
-si a < 20 alors {
-    ecrire(a);
-} sinon {
-    ecrire(20);
+si vrai alors {
+    ecrire(5);
+} snon {
+    ecrire(51);
 }

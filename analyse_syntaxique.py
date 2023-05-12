@@ -29,16 +29,16 @@ class FloParser(Parser):
     @_('instruction')
     def listeInstructions(self, p):
         l = arbre_abstrait.ListeInstructions()
-        l.instructions.append(p.instruction)
+        l.append(p.instruction)
         return l
 
-    @_('instruction listeInstructions')
+    @_('listeInstructions instruction')
     def listeInstructions(self, p):
-        p.listeInstructions.instructions.append(p.instruction)
+        p.listeInstructions.append(p.instruction)
         return p.listeInstructions
 
     # 'structure_iteration')
-    @_('ecrire', 'declaration', 'affectation', 'structure_conditionnelle', )
+    @_('ecrire', 'declaration', 'affectation', 'structure_conditionnelle', 'boucle')
     def instruction(self, p):
         return p[0]
 
@@ -57,14 +57,15 @@ class FloParser(Parser):
     @_('IDENTIFIANT "=" expr ";"')
     def affectation(self, p):
         return arbre_abstrait.Affectation(p.IDENTIFIANT, p.expr)
+    #
 
-    @_('SI expr ALORS "{" listeInstructions "}" SINON "{" listeInstructions "}"',
-       'TANTQUE expr "{" listeInstructions "}"')
+    @_('SI expr ALORS "{" listeInstructions "}"  SINON  "{" listeInstructions "}"  ')
     def structure_conditionnelle(self, p):
-        if p[0] == 'si':
-            return arbre_abstrait.Condition(p.expr, p.listeInstructions0, p.listeInstructions1)
-        else:
-            return arbre_abstrait.TantQue(p.expr, p.listeInstructions)
+        return arbre_abstrait.Condition(p.expr, p.listeInstructions0, p.listeInstructions1)
+
+    @_('TANTQUE expr "{" listeInstructions "}"')
+    def boucle(self, p):
+        return arbre_abstrait.TantQue(p.expr, p.listeInstructions)
 
     # @_('REPETER "{" listeInstructions "}" JUSQU_A expr ";"')
     # def structure_iteration(self, p):

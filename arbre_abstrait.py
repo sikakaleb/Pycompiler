@@ -17,14 +17,14 @@ class Programme:
         afficher("</programme>", indent)
 
 
-class ListeInstructions:
+class ListeInstructions(list):
     def __init__(self):
-        self.instructions = []
+        pass
 
     def afficher(self, indent=0):
         afficher("<listeInstructions>", indent)
         # Inverser l'ordre des instructions
-        for instruction in reversed(self.instructions):
+        for instruction in self:
             instruction.afficher(indent+1)
         afficher("</listeInstructions>", indent)
 
@@ -124,3 +124,4 @@ class TantQue:
         self.expression.afficher(indent + 1)
         self.liste_instructions.afficher(indent + 1)
         afficher("</tantque>", indent)
+

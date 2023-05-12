@@ -1,5 +1,5 @@
 booleen a = vrai;
 booleen b = faux;
-booleen c = 5 et 6;
+booleen c = a et b;
 booleen d = a ou b;
-booleen e = non 5;
+booleen e = non a;

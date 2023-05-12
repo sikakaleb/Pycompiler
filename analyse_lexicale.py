@@ -40,7 +40,7 @@ class FloLexer(Lexer):
     ECRIRE = r'ecrire'
     SI = r'si'
     ALORS = r'alors'
-    SINON = r'sinon'
+    SINON = r'snon'
     TANTQUE = r'tantque'
 
     ET = r'et'
