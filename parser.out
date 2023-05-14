@@ -31,11 +31,11 @@ Rule 27    factor -> ENTIER
 
 Unused terminals:
 
-    SUP
     EGAL
-    SUP_EGAL
-    INF_EGAL
     DIFF
+    INF_EGAL
+    SUP
+    SUP_EGAL
     UMINUS
     INF
 
