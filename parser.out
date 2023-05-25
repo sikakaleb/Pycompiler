@@ -31,13 +31,13 @@ Rule 27    factor -> ENTIER
 
 Unused terminals:
 
+    INF
     EGAL
+    UMINUS
+    SUP_EGAL
+    SUP
     DIFF
     INF_EGAL
-    SUP
-    SUP_EGAL
-    UMINUS
-    INF
 
 Terminals, with rules where they appear:
 
