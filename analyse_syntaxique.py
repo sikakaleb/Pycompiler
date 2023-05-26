@@ -29,12 +29,12 @@ class FloParser(Parser):
     @_('instruction')
     def listeInstructions(self, p):
         l = arbre_abstrait.ListeInstructions()
-        l.instructions.append(p.instruction)
+        l.instructions.insert(0,p.instruction)
         return l
 
     @_('instruction listeInstructions')
     def listeInstructions(self, p):
-        p.listeInstructions.instructions.append(p.instruction)
+        p.listeInstructions.instructions.insert(0,p.instruction)
         return p.listeInstructions
 
     # 'structure_iteration')
@@ -102,9 +102,13 @@ class FloParser(Parser):
     def factor(self, p):
         return p.expr
 
-    @_('NON expr')
+ #   @_('NON expr')
+   # def expr(self, p):
+   #     return arbre_abstrait.Operation("non", p[1], None)
+
+    @_('NON IDENTIFIANT')
     def expr(self, p):
-        return arbre_abstrait.Operation("non", p[1], None)
+        return arbre_abstrait.Operation("non", arbre_abstrait.Identifiant(p.IDENTIFIANT), None)
 
 
 if __name__ == '__main__':

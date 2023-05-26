@@ -107,7 +107,7 @@ def gen_instruction(instruction):
     elif type(instruction) == arbre_abstrait.Lire:
         gen_lire(instruction)
     else:
-        print("type instruction inconnu", type(instruction))
+        print("type instruction inconnu ", type(instruction))
         exit(0)
 
 
@@ -148,7 +148,7 @@ def gen_expression(expression):
             nasm_instruction("push", "1", "", "", "")
             return arbre_abstrait.Booleen  # on met sur la pile la valeur booléenne
         elif str(expression.nom) == "faux":
-            nasm_instruction("push", "0", "", "", "");
+            nasm_instruction("push", "0", "", "", "")
             return arbre_abstrait.Booleen
 
 
@@ -209,7 +209,7 @@ def gen_operation(operation):
             print("you made a mistake ")
             exit(0)
     if op == 'non':
-        if type_exp2 == arbre_abstrait.Booleen and type_exp1 == arbre_abstrait.Booleen:
+        if type_exp1 == arbre_abstrait.Booleen :
             nasm_instruction(code[op], "ebx", "", "",
                              "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
         else:

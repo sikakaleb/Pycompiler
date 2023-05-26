@@ -15,7 +15,7 @@ Rule 11    declaration -> ENT IDENTIFIANT = expr ;
 Rule 12    affectation -> IDENTIFIANT = expr ;
 Rule 13    structure_conditionnelle -> TANTQUE expr { listeInstructions }
 Rule 14    structure_conditionnelle -> SI expr ALORS { listeInstructions } SINON { listeInstructions }
-Rule 15    expr -> NON expr  [precedence=nonassoc, level=7]
+Rule 15    expr -> NON IDENTIFIANT
 Rule 16    expr -> term
 Rule 17    expr -> expr OU expr  [precedence=left, level=6]
 Rule 18    expr -> expr ET expr  [precedence=left, level=5]
@@ -30,13 +30,13 @@ Rule 26    factor -> ENTIER
 
 Unused terminals:
 
-    SUP
-    INF_EGAL
-    INF
-    DIFF
-    EGAL
-    SUP_EGAL
     UMINUS
+    SUP
+    INF
+    EGAL
+    DIFF
+    SUP_EGAL
+    INF_EGAL
 
 Terminals, with rules where they appear:
 
@@ -53,7 +53,7 @@ EGAL                 :
 ENT                  : 11
 ENTIER               : 26
 ET                   : 18
-IDENTIFIANT          : 10 11 12 25
+IDENTIFIANT          : 10 11 12 15 25
 INF                  : 
 INF_EGAL             : 
 MINUS                : 19
@@ -76,7 +76,7 @@ Nonterminals, with rules where they appear:
 affectation          : 6
 declaration          : 7
 ecrire               : 8
-expr                 : 9 10 11 12 13 14 15 17 17 18 18 19 20 24
+expr                 : 9 10 11 12 13 14 17 17 18 18 19 20 24
 factor               : 21 22 23
 instruction          : 3 4
 listeInstructions    : 2 3 13 14 14
@@ -223,7 +223,7 @@ state 8
 state 9
 
     (13) structure_conditionnelle -> TANTQUE . expr { listeInstructions }
-    (15) expr -> . NON expr
+    (15) expr -> . NON IDENTIFIANT
     (16) expr -> . term
     (17) expr -> . expr OU expr
     (18) expr -> . expr ET expr
@@ -236,18 +236,18 @@ state 9
     (25) factor -> . IDENTIFIANT
     (26) factor -> . ENTIER
     NON             shift and go to state 17
-    (               shift and go to state 20
-    IDENTIFIANT     shift and go to state 21
+    (               shift and go to state 21
+    IDENTIFIANT     shift and go to state 18
     ENTIER          shift and go to state 22
 
     expr                           shift and go to state 16
-    term                           shift and go to state 18
-    factor                         shift and go to state 19
+    term                           shift and go to state 19
+    factor                         shift and go to state 20
 
 state 10
 
     (14) structure_conditionnelle -> SI . expr ALORS { listeInstructions } SINON { listeInstructions }
-    (15) expr -> . NON expr
+    (15) expr -> . NON IDENTIFIANT
     (16) expr -> . term
     (17) expr -> . expr OU expr
     (18) expr -> . expr ET expr
@@ -260,13 +260,13 @@ state 10
     (25) factor -> . IDENTIFIANT
     (26) factor -> . ENTIER
     NON             shift and go to state 17
-    (               shift and go to state 20
-    IDENTIFIANT     shift and go to state 21
+    (               shift and go to state 21
+    IDENTIFIANT     shift and go to state 18
     ENTIER          shift and go to state 22
 
     expr                           shift and go to state 23
-    term                           shift and go to state 18
-    factor                         shift and go to state 19
+    term                           shift and go to state 19
+    factor                         shift and go to state 20
 
 state 11
 
@@ -315,29 +315,26 @@ state 16
 
 state 17
 
-    (15) expr -> NON . expr
-    (15) expr -> . NON expr
-    (16) expr -> . term
-    (17) expr -> . expr OU expr
-    (18) expr -> . expr ET expr
-    (19) expr -> . expr MINUS term
-    (20) expr -> . expr PLUS term
-    (21) term -> . factor
-    (22) term -> . term DIV factor
-    (23) term -> . term MULT factor
-    (24) factor -> . ( expr )
-    (25) factor -> . IDENTIFIANT
-    (26) factor -> . ENTIER
-    NON             shift and go to state 17
-    (               shift and go to state 20
-    IDENTIFIANT     shift and go to state 21
-    ENTIER          shift and go to state 22
+    (15) expr -> NON . IDENTIFIANT
+    IDENTIFIANT     shift and go to state 33
 
-    expr                           shift and go to state 33
-    term                           shift and go to state 18
-    factor                         shift and go to state 19
 
 state 18
+
+    (25) factor -> IDENTIFIANT .
+    DIV             reduce using rule 25 (factor -> IDENTIFIANT .)
+    MULT            reduce using rule 25 (factor -> IDENTIFIANT .)
+    {               reduce using rule 25 (factor -> IDENTIFIANT .)
+    OU              reduce using rule 25 (factor -> IDENTIFIANT .)
+    ET              reduce using rule 25 (factor -> IDENTIFIANT .)
+    MINUS           reduce using rule 25 (factor -> IDENTIFIANT .)
+    PLUS            reduce using rule 25 (factor -> IDENTIFIANT .)
+    ALORS           reduce using rule 25 (factor -> IDENTIFIANT .)
+    )               reduce using rule 25 (factor -> IDENTIFIANT .)
+    ;               reduce using rule 25 (factor -> IDENTIFIANT .)
+
+
+state 19
 
     (16) expr -> term .
     (22) term -> term . DIV factor
@@ -354,7 +351,7 @@ state 18
     MULT            shift and go to state 35
 
 
-state 19
+state 20
 
     (21) term -> factor .
     DIV             reduce using rule 21 (term -> factor .)
@@ -369,10 +366,10 @@ state 19
     ;               reduce using rule 21 (term -> factor .)
 
 
-state 20
+state 21
 
     (24) factor -> ( . expr )
-    (15) expr -> . NON expr
+    (15) expr -> . NON IDENTIFIANT
     (16) expr -> . term
     (17) expr -> . expr OU expr
     (18) expr -> . expr ET expr
@@ -385,28 +382,13 @@ state 20
     (25) factor -> . IDENTIFIANT
     (26) factor -> . ENTIER
     NON             shift and go to state 17
-    (               shift and go to state 20
-    IDENTIFIANT     shift and go to state 21
+    (               shift and go to state 21
+    IDENTIFIANT     shift and go to state 18
     ENTIER          shift and go to state 22
 
     expr                           shift and go to state 36
-    term                           shift and go to state 18
-    factor                         shift and go to state 19
-
-state 21
-
-    (25) factor -> IDENTIFIANT .
-    DIV             reduce using rule 25 (factor -> IDENTIFIANT .)
-    MULT            reduce using rule 25 (factor -> IDENTIFIANT .)
-    {               reduce using rule 25 (factor -> IDENTIFIANT .)
-    OU              reduce using rule 25 (factor -> IDENTIFIANT .)
-    ET              reduce using rule 25 (factor -> IDENTIFIANT .)
-    MINUS           reduce using rule 25 (factor -> IDENTIFIANT .)
-    PLUS            reduce using rule 25 (factor -> IDENTIFIANT .)
-    ALORS           reduce using rule 25 (factor -> IDENTIFIANT .)
-    )               reduce using rule 25 (factor -> IDENTIFIANT .)
-    ;               reduce using rule 25 (factor -> IDENTIFIANT .)
-
+    term                           shift and go to state 19
+    factor                         shift and go to state 20
 
 state 22
 
@@ -440,7 +422,7 @@ state 23
 state 24
 
     (12) affectation -> IDENTIFIANT = . expr ;
-    (15) expr -> . NON expr
+    (15) expr -> . NON IDENTIFIANT
     (16) expr -> . term
     (17) expr -> . expr OU expr
     (18) expr -> . expr ET expr
@@ -453,13 +435,13 @@ state 24
     (25) factor -> . IDENTIFIANT
     (26) factor -> . ENTIER
     NON             shift and go to state 17
-    (               shift and go to state 20
-    IDENTIFIANT     shift and go to state 21
+    (               shift and go to state 21
+    IDENTIFIANT     shift and go to state 18
     ENTIER          shift and go to state 22
 
     expr                           shift and go to state 38
-    term                           shift and go to state 18
-    factor                         shift and go to state 19
+    term                           shift and go to state 19
+    factor                         shift and go to state 20
 
 state 25
 
@@ -476,7 +458,7 @@ state 26
 state 27
 
     (9) ecrire -> ECRIRE ( . expr ) ;
-    (15) expr -> . NON expr
+    (15) expr -> . NON IDENTIFIANT
     (16) expr -> . term
     (17) expr -> . expr OU expr
     (18) expr -> . expr ET expr
@@ -489,13 +471,13 @@ state 27
     (25) factor -> . IDENTIFIANT
     (26) factor -> . ENTIER
     NON             shift and go to state 17
-    (               shift and go to state 20
-    IDENTIFIANT     shift and go to state 21
+    (               shift and go to state 21
+    IDENTIFIANT     shift and go to state 18
     ENTIER          shift and go to state 22
 
     expr                           shift and go to state 41
-    term                           shift and go to state 18
-    factor                         shift and go to state 19
+    term                           shift and go to state 19
+    factor                         shift and go to state 20
 
 state 28
 
@@ -529,7 +511,7 @@ state 28
 state 29
 
     (17) expr -> expr OU . expr
-    (15) expr -> . NON expr
+    (15) expr -> . NON IDENTIFIANT
     (16) expr -> . term
     (17) expr -> . expr OU expr
     (18) expr -> . expr ET expr
@@ -542,18 +524,18 @@ state 29
     (25) factor -> . IDENTIFIANT
     (26) factor -> . ENTIER
     NON             shift and go to state 17
-    (               shift and go to state 20
-    IDENTIFIANT     shift and go to state 21
+    (               shift and go to state 21
+    IDENTIFIANT     shift and go to state 18
     ENTIER          shift and go to state 22
 
     expr                           shift and go to state 43
-    term                           shift and go to state 18
-    factor                         shift and go to state 19
+    term                           shift and go to state 19
+    factor                         shift and go to state 20
 
 state 30
 
     (18) expr -> expr ET . expr
-    (15) expr -> . NON expr
+    (15) expr -> . NON IDENTIFIANT
     (16) expr -> . term
     (17) expr -> . expr OU expr
     (18) expr -> . expr ET expr
@@ -566,13 +548,13 @@ state 30
     (25) factor -> . IDENTIFIANT
     (26) factor -> . ENTIER
     NON             shift and go to state 17
-    (               shift and go to state 20
-    IDENTIFIANT     shift and go to state 21
+    (               shift and go to state 21
+    IDENTIFIANT     shift and go to state 18
     ENTIER          shift and go to state 22
 
     expr                           shift and go to state 44
-    term                           shift and go to state 18
-    factor                         shift and go to state 19
+    term                           shift and go to state 19
+    factor                         shift and go to state 20
 
 state 31
 
@@ -583,12 +565,12 @@ state 31
     (24) factor -> . ( expr )
     (25) factor -> . IDENTIFIANT
     (26) factor -> . ENTIER
-    (               shift and go to state 20
-    IDENTIFIANT     shift and go to state 21
+    (               shift and go to state 21
+    IDENTIFIANT     shift and go to state 18
     ENTIER          shift and go to state 22
 
     term                           shift and go to state 45
-    factor                         shift and go to state 19
+    factor                         shift and go to state 20
 
 state 32
 
@@ -599,28 +581,24 @@ state 32
     (24) factor -> . ( expr )
     (25) factor -> . IDENTIFIANT
     (26) factor -> . ENTIER
-    (               shift and go to state 20
-    IDENTIFIANT     shift and go to state 21
+    (               shift and go to state 21
+    IDENTIFIANT     shift and go to state 18
     ENTIER          shift and go to state 22
 
     term                           shift and go to state 46
-    factor                         shift and go to state 19
+    factor                         shift and go to state 20
 
 state 33
 
-    (15) expr -> NON expr .
-    (17) expr -> expr . OU expr
-    (18) expr -> expr . ET expr
-    (19) expr -> expr . MINUS term
-    (20) expr -> expr . PLUS term
-    {               reduce using rule 15 (expr -> NON expr .)
-    OU              reduce using rule 15 (expr -> NON expr .)
-    ET              reduce using rule 15 (expr -> NON expr .)
-    MINUS           reduce using rule 15 (expr -> NON expr .)
-    PLUS            reduce using rule 15 (expr -> NON expr .)
-    ALORS           reduce using rule 15 (expr -> NON expr .)
-    )               reduce using rule 15 (expr -> NON expr .)
-    ;               reduce using rule 15 (expr -> NON expr .)
+    (15) expr -> NON IDENTIFIANT .
+    {               reduce using rule 15 (expr -> NON IDENTIFIANT .)
+    OU              reduce using rule 15 (expr -> NON IDENTIFIANT .)
+    ET              reduce using rule 15 (expr -> NON IDENTIFIANT .)
+    MINUS           reduce using rule 15 (expr -> NON IDENTIFIANT .)
+    PLUS            reduce using rule 15 (expr -> NON IDENTIFIANT .)
+    ALORS           reduce using rule 15 (expr -> NON IDENTIFIANT .)
+    )               reduce using rule 15 (expr -> NON IDENTIFIANT .)
+    ;               reduce using rule 15 (expr -> NON IDENTIFIANT .)
 
 
 state 34
@@ -629,8 +607,8 @@ state 34
     (24) factor -> . ( expr )
     (25) factor -> . IDENTIFIANT
     (26) factor -> . ENTIER
-    (               shift and go to state 20
-    IDENTIFIANT     shift and go to state 21
+    (               shift and go to state 21
+    IDENTIFIANT     shift and go to state 18
     ENTIER          shift and go to state 22
 
     factor                         shift and go to state 47
@@ -641,8 +619,8 @@ state 35
     (24) factor -> . ( expr )
     (25) factor -> . IDENTIFIANT
     (26) factor -> . ENTIER
-    (               shift and go to state 20
-    IDENTIFIANT     shift and go to state 21
+    (               shift and go to state 21
+    IDENTIFIANT     shift and go to state 18
     ENTIER          shift and go to state 22
 
     factor                         shift and go to state 48
@@ -684,7 +662,7 @@ state 38
 state 39
 
     (10) declaration -> BOOLEEN IDENTIFIANT = . expr ;
-    (15) expr -> . NON expr
+    (15) expr -> . NON IDENTIFIANT
     (16) expr -> . term
     (17) expr -> . expr OU expr
     (18) expr -> . expr ET expr
@@ -697,18 +675,18 @@ state 39
     (25) factor -> . IDENTIFIANT
     (26) factor -> . ENTIER
     NON             shift and go to state 17
-    (               shift and go to state 20
-    IDENTIFIANT     shift and go to state 21
+    (               shift and go to state 21
+    IDENTIFIANT     shift and go to state 18
     ENTIER          shift and go to state 22
 
     expr                           shift and go to state 52
-    term                           shift and go to state 18
-    factor                         shift and go to state 19
+    term                           shift and go to state 19
+    factor                         shift and go to state 20
 
 state 40
 
     (11) declaration -> ENT IDENTIFIANT = . expr ;
-    (15) expr -> . NON expr
+    (15) expr -> . NON IDENTIFIANT
     (16) expr -> . term
     (17) expr -> . expr OU expr
     (18) expr -> . expr ET expr
@@ -721,13 +699,13 @@ state 40
     (25) factor -> . IDENTIFIANT
     (26) factor -> . ENTIER
     NON             shift and go to state 17
-    (               shift and go to state 20
-    IDENTIFIANT     shift and go to state 21
+    (               shift and go to state 21
+    IDENTIFIANT     shift and go to state 18
     ENTIER          shift and go to state 22
 
     expr                           shift and go to state 53
-    term                           shift and go to state 18
-    factor                         shift and go to state 19
+    term                           shift and go to state 19
+    factor                         shift and go to state 20
 
 state 41
 
