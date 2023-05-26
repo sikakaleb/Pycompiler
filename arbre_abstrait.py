@@ -124,3 +124,14 @@ class TantQue:
         self.expression.afficher(indent + 1)
         self.liste_instructions.afficher(indent + 1)
         afficher("</tantque>", indent)
+
+
+class Booleen:
+    def __init__(self, valeur):
+        self.valeur = valeur
+
+    def afficher(self, indent=0):
+        if (self.valeur == True):
+            afficher(f"[Booleen:vrai]", indent)
+        else:
+            afficher(f"[Booleen:faux]", indent)

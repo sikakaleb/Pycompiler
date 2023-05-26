@@ -16,56 +16,60 @@ Rule 12    declaration -> ENT IDENTIFIANT = expr ;
 Rule 13    affectation -> IDENTIFIANT = expr ;
 Rule 14    structure_conditionnelle -> SI expr ALORS { listeInstructions } SINON { listeInstructions }
 Rule 15    boucle -> TANTQUE expr { listeInstructions }
-Rule 16    expr -> NON expr  [precedence=nonassoc, level=7]
-Rule 17    expr -> term
-Rule 18    expr -> expr OU expr  [precedence=left, level=6]
-Rule 19    expr -> expr ET expr  [precedence=left, level=5]
-Rule 20    expr -> expr MINUS term  [precedence=left, level=2]
-Rule 21    expr -> expr PLUS term  [precedence=left, level=2]
-Rule 22    term -> factor
-Rule 23    term -> term DIV factor  [precedence=left, level=3]
-Rule 24    term -> term MULT factor  [precedence=left, level=3]
-Rule 25    factor -> ( expr )
-Rule 26    factor -> IDENTIFIANT
-Rule 27    factor -> ENTIER
+Rule 16    expr -> NON IDENTIFIANT
+Rule 17    expr -> NON BOOLEEN_LITERAL
+Rule 18    expr -> term
+Rule 19    expr -> expr DIFF expr  [precedence=nonassoc, level=1]
+Rule 20    expr -> expr EGAL expr  [precedence=nonassoc, level=1]
+Rule 21    expr -> expr SUP_EGAL expr  [precedence=nonassoc, level=1]
+Rule 22    expr -> expr INF_EGAL expr  [precedence=nonassoc, level=1]
+Rule 23    expr -> expr SUP expr  [precedence=nonassoc, level=1]
+Rule 24    expr -> expr INF expr  [precedence=nonassoc, level=1]
+Rule 25    expr -> expr OU expr  [precedence=left, level=6]
+Rule 26    expr -> expr ET expr  [precedence=left, level=5]
+Rule 27    expr -> expr MINUS term  [precedence=left, level=2]
+Rule 28    expr -> expr PLUS term  [precedence=left, level=2]
+Rule 29    term -> factor
+Rule 30    term -> term DIV factor  [precedence=left, level=3]
+Rule 31    term -> term MULT factor  [precedence=left, level=3]
+Rule 32    factor -> BOOLEEN_LITERAL
+Rule 33    factor -> BOOLEEN
+Rule 34    factor -> ( expr )
+Rule 35    factor -> IDENTIFIANT
+Rule 36    factor -> ENTIER
 
 Unused terminals:
 
     UMINUS
-    EGAL
-    DIFF
-    INF_EGAL
-    INF
-    SUP
-    SUP_EGAL
 
 Terminals, with rules where they appear:
 
-(                    : 10 25
-)                    : 10 25
+(                    : 10 34
+)                    : 10 34
 ;                    : 10 11 12 13
 =                    : 11 12 13
 ALORS                : 14
-BOOLEEN              : 11
-DIFF                 : 
-DIV                  : 23
+BOOLEEN              : 11 33
+BOOLEEN_LITERAL      : 17 32
+DIFF                 : 19
+DIV                  : 30
 ECRIRE               : 10
-EGAL                 : 
+EGAL                 : 20
 ENT                  : 12
-ENTIER               : 27
-ET                   : 19
-IDENTIFIANT          : 11 12 13 26
-INF                  : 
-INF_EGAL             : 
-MINUS                : 20
-MULT                 : 24
-NON                  : 16
-OU                   : 18
-PLUS                 : 21
+ENTIER               : 36
+ET                   : 26
+IDENTIFIANT          : 11 12 13 16 35
+INF                  : 24
+INF_EGAL             : 22
+MINUS                : 27
+MULT                 : 31
+NON                  : 16 17
+OU                   : 25
+PLUS                 : 28
 SI                   : 14
 SINON                : 14
-SUP                  : 
-SUP_EGAL             : 
+SUP                  : 23
+SUP_EGAL             : 21
 TANTQUE              : 15
 UMINUS               : 
 error                : 
@@ -78,14 +82,14 @@ affectation          : 7
 boucle               : 5
 declaration          : 8
 ecrire               : 9
-expr                 : 10 11 12 13 14 15 16 18 18 19 19 20 21 25
-factor               : 22 23 24
+expr                 : 10 11 12 13 14 15 19 19 20 20 21 21 22 22 23 23 24 24 25 25 26 26 27 28 34
+factor               : 29 30 31
 instruction          : 3 4
 listeInstructions    : 2 3 14 14 15
 prog                 : 1
 statement            : 0
 structure_conditionnelle : 6
-term                 : 17 20 21 23 24
+term                 : 18 27 28 30 31
 
 
 state 0
@@ -245,73 +249,95 @@ state 9
 state 10
 
     (15) boucle -> TANTQUE . expr { listeInstructions }
-    (16) expr -> . NON expr
-    (17) expr -> . term
-    (18) expr -> . expr OU expr
-    (19) expr -> . expr ET expr
-    (20) expr -> . expr MINUS term
-    (21) expr -> . expr PLUS term
-    (22) term -> . factor
-    (23) term -> . term DIV factor
-    (24) term -> . term MULT factor
-    (25) factor -> . ( expr )
-    (26) factor -> . IDENTIFIANT
-    (27) factor -> . ENTIER
+    (16) expr -> . NON IDENTIFIANT
+    (17) expr -> . NON BOOLEEN_LITERAL
+    (18) expr -> . term
+    (19) expr -> . expr DIFF expr
+    (20) expr -> . expr EGAL expr
+    (21) expr -> . expr SUP_EGAL expr
+    (22) expr -> . expr INF_EGAL expr
+    (23) expr -> . expr SUP expr
+    (24) expr -> . expr INF expr
+    (25) expr -> . expr OU expr
+    (26) expr -> . expr ET expr
+    (27) expr -> . expr MINUS term
+    (28) expr -> . expr PLUS term
+    (29) term -> . factor
+    (30) term -> . term DIV factor
+    (31) term -> . term MULT factor
+    (32) factor -> . BOOLEEN_LITERAL
+    (33) factor -> . BOOLEEN
+    (34) factor -> . ( expr )
+    (35) factor -> . IDENTIFIANT
+    (36) factor -> . ENTIER
     NON             shift and go to state 18
-    (               shift and go to state 21
-    IDENTIFIANT     shift and go to state 22
-    ENTIER          shift and go to state 23
+    BOOLEEN_LITERAL shift and go to state 20
+    BOOLEEN         shift and go to state 23
+    (               shift and go to state 24
+    IDENTIFIANT     shift and go to state 19
+    ENTIER          shift and go to state 25
 
     expr                           shift and go to state 17
-    term                           shift and go to state 19
-    factor                         shift and go to state 20
+    term                           shift and go to state 21
+    factor                         shift and go to state 22
 
 state 11
 
     (14) structure_conditionnelle -> SI . expr ALORS { listeInstructions } SINON { listeInstructions }
-    (16) expr -> . NON expr
-    (17) expr -> . term
-    (18) expr -> . expr OU expr
-    (19) expr -> . expr ET expr
-    (20) expr -> . expr MINUS term
-    (21) expr -> . expr PLUS term
-    (22) term -> . factor
-    (23) term -> . term DIV factor
-    (24) term -> . term MULT factor
-    (25) factor -> . ( expr )
-    (26) factor -> . IDENTIFIANT
-    (27) factor -> . ENTIER
+    (16) expr -> . NON IDENTIFIANT
+    (17) expr -> . NON BOOLEEN_LITERAL
+    (18) expr -> . term
+    (19) expr -> . expr DIFF expr
+    (20) expr -> . expr EGAL expr
+    (21) expr -> . expr SUP_EGAL expr
+    (22) expr -> . expr INF_EGAL expr
+    (23) expr -> . expr SUP expr
+    (24) expr -> . expr INF expr
+    (25) expr -> . expr OU expr
+    (26) expr -> . expr ET expr
+    (27) expr -> . expr MINUS term
+    (28) expr -> . expr PLUS term
+    (29) term -> . factor
+    (30) term -> . term DIV factor
+    (31) term -> . term MULT factor
+    (32) factor -> . BOOLEEN_LITERAL
+    (33) factor -> . BOOLEEN
+    (34) factor -> . ( expr )
+    (35) factor -> . IDENTIFIANT
+    (36) factor -> . ENTIER
     NON             shift and go to state 18
-    (               shift and go to state 21
-    IDENTIFIANT     shift and go to state 22
-    ENTIER          shift and go to state 23
+    BOOLEEN_LITERAL shift and go to state 20
+    BOOLEEN         shift and go to state 23
+    (               shift and go to state 24
+    IDENTIFIANT     shift and go to state 19
+    ENTIER          shift and go to state 25
 
-    expr                           shift and go to state 24
-    term                           shift and go to state 19
-    factor                         shift and go to state 20
+    expr                           shift and go to state 26
+    term                           shift and go to state 21
+    factor                         shift and go to state 22
 
 state 12
 
     (13) affectation -> IDENTIFIANT . = expr ;
-    =               shift and go to state 25
+    =               shift and go to state 27
 
 
 state 13
 
     (11) declaration -> BOOLEEN . IDENTIFIANT = expr ;
-    IDENTIFIANT     shift and go to state 26
+    IDENTIFIANT     shift and go to state 28
 
 
 state 14
 
     (12) declaration -> ENT . IDENTIFIANT = expr ;
-    IDENTIFIANT     shift and go to state 27
+    IDENTIFIANT     shift and go to state 29
 
 
 state 15
 
     (10) ecrire -> ECRIRE . ( expr ) ;
-    (               shift and go to state 28
+    (               shift and go to state 30
 
 
 state 16
@@ -330,202 +356,309 @@ state 16
 state 17
 
     (15) boucle -> TANTQUE expr . { listeInstructions }
-    (18) expr -> expr . OU expr
-    (19) expr -> expr . ET expr
-    (20) expr -> expr . MINUS term
-    (21) expr -> expr . PLUS term
-    {               shift and go to state 29
-    OU              shift and go to state 30
-    ET              shift and go to state 31
-    MINUS           shift and go to state 32
-    PLUS            shift and go to state 33
+    (19) expr -> expr . DIFF expr
+    (20) expr -> expr . EGAL expr
+    (21) expr -> expr . SUP_EGAL expr
+    (22) expr -> expr . INF_EGAL expr
+    (23) expr -> expr . SUP expr
+    (24) expr -> expr . INF expr
+    (25) expr -> expr . OU expr
+    (26) expr -> expr . ET expr
+    (27) expr -> expr . MINUS term
+    (28) expr -> expr . PLUS term
+    {               shift and go to state 31
+    DIFF            shift and go to state 32
+    EGAL            shift and go to state 33
+    SUP_EGAL        shift and go to state 34
+    INF_EGAL        shift and go to state 35
+    SUP             shift and go to state 36
+    INF             shift and go to state 37
+    OU              shift and go to state 38
+    ET              shift and go to state 39
+    MINUS           shift and go to state 40
+    PLUS            shift and go to state 41
 
 
 state 18
 
-    (16) expr -> NON . expr
-    (16) expr -> . NON expr
-    (17) expr -> . term
-    (18) expr -> . expr OU expr
-    (19) expr -> . expr ET expr
-    (20) expr -> . expr MINUS term
-    (21) expr -> . expr PLUS term
-    (22) term -> . factor
-    (23) term -> . term DIV factor
-    (24) term -> . term MULT factor
-    (25) factor -> . ( expr )
-    (26) factor -> . IDENTIFIANT
-    (27) factor -> . ENTIER
-    NON             shift and go to state 18
-    (               shift and go to state 21
-    IDENTIFIANT     shift and go to state 22
-    ENTIER          shift and go to state 23
+    (16) expr -> NON . IDENTIFIANT
+    (17) expr -> NON . BOOLEEN_LITERAL
+    IDENTIFIANT     shift and go to state 42
+    BOOLEEN_LITERAL shift and go to state 43
 
-    expr                           shift and go to state 34
-    term                           shift and go to state 19
-    factor                         shift and go to state 20
 
 state 19
 
-    (17) expr -> term .
-    (23) term -> term . DIV factor
-    (24) term -> term . MULT factor
-    {               reduce using rule 17 (expr -> term .)
-    OU              reduce using rule 17 (expr -> term .)
-    ET              reduce using rule 17 (expr -> term .)
-    MINUS           reduce using rule 17 (expr -> term .)
-    PLUS            reduce using rule 17 (expr -> term .)
-    ALORS           reduce using rule 17 (expr -> term .)
-    )               reduce using rule 17 (expr -> term .)
-    ;               reduce using rule 17 (expr -> term .)
-    DIV             shift and go to state 35
-    MULT            shift and go to state 36
+    (35) factor -> IDENTIFIANT .
+    DIV             reduce using rule 35 (factor -> IDENTIFIANT .)
+    MULT            reduce using rule 35 (factor -> IDENTIFIANT .)
+    {               reduce using rule 35 (factor -> IDENTIFIANT .)
+    DIFF            reduce using rule 35 (factor -> IDENTIFIANT .)
+    EGAL            reduce using rule 35 (factor -> IDENTIFIANT .)
+    SUP_EGAL        reduce using rule 35 (factor -> IDENTIFIANT .)
+    INF_EGAL        reduce using rule 35 (factor -> IDENTIFIANT .)
+    SUP             reduce using rule 35 (factor -> IDENTIFIANT .)
+    INF             reduce using rule 35 (factor -> IDENTIFIANT .)
+    OU              reduce using rule 35 (factor -> IDENTIFIANT .)
+    ET              reduce using rule 35 (factor -> IDENTIFIANT .)
+    MINUS           reduce using rule 35 (factor -> IDENTIFIANT .)
+    PLUS            reduce using rule 35 (factor -> IDENTIFIANT .)
+    ALORS           reduce using rule 35 (factor -> IDENTIFIANT .)
+    )               reduce using rule 35 (factor -> IDENTIFIANT .)
+    ;               reduce using rule 35 (factor -> IDENTIFIANT .)
 
 
 state 20
 
-    (22) term -> factor .
-    DIV             reduce using rule 22 (term -> factor .)
-    MULT            reduce using rule 22 (term -> factor .)
-    {               reduce using rule 22 (term -> factor .)
-    OU              reduce using rule 22 (term -> factor .)
-    ET              reduce using rule 22 (term -> factor .)
-    MINUS           reduce using rule 22 (term -> factor .)
-    PLUS            reduce using rule 22 (term -> factor .)
-    ALORS           reduce using rule 22 (term -> factor .)
-    )               reduce using rule 22 (term -> factor .)
-    ;               reduce using rule 22 (term -> factor .)
+    (32) factor -> BOOLEEN_LITERAL .
+    DIV             reduce using rule 32 (factor -> BOOLEEN_LITERAL .)
+    MULT            reduce using rule 32 (factor -> BOOLEEN_LITERAL .)
+    {               reduce using rule 32 (factor -> BOOLEEN_LITERAL .)
+    DIFF            reduce using rule 32 (factor -> BOOLEEN_LITERAL .)
+    EGAL            reduce using rule 32 (factor -> BOOLEEN_LITERAL .)
+    SUP_EGAL        reduce using rule 32 (factor -> BOOLEEN_LITERAL .)
+    INF_EGAL        reduce using rule 32 (factor -> BOOLEEN_LITERAL .)
+    SUP             reduce using rule 32 (factor -> BOOLEEN_LITERAL .)
+    INF             reduce using rule 32 (factor -> BOOLEEN_LITERAL .)
+    OU              reduce using rule 32 (factor -> BOOLEEN_LITERAL .)
+    ET              reduce using rule 32 (factor -> BOOLEEN_LITERAL .)
+    MINUS           reduce using rule 32 (factor -> BOOLEEN_LITERAL .)
+    PLUS            reduce using rule 32 (factor -> BOOLEEN_LITERAL .)
+    ALORS           reduce using rule 32 (factor -> BOOLEEN_LITERAL .)
+    )               reduce using rule 32 (factor -> BOOLEEN_LITERAL .)
+    ;               reduce using rule 32 (factor -> BOOLEEN_LITERAL .)
 
 
 state 21
 
-    (25) factor -> ( . expr )
-    (16) expr -> . NON expr
-    (17) expr -> . term
-    (18) expr -> . expr OU expr
-    (19) expr -> . expr ET expr
-    (20) expr -> . expr MINUS term
-    (21) expr -> . expr PLUS term
-    (22) term -> . factor
-    (23) term -> . term DIV factor
-    (24) term -> . term MULT factor
-    (25) factor -> . ( expr )
-    (26) factor -> . IDENTIFIANT
-    (27) factor -> . ENTIER
-    NON             shift and go to state 18
-    (               shift and go to state 21
-    IDENTIFIANT     shift and go to state 22
-    ENTIER          shift and go to state 23
+    (18) expr -> term .
+    (30) term -> term . DIV factor
+    (31) term -> term . MULT factor
+    {               reduce using rule 18 (expr -> term .)
+    DIFF            reduce using rule 18 (expr -> term .)
+    EGAL            reduce using rule 18 (expr -> term .)
+    SUP_EGAL        reduce using rule 18 (expr -> term .)
+    INF_EGAL        reduce using rule 18 (expr -> term .)
+    SUP             reduce using rule 18 (expr -> term .)
+    INF             reduce using rule 18 (expr -> term .)
+    OU              reduce using rule 18 (expr -> term .)
+    ET              reduce using rule 18 (expr -> term .)
+    MINUS           reduce using rule 18 (expr -> term .)
+    PLUS            reduce using rule 18 (expr -> term .)
+    ALORS           reduce using rule 18 (expr -> term .)
+    )               reduce using rule 18 (expr -> term .)
+    ;               reduce using rule 18 (expr -> term .)
+    DIV             shift and go to state 44
+    MULT            shift and go to state 45
 
-    expr                           shift and go to state 37
-    term                           shift and go to state 19
-    factor                         shift and go to state 20
 
 state 22
 
-    (26) factor -> IDENTIFIANT .
-    DIV             reduce using rule 26 (factor -> IDENTIFIANT .)
-    MULT            reduce using rule 26 (factor -> IDENTIFIANT .)
-    {               reduce using rule 26 (factor -> IDENTIFIANT .)
-    OU              reduce using rule 26 (factor -> IDENTIFIANT .)
-    ET              reduce using rule 26 (factor -> IDENTIFIANT .)
-    MINUS           reduce using rule 26 (factor -> IDENTIFIANT .)
-    PLUS            reduce using rule 26 (factor -> IDENTIFIANT .)
-    ALORS           reduce using rule 26 (factor -> IDENTIFIANT .)
-    )               reduce using rule 26 (factor -> IDENTIFIANT .)
-    ;               reduce using rule 26 (factor -> IDENTIFIANT .)
+    (29) term -> factor .
+    DIV             reduce using rule 29 (term -> factor .)
+    MULT            reduce using rule 29 (term -> factor .)
+    {               reduce using rule 29 (term -> factor .)
+    DIFF            reduce using rule 29 (term -> factor .)
+    EGAL            reduce using rule 29 (term -> factor .)
+    SUP_EGAL        reduce using rule 29 (term -> factor .)
+    INF_EGAL        reduce using rule 29 (term -> factor .)
+    SUP             reduce using rule 29 (term -> factor .)
+    INF             reduce using rule 29 (term -> factor .)
+    OU              reduce using rule 29 (term -> factor .)
+    ET              reduce using rule 29 (term -> factor .)
+    MINUS           reduce using rule 29 (term -> factor .)
+    PLUS            reduce using rule 29 (term -> factor .)
+    ALORS           reduce using rule 29 (term -> factor .)
+    )               reduce using rule 29 (term -> factor .)
+    ;               reduce using rule 29 (term -> factor .)
 
 
 state 23
 
-    (27) factor -> ENTIER .
-    DIV             reduce using rule 27 (factor -> ENTIER .)
-    MULT            reduce using rule 27 (factor -> ENTIER .)
-    {               reduce using rule 27 (factor -> ENTIER .)
-    OU              reduce using rule 27 (factor -> ENTIER .)
-    ET              reduce using rule 27 (factor -> ENTIER .)
-    MINUS           reduce using rule 27 (factor -> ENTIER .)
-    PLUS            reduce using rule 27 (factor -> ENTIER .)
-    ALORS           reduce using rule 27 (factor -> ENTIER .)
-    )               reduce using rule 27 (factor -> ENTIER .)
-    ;               reduce using rule 27 (factor -> ENTIER .)
+    (33) factor -> BOOLEEN .
+    DIV             reduce using rule 33 (factor -> BOOLEEN .)
+    MULT            reduce using rule 33 (factor -> BOOLEEN .)
+    {               reduce using rule 33 (factor -> BOOLEEN .)
+    DIFF            reduce using rule 33 (factor -> BOOLEEN .)
+    EGAL            reduce using rule 33 (factor -> BOOLEEN .)
+    SUP_EGAL        reduce using rule 33 (factor -> BOOLEEN .)
+    INF_EGAL        reduce using rule 33 (factor -> BOOLEEN .)
+    SUP             reduce using rule 33 (factor -> BOOLEEN .)
+    INF             reduce using rule 33 (factor -> BOOLEEN .)
+    OU              reduce using rule 33 (factor -> BOOLEEN .)
+    ET              reduce using rule 33 (factor -> BOOLEEN .)
+    MINUS           reduce using rule 33 (factor -> BOOLEEN .)
+    PLUS            reduce using rule 33 (factor -> BOOLEEN .)
+    ALORS           reduce using rule 33 (factor -> BOOLEEN .)
+    )               reduce using rule 33 (factor -> BOOLEEN .)
+    ;               reduce using rule 33 (factor -> BOOLEEN .)
 
 
 state 24
 
-    (14) structure_conditionnelle -> SI expr . ALORS { listeInstructions } SINON { listeInstructions }
-    (18) expr -> expr . OU expr
-    (19) expr -> expr . ET expr
-    (20) expr -> expr . MINUS term
-    (21) expr -> expr . PLUS term
-    ALORS           shift and go to state 38
-    OU              shift and go to state 30
-    ET              shift and go to state 31
-    MINUS           shift and go to state 32
-    PLUS            shift and go to state 33
+    (34) factor -> ( . expr )
+    (16) expr -> . NON IDENTIFIANT
+    (17) expr -> . NON BOOLEEN_LITERAL
+    (18) expr -> . term
+    (19) expr -> . expr DIFF expr
+    (20) expr -> . expr EGAL expr
+    (21) expr -> . expr SUP_EGAL expr
+    (22) expr -> . expr INF_EGAL expr
+    (23) expr -> . expr SUP expr
+    (24) expr -> . expr INF expr
+    (25) expr -> . expr OU expr
+    (26) expr -> . expr ET expr
+    (27) expr -> . expr MINUS term
+    (28) expr -> . expr PLUS term
+    (29) term -> . factor
+    (30) term -> . term DIV factor
+    (31) term -> . term MULT factor
+    (32) factor -> . BOOLEEN_LITERAL
+    (33) factor -> . BOOLEEN
+    (34) factor -> . ( expr )
+    (35) factor -> . IDENTIFIANT
+    (36) factor -> . ENTIER
+    NON             shift and go to state 18
+    BOOLEEN_LITERAL shift and go to state 20
+    BOOLEEN         shift and go to state 23
+    (               shift and go to state 24
+    IDENTIFIANT     shift and go to state 19
+    ENTIER          shift and go to state 25
 
+    expr                           shift and go to state 46
+    term                           shift and go to state 21
+    factor                         shift and go to state 22
 
 state 25
 
-    (13) affectation -> IDENTIFIANT = . expr ;
-    (16) expr -> . NON expr
-    (17) expr -> . term
-    (18) expr -> . expr OU expr
-    (19) expr -> . expr ET expr
-    (20) expr -> . expr MINUS term
-    (21) expr -> . expr PLUS term
-    (22) term -> . factor
-    (23) term -> . term DIV factor
-    (24) term -> . term MULT factor
-    (25) factor -> . ( expr )
-    (26) factor -> . IDENTIFIANT
-    (27) factor -> . ENTIER
-    NON             shift and go to state 18
-    (               shift and go to state 21
-    IDENTIFIANT     shift and go to state 22
-    ENTIER          shift and go to state 23
+    (36) factor -> ENTIER .
+    DIV             reduce using rule 36 (factor -> ENTIER .)
+    MULT            reduce using rule 36 (factor -> ENTIER .)
+    {               reduce using rule 36 (factor -> ENTIER .)
+    DIFF            reduce using rule 36 (factor -> ENTIER .)
+    EGAL            reduce using rule 36 (factor -> ENTIER .)
+    SUP_EGAL        reduce using rule 36 (factor -> ENTIER .)
+    INF_EGAL        reduce using rule 36 (factor -> ENTIER .)
+    SUP             reduce using rule 36 (factor -> ENTIER .)
+    INF             reduce using rule 36 (factor -> ENTIER .)
+    OU              reduce using rule 36 (factor -> ENTIER .)
+    ET              reduce using rule 36 (factor -> ENTIER .)
+    MINUS           reduce using rule 36 (factor -> ENTIER .)
+    PLUS            reduce using rule 36 (factor -> ENTIER .)
+    ALORS           reduce using rule 36 (factor -> ENTIER .)
+    )               reduce using rule 36 (factor -> ENTIER .)
+    ;               reduce using rule 36 (factor -> ENTIER .)
 
-    expr                           shift and go to state 39
-    term                           shift and go to state 19
-    factor                         shift and go to state 20
 
 state 26
 
-    (11) declaration -> BOOLEEN IDENTIFIANT . = expr ;
-    =               shift and go to state 40
+    (14) structure_conditionnelle -> SI expr . ALORS { listeInstructions } SINON { listeInstructions }
+    (19) expr -> expr . DIFF expr
+    (20) expr -> expr . EGAL expr
+    (21) expr -> expr . SUP_EGAL expr
+    (22) expr -> expr . INF_EGAL expr
+    (23) expr -> expr . SUP expr
+    (24) expr -> expr . INF expr
+    (25) expr -> expr . OU expr
+    (26) expr -> expr . ET expr
+    (27) expr -> expr . MINUS term
+    (28) expr -> expr . PLUS term
+    ALORS           shift and go to state 47
+    DIFF            shift and go to state 32
+    EGAL            shift and go to state 33
+    SUP_EGAL        shift and go to state 34
+    INF_EGAL        shift and go to state 35
+    SUP             shift and go to state 36
+    INF             shift and go to state 37
+    OU              shift and go to state 38
+    ET              shift and go to state 39
+    MINUS           shift and go to state 40
+    PLUS            shift and go to state 41
 
 
 state 27
 
-    (12) declaration -> ENT IDENTIFIANT . = expr ;
-    =               shift and go to state 41
+    (13) affectation -> IDENTIFIANT = . expr ;
+    (16) expr -> . NON IDENTIFIANT
+    (17) expr -> . NON BOOLEEN_LITERAL
+    (18) expr -> . term
+    (19) expr -> . expr DIFF expr
+    (20) expr -> . expr EGAL expr
+    (21) expr -> . expr SUP_EGAL expr
+    (22) expr -> . expr INF_EGAL expr
+    (23) expr -> . expr SUP expr
+    (24) expr -> . expr INF expr
+    (25) expr -> . expr OU expr
+    (26) expr -> . expr ET expr
+    (27) expr -> . expr MINUS term
+    (28) expr -> . expr PLUS term
+    (29) term -> . factor
+    (30) term -> . term DIV factor
+    (31) term -> . term MULT factor
+    (32) factor -> . BOOLEEN_LITERAL
+    (33) factor -> . BOOLEEN
+    (34) factor -> . ( expr )
+    (35) factor -> . IDENTIFIANT
+    (36) factor -> . ENTIER
+    NON             shift and go to state 18
+    BOOLEEN_LITERAL shift and go to state 20
+    BOOLEEN         shift and go to state 23
+    (               shift and go to state 24
+    IDENTIFIANT     shift and go to state 19
+    ENTIER          shift and go to state 25
 
+    expr                           shift and go to state 48
+    term                           shift and go to state 21
+    factor                         shift and go to state 22
 
 state 28
 
-    (10) ecrire -> ECRIRE ( . expr ) ;
-    (16) expr -> . NON expr
-    (17) expr -> . term
-    (18) expr -> . expr OU expr
-    (19) expr -> . expr ET expr
-    (20) expr -> . expr MINUS term
-    (21) expr -> . expr PLUS term
-    (22) term -> . factor
-    (23) term -> . term DIV factor
-    (24) term -> . term MULT factor
-    (25) factor -> . ( expr )
-    (26) factor -> . IDENTIFIANT
-    (27) factor -> . ENTIER
-    NON             shift and go to state 18
-    (               shift and go to state 21
-    IDENTIFIANT     shift and go to state 22
-    ENTIER          shift and go to state 23
+    (11) declaration -> BOOLEEN IDENTIFIANT . = expr ;
+    =               shift and go to state 49
 
-    expr                           shift and go to state 42
-    term                           shift and go to state 19
-    factor                         shift and go to state 20
 
 state 29
+
+    (12) declaration -> ENT IDENTIFIANT . = expr ;
+    =               shift and go to state 50
+
+
+state 30
+
+    (10) ecrire -> ECRIRE ( . expr ) ;
+    (16) expr -> . NON IDENTIFIANT
+    (17) expr -> . NON BOOLEEN_LITERAL
+    (18) expr -> . term
+    (19) expr -> . expr DIFF expr
+    (20) expr -> . expr EGAL expr
+    (21) expr -> . expr SUP_EGAL expr
+    (22) expr -> . expr INF_EGAL expr
+    (23) expr -> . expr SUP expr
+    (24) expr -> . expr INF expr
+    (25) expr -> . expr OU expr
+    (26) expr -> . expr ET expr
+    (27) expr -> . expr MINUS term
+    (28) expr -> . expr PLUS term
+    (29) term -> . factor
+    (30) term -> . term DIV factor
+    (31) term -> . term MULT factor
+    (32) factor -> . BOOLEEN_LITERAL
+    (33) factor -> . BOOLEEN
+    (34) factor -> . ( expr )
+    (35) factor -> . IDENTIFIANT
+    (36) factor -> . ENTIER
+    NON             shift and go to state 18
+    BOOLEEN_LITERAL shift and go to state 20
+    BOOLEEN         shift and go to state 23
+    (               shift and go to state 24
+    IDENTIFIANT     shift and go to state 19
+    ENTIER          shift and go to state 25
+
+    expr                           shift and go to state 51
+    term                           shift and go to state 21
+    factor                         shift and go to state 22
+
+state 31
 
     (15) boucle -> TANTQUE expr { . listeInstructions }
     (3) listeInstructions -> . listeInstructions instruction
@@ -548,7 +681,7 @@ state 29
     ENT             shift and go to state 14
     ECRIRE          shift and go to state 15
 
-    listeInstructions              shift and go to state 43
+    listeInstructions              shift and go to state 52
     instruction                    shift and go to state 4
     boucle                         shift and go to state 5
     structure_conditionnelle       shift and go to state 6
@@ -556,224 +689,551 @@ state 29
     declaration                    shift and go to state 8
     ecrire                         shift and go to state 9
 
-state 30
-
-    (18) expr -> expr OU . expr
-    (16) expr -> . NON expr
-    (17) expr -> . term
-    (18) expr -> . expr OU expr
-    (19) expr -> . expr ET expr
-    (20) expr -> . expr MINUS term
-    (21) expr -> . expr PLUS term
-    (22) term -> . factor
-    (23) term -> . term DIV factor
-    (24) term -> . term MULT factor
-    (25) factor -> . ( expr )
-    (26) factor -> . IDENTIFIANT
-    (27) factor -> . ENTIER
-    NON             shift and go to state 18
-    (               shift and go to state 21
-    IDENTIFIANT     shift and go to state 22
-    ENTIER          shift and go to state 23
-
-    expr                           shift and go to state 44
-    term                           shift and go to state 19
-    factor                         shift and go to state 20
-
-state 31
-
-    (19) expr -> expr ET . expr
-    (16) expr -> . NON expr
-    (17) expr -> . term
-    (18) expr -> . expr OU expr
-    (19) expr -> . expr ET expr
-    (20) expr -> . expr MINUS term
-    (21) expr -> . expr PLUS term
-    (22) term -> . factor
-    (23) term -> . term DIV factor
-    (24) term -> . term MULT factor
-    (25) factor -> . ( expr )
-    (26) factor -> . IDENTIFIANT
-    (27) factor -> . ENTIER
-    NON             shift and go to state 18
-    (               shift and go to state 21
-    IDENTIFIANT     shift and go to state 22
-    ENTIER          shift and go to state 23
-
-    expr                           shift and go to state 45
-    term                           shift and go to state 19
-    factor                         shift and go to state 20
-
 state 32
 
-    (20) expr -> expr MINUS . term
-    (22) term -> . factor
-    (23) term -> . term DIV factor
-    (24) term -> . term MULT factor
-    (25) factor -> . ( expr )
-    (26) factor -> . IDENTIFIANT
-    (27) factor -> . ENTIER
-    (               shift and go to state 21
-    IDENTIFIANT     shift and go to state 22
-    ENTIER          shift and go to state 23
+    (19) expr -> expr DIFF . expr
+    (16) expr -> . NON IDENTIFIANT
+    (17) expr -> . NON BOOLEEN_LITERAL
+    (18) expr -> . term
+    (19) expr -> . expr DIFF expr
+    (20) expr -> . expr EGAL expr
+    (21) expr -> . expr SUP_EGAL expr
+    (22) expr -> . expr INF_EGAL expr
+    (23) expr -> . expr SUP expr
+    (24) expr -> . expr INF expr
+    (25) expr -> . expr OU expr
+    (26) expr -> . expr ET expr
+    (27) expr -> . expr MINUS term
+    (28) expr -> . expr PLUS term
+    (29) term -> . factor
+    (30) term -> . term DIV factor
+    (31) term -> . term MULT factor
+    (32) factor -> . BOOLEEN_LITERAL
+    (33) factor -> . BOOLEEN
+    (34) factor -> . ( expr )
+    (35) factor -> . IDENTIFIANT
+    (36) factor -> . ENTIER
+    NON             shift and go to state 18
+    BOOLEEN_LITERAL shift and go to state 20
+    BOOLEEN         shift and go to state 23
+    (               shift and go to state 24
+    IDENTIFIANT     shift and go to state 19
+    ENTIER          shift and go to state 25
 
-    term                           shift and go to state 46
-    factor                         shift and go to state 20
+    expr                           shift and go to state 53
+    term                           shift and go to state 21
+    factor                         shift and go to state 22
 
 state 33
 
-    (21) expr -> expr PLUS . term
-    (22) term -> . factor
-    (23) term -> . term DIV factor
-    (24) term -> . term MULT factor
-    (25) factor -> . ( expr )
-    (26) factor -> . IDENTIFIANT
-    (27) factor -> . ENTIER
-    (               shift and go to state 21
-    IDENTIFIANT     shift and go to state 22
-    ENTIER          shift and go to state 23
+    (20) expr -> expr EGAL . expr
+    (16) expr -> . NON IDENTIFIANT
+    (17) expr -> . NON BOOLEEN_LITERAL
+    (18) expr -> . term
+    (19) expr -> . expr DIFF expr
+    (20) expr -> . expr EGAL expr
+    (21) expr -> . expr SUP_EGAL expr
+    (22) expr -> . expr INF_EGAL expr
+    (23) expr -> . expr SUP expr
+    (24) expr -> . expr INF expr
+    (25) expr -> . expr OU expr
+    (26) expr -> . expr ET expr
+    (27) expr -> . expr MINUS term
+    (28) expr -> . expr PLUS term
+    (29) term -> . factor
+    (30) term -> . term DIV factor
+    (31) term -> . term MULT factor
+    (32) factor -> . BOOLEEN_LITERAL
+    (33) factor -> . BOOLEEN
+    (34) factor -> . ( expr )
+    (35) factor -> . IDENTIFIANT
+    (36) factor -> . ENTIER
+    NON             shift and go to state 18
+    BOOLEEN_LITERAL shift and go to state 20
+    BOOLEEN         shift and go to state 23
+    (               shift and go to state 24
+    IDENTIFIANT     shift and go to state 19
+    ENTIER          shift and go to state 25
 
-    term                           shift and go to state 47
-    factor                         shift and go to state 20
+    expr                           shift and go to state 54
+    term                           shift and go to state 21
+    factor                         shift and go to state 22
 
 state 34
 
-    (16) expr -> NON expr .
-    (18) expr -> expr . OU expr
-    (19) expr -> expr . ET expr
-    (20) expr -> expr . MINUS term
-    (21) expr -> expr . PLUS term
-    {               reduce using rule 16 (expr -> NON expr .)
-    OU              reduce using rule 16 (expr -> NON expr .)
-    ET              reduce using rule 16 (expr -> NON expr .)
-    MINUS           reduce using rule 16 (expr -> NON expr .)
-    PLUS            reduce using rule 16 (expr -> NON expr .)
-    ALORS           reduce using rule 16 (expr -> NON expr .)
-    )               reduce using rule 16 (expr -> NON expr .)
-    ;               reduce using rule 16 (expr -> NON expr .)
+    (21) expr -> expr SUP_EGAL . expr
+    (16) expr -> . NON IDENTIFIANT
+    (17) expr -> . NON BOOLEEN_LITERAL
+    (18) expr -> . term
+    (19) expr -> . expr DIFF expr
+    (20) expr -> . expr EGAL expr
+    (21) expr -> . expr SUP_EGAL expr
+    (22) expr -> . expr INF_EGAL expr
+    (23) expr -> . expr SUP expr
+    (24) expr -> . expr INF expr
+    (25) expr -> . expr OU expr
+    (26) expr -> . expr ET expr
+    (27) expr -> . expr MINUS term
+    (28) expr -> . expr PLUS term
+    (29) term -> . factor
+    (30) term -> . term DIV factor
+    (31) term -> . term MULT factor
+    (32) factor -> . BOOLEEN_LITERAL
+    (33) factor -> . BOOLEEN
+    (34) factor -> . ( expr )
+    (35) factor -> . IDENTIFIANT
+    (36) factor -> . ENTIER
+    NON             shift and go to state 18
+    BOOLEEN_LITERAL shift and go to state 20
+    BOOLEEN         shift and go to state 23
+    (               shift and go to state 24
+    IDENTIFIANT     shift and go to state 19
+    ENTIER          shift and go to state 25
 
+    expr                           shift and go to state 55
+    term                           shift and go to state 21
+    factor                         shift and go to state 22
 
 state 35
 
-    (23) term -> term DIV . factor
-    (25) factor -> . ( expr )
-    (26) factor -> . IDENTIFIANT
-    (27) factor -> . ENTIER
-    (               shift and go to state 21
-    IDENTIFIANT     shift and go to state 22
-    ENTIER          shift and go to state 23
+    (22) expr -> expr INF_EGAL . expr
+    (16) expr -> . NON IDENTIFIANT
+    (17) expr -> . NON BOOLEEN_LITERAL
+    (18) expr -> . term
+    (19) expr -> . expr DIFF expr
+    (20) expr -> . expr EGAL expr
+    (21) expr -> . expr SUP_EGAL expr
+    (22) expr -> . expr INF_EGAL expr
+    (23) expr -> . expr SUP expr
+    (24) expr -> . expr INF expr
+    (25) expr -> . expr OU expr
+    (26) expr -> . expr ET expr
+    (27) expr -> . expr MINUS term
+    (28) expr -> . expr PLUS term
+    (29) term -> . factor
+    (30) term -> . term DIV factor
+    (31) term -> . term MULT factor
+    (32) factor -> . BOOLEEN_LITERAL
+    (33) factor -> . BOOLEEN
+    (34) factor -> . ( expr )
+    (35) factor -> . IDENTIFIANT
+    (36) factor -> . ENTIER
+    NON             shift and go to state 18
+    BOOLEEN_LITERAL shift and go to state 20
+    BOOLEEN         shift and go to state 23
+    (               shift and go to state 24
+    IDENTIFIANT     shift and go to state 19
+    ENTIER          shift and go to state 25
 
-    factor                         shift and go to state 48
+    expr                           shift and go to state 56
+    term                           shift and go to state 21
+    factor                         shift and go to state 22
 
 state 36
 
-    (24) term -> term MULT . factor
-    (25) factor -> . ( expr )
-    (26) factor -> . IDENTIFIANT
-    (27) factor -> . ENTIER
-    (               shift and go to state 21
-    IDENTIFIANT     shift and go to state 22
-    ENTIER          shift and go to state 23
+    (23) expr -> expr SUP . expr
+    (16) expr -> . NON IDENTIFIANT
+    (17) expr -> . NON BOOLEEN_LITERAL
+    (18) expr -> . term
+    (19) expr -> . expr DIFF expr
+    (20) expr -> . expr EGAL expr
+    (21) expr -> . expr SUP_EGAL expr
+    (22) expr -> . expr INF_EGAL expr
+    (23) expr -> . expr SUP expr
+    (24) expr -> . expr INF expr
+    (25) expr -> . expr OU expr
+    (26) expr -> . expr ET expr
+    (27) expr -> . expr MINUS term
+    (28) expr -> . expr PLUS term
+    (29) term -> . factor
+    (30) term -> . term DIV factor
+    (31) term -> . term MULT factor
+    (32) factor -> . BOOLEEN_LITERAL
+    (33) factor -> . BOOLEEN
+    (34) factor -> . ( expr )
+    (35) factor -> . IDENTIFIANT
+    (36) factor -> . ENTIER
+    NON             shift and go to state 18
+    BOOLEEN_LITERAL shift and go to state 20
+    BOOLEEN         shift and go to state 23
+    (               shift and go to state 24
+    IDENTIFIANT     shift and go to state 19
+    ENTIER          shift and go to state 25
 
-    factor                         shift and go to state 49
+    expr                           shift and go to state 57
+    term                           shift and go to state 21
+    factor                         shift and go to state 22
 
 state 37
 
-    (25) factor -> ( expr . )
-    (18) expr -> expr . OU expr
-    (19) expr -> expr . ET expr
-    (20) expr -> expr . MINUS term
-    (21) expr -> expr . PLUS term
-    )               shift and go to state 50
-    OU              shift and go to state 30
-    ET              shift and go to state 31
-    MINUS           shift and go to state 32
-    PLUS            shift and go to state 33
+    (24) expr -> expr INF . expr
+    (16) expr -> . NON IDENTIFIANT
+    (17) expr -> . NON BOOLEEN_LITERAL
+    (18) expr -> . term
+    (19) expr -> . expr DIFF expr
+    (20) expr -> . expr EGAL expr
+    (21) expr -> . expr SUP_EGAL expr
+    (22) expr -> . expr INF_EGAL expr
+    (23) expr -> . expr SUP expr
+    (24) expr -> . expr INF expr
+    (25) expr -> . expr OU expr
+    (26) expr -> . expr ET expr
+    (27) expr -> . expr MINUS term
+    (28) expr -> . expr PLUS term
+    (29) term -> . factor
+    (30) term -> . term DIV factor
+    (31) term -> . term MULT factor
+    (32) factor -> . BOOLEEN_LITERAL
+    (33) factor -> . BOOLEEN
+    (34) factor -> . ( expr )
+    (35) factor -> . IDENTIFIANT
+    (36) factor -> . ENTIER
+    NON             shift and go to state 18
+    BOOLEEN_LITERAL shift and go to state 20
+    BOOLEEN         shift and go to state 23
+    (               shift and go to state 24
+    IDENTIFIANT     shift and go to state 19
+    ENTIER          shift and go to state 25
 
+    expr                           shift and go to state 58
+    term                           shift and go to state 21
+    factor                         shift and go to state 22
 
 state 38
 
-    (14) structure_conditionnelle -> SI expr ALORS . { listeInstructions } SINON { listeInstructions }
-    {               shift and go to state 51
+    (25) expr -> expr OU . expr
+    (16) expr -> . NON IDENTIFIANT
+    (17) expr -> . NON BOOLEEN_LITERAL
+    (18) expr -> . term
+    (19) expr -> . expr DIFF expr
+    (20) expr -> . expr EGAL expr
+    (21) expr -> . expr SUP_EGAL expr
+    (22) expr -> . expr INF_EGAL expr
+    (23) expr -> . expr SUP expr
+    (24) expr -> . expr INF expr
+    (25) expr -> . expr OU expr
+    (26) expr -> . expr ET expr
+    (27) expr -> . expr MINUS term
+    (28) expr -> . expr PLUS term
+    (29) term -> . factor
+    (30) term -> . term DIV factor
+    (31) term -> . term MULT factor
+    (32) factor -> . BOOLEEN_LITERAL
+    (33) factor -> . BOOLEEN
+    (34) factor -> . ( expr )
+    (35) factor -> . IDENTIFIANT
+    (36) factor -> . ENTIER
+    NON             shift and go to state 18
+    BOOLEEN_LITERAL shift and go to state 20
+    BOOLEEN         shift and go to state 23
+    (               shift and go to state 24
+    IDENTIFIANT     shift and go to state 19
+    ENTIER          shift and go to state 25
 
+    expr                           shift and go to state 59
+    term                           shift and go to state 21
+    factor                         shift and go to state 22
 
 state 39
 
-    (13) affectation -> IDENTIFIANT = expr . ;
-    (18) expr -> expr . OU expr
-    (19) expr -> expr . ET expr
-    (20) expr -> expr . MINUS term
-    (21) expr -> expr . PLUS term
-    ;               shift and go to state 52
-    OU              shift and go to state 30
-    ET              shift and go to state 31
-    MINUS           shift and go to state 32
-    PLUS            shift and go to state 33
+    (26) expr -> expr ET . expr
+    (16) expr -> . NON IDENTIFIANT
+    (17) expr -> . NON BOOLEEN_LITERAL
+    (18) expr -> . term
+    (19) expr -> . expr DIFF expr
+    (20) expr -> . expr EGAL expr
+    (21) expr -> . expr SUP_EGAL expr
+    (22) expr -> . expr INF_EGAL expr
+    (23) expr -> . expr SUP expr
+    (24) expr -> . expr INF expr
+    (25) expr -> . expr OU expr
+    (26) expr -> . expr ET expr
+    (27) expr -> . expr MINUS term
+    (28) expr -> . expr PLUS term
+    (29) term -> . factor
+    (30) term -> . term DIV factor
+    (31) term -> . term MULT factor
+    (32) factor -> . BOOLEEN_LITERAL
+    (33) factor -> . BOOLEEN
+    (34) factor -> . ( expr )
+    (35) factor -> . IDENTIFIANT
+    (36) factor -> . ENTIER
+    NON             shift and go to state 18
+    BOOLEEN_LITERAL shift and go to state 20
+    BOOLEEN         shift and go to state 23
+    (               shift and go to state 24
+    IDENTIFIANT     shift and go to state 19
+    ENTIER          shift and go to state 25
 
+    expr                           shift and go to state 60
+    term                           shift and go to state 21
+    factor                         shift and go to state 22
 
 state 40
 
-    (11) declaration -> BOOLEEN IDENTIFIANT = . expr ;
-    (16) expr -> . NON expr
-    (17) expr -> . term
-    (18) expr -> . expr OU expr
-    (19) expr -> . expr ET expr
-    (20) expr -> . expr MINUS term
-    (21) expr -> . expr PLUS term
-    (22) term -> . factor
-    (23) term -> . term DIV factor
-    (24) term -> . term MULT factor
-    (25) factor -> . ( expr )
-    (26) factor -> . IDENTIFIANT
-    (27) factor -> . ENTIER
-    NON             shift and go to state 18
-    (               shift and go to state 21
-    IDENTIFIANT     shift and go to state 22
-    ENTIER          shift and go to state 23
+    (27) expr -> expr MINUS . term
+    (29) term -> . factor
+    (30) term -> . term DIV factor
+    (31) term -> . term MULT factor
+    (32) factor -> . BOOLEEN_LITERAL
+    (33) factor -> . BOOLEEN
+    (34) factor -> . ( expr )
+    (35) factor -> . IDENTIFIANT
+    (36) factor -> . ENTIER
+    BOOLEEN_LITERAL shift and go to state 20
+    BOOLEEN         shift and go to state 23
+    (               shift and go to state 24
+    IDENTIFIANT     shift and go to state 19
+    ENTIER          shift and go to state 25
 
-    expr                           shift and go to state 53
-    term                           shift and go to state 19
-    factor                         shift and go to state 20
+    term                           shift and go to state 61
+    factor                         shift and go to state 22
 
 state 41
 
-    (12) declaration -> ENT IDENTIFIANT = . expr ;
-    (16) expr -> . NON expr
-    (17) expr -> . term
-    (18) expr -> . expr OU expr
-    (19) expr -> . expr ET expr
-    (20) expr -> . expr MINUS term
-    (21) expr -> . expr PLUS term
-    (22) term -> . factor
-    (23) term -> . term DIV factor
-    (24) term -> . term MULT factor
-    (25) factor -> . ( expr )
-    (26) factor -> . IDENTIFIANT
-    (27) factor -> . ENTIER
-    NON             shift and go to state 18
-    (               shift and go to state 21
-    IDENTIFIANT     shift and go to state 22
-    ENTIER          shift and go to state 23
+    (28) expr -> expr PLUS . term
+    (29) term -> . factor
+    (30) term -> . term DIV factor
+    (31) term -> . term MULT factor
+    (32) factor -> . BOOLEEN_LITERAL
+    (33) factor -> . BOOLEEN
+    (34) factor -> . ( expr )
+    (35) factor -> . IDENTIFIANT
+    (36) factor -> . ENTIER
+    BOOLEEN_LITERAL shift and go to state 20
+    BOOLEEN         shift and go to state 23
+    (               shift and go to state 24
+    IDENTIFIANT     shift and go to state 19
+    ENTIER          shift and go to state 25
 
-    expr                           shift and go to state 54
-    term                           shift and go to state 19
-    factor                         shift and go to state 20
+    term                           shift and go to state 62
+    factor                         shift and go to state 22
 
 state 42
 
-    (10) ecrire -> ECRIRE ( expr . ) ;
-    (18) expr -> expr . OU expr
-    (19) expr -> expr . ET expr
-    (20) expr -> expr . MINUS term
-    (21) expr -> expr . PLUS term
-    )               shift and go to state 55
-    OU              shift and go to state 30
-    ET              shift and go to state 31
-    MINUS           shift and go to state 32
-    PLUS            shift and go to state 33
+    (16) expr -> NON IDENTIFIANT .
+    {               reduce using rule 16 (expr -> NON IDENTIFIANT .)
+    DIFF            reduce using rule 16 (expr -> NON IDENTIFIANT .)
+    EGAL            reduce using rule 16 (expr -> NON IDENTIFIANT .)
+    SUP_EGAL        reduce using rule 16 (expr -> NON IDENTIFIANT .)
+    INF_EGAL        reduce using rule 16 (expr -> NON IDENTIFIANT .)
+    SUP             reduce using rule 16 (expr -> NON IDENTIFIANT .)
+    INF             reduce using rule 16 (expr -> NON IDENTIFIANT .)
+    OU              reduce using rule 16 (expr -> NON IDENTIFIANT .)
+    ET              reduce using rule 16 (expr -> NON IDENTIFIANT .)
+    MINUS           reduce using rule 16 (expr -> NON IDENTIFIANT .)
+    PLUS            reduce using rule 16 (expr -> NON IDENTIFIANT .)
+    ALORS           reduce using rule 16 (expr -> NON IDENTIFIANT .)
+    )               reduce using rule 16 (expr -> NON IDENTIFIANT .)
+    ;               reduce using rule 16 (expr -> NON IDENTIFIANT .)
 
 
 state 43
+
+    (17) expr -> NON BOOLEEN_LITERAL .
+    {               reduce using rule 17 (expr -> NON BOOLEEN_LITERAL .)
+    DIFF            reduce using rule 17 (expr -> NON BOOLEEN_LITERAL .)
+    EGAL            reduce using rule 17 (expr -> NON BOOLEEN_LITERAL .)
+    SUP_EGAL        reduce using rule 17 (expr -> NON BOOLEEN_LITERAL .)
+    INF_EGAL        reduce using rule 17 (expr -> NON BOOLEEN_LITERAL .)
+    SUP             reduce using rule 17 (expr -> NON BOOLEEN_LITERAL .)
+    INF             reduce using rule 17 (expr -> NON BOOLEEN_LITERAL .)
+    OU              reduce using rule 17 (expr -> NON BOOLEEN_LITERAL .)
+    ET              reduce using rule 17 (expr -> NON BOOLEEN_LITERAL .)
+    MINUS           reduce using rule 17 (expr -> NON BOOLEEN_LITERAL .)
+    PLUS            reduce using rule 17 (expr -> NON BOOLEEN_LITERAL .)
+    ALORS           reduce using rule 17 (expr -> NON BOOLEEN_LITERAL .)
+    )               reduce using rule 17 (expr -> NON BOOLEEN_LITERAL .)
+    ;               reduce using rule 17 (expr -> NON BOOLEEN_LITERAL .)
+
+
+state 44
+
+    (30) term -> term DIV . factor
+    (32) factor -> . BOOLEEN_LITERAL
+    (33) factor -> . BOOLEEN
+    (34) factor -> . ( expr )
+    (35) factor -> . IDENTIFIANT
+    (36) factor -> . ENTIER
+    BOOLEEN_LITERAL shift and go to state 20
+    BOOLEEN         shift and go to state 23
+    (               shift and go to state 24
+    IDENTIFIANT     shift and go to state 19
+    ENTIER          shift and go to state 25
+
+    factor                         shift and go to state 63
+
+state 45
+
+    (31) term -> term MULT . factor
+    (32) factor -> . BOOLEEN_LITERAL
+    (33) factor -> . BOOLEEN
+    (34) factor -> . ( expr )
+    (35) factor -> . IDENTIFIANT
+    (36) factor -> . ENTIER
+    BOOLEEN_LITERAL shift and go to state 20
+    BOOLEEN         shift and go to state 23
+    (               shift and go to state 24
+    IDENTIFIANT     shift and go to state 19
+    ENTIER          shift and go to state 25
+
+    factor                         shift and go to state 64
+
+state 46
+
+    (34) factor -> ( expr . )
+    (19) expr -> expr . DIFF expr
+    (20) expr -> expr . EGAL expr
+    (21) expr -> expr . SUP_EGAL expr
+    (22) expr -> expr . INF_EGAL expr
+    (23) expr -> expr . SUP expr
+    (24) expr -> expr . INF expr
+    (25) expr -> expr . OU expr
+    (26) expr -> expr . ET expr
+    (27) expr -> expr . MINUS term
+    (28) expr -> expr . PLUS term
+    )               shift and go to state 65
+    DIFF            shift and go to state 32
+    EGAL            shift and go to state 33
+    SUP_EGAL        shift and go to state 34
+    INF_EGAL        shift and go to state 35
+    SUP             shift and go to state 36
+    INF             shift and go to state 37
+    OU              shift and go to state 38
+    ET              shift and go to state 39
+    MINUS           shift and go to state 40
+    PLUS            shift and go to state 41
+
+
+state 47
+
+    (14) structure_conditionnelle -> SI expr ALORS . { listeInstructions } SINON { listeInstructions }
+    {               shift and go to state 66
+
+
+state 48
+
+    (13) affectation -> IDENTIFIANT = expr . ;
+    (19) expr -> expr . DIFF expr
+    (20) expr -> expr . EGAL expr
+    (21) expr -> expr . SUP_EGAL expr
+    (22) expr -> expr . INF_EGAL expr
+    (23) expr -> expr . SUP expr
+    (24) expr -> expr . INF expr
+    (25) expr -> expr . OU expr
+    (26) expr -> expr . ET expr
+    (27) expr -> expr . MINUS term
+    (28) expr -> expr . PLUS term
+    ;               shift and go to state 67
+    DIFF            shift and go to state 32
+    EGAL            shift and go to state 33
+    SUP_EGAL        shift and go to state 34
+    INF_EGAL        shift and go to state 35
+    SUP             shift and go to state 36
+    INF             shift and go to state 37
+    OU              shift and go to state 38
+    ET              shift and go to state 39
+    MINUS           shift and go to state 40
+    PLUS            shift and go to state 41
+
+
+state 49
+
+    (11) declaration -> BOOLEEN IDENTIFIANT = . expr ;
+    (16) expr -> . NON IDENTIFIANT
+    (17) expr -> . NON BOOLEEN_LITERAL
+    (18) expr -> . term
+    (19) expr -> . expr DIFF expr
+    (20) expr -> . expr EGAL expr
+    (21) expr -> . expr SUP_EGAL expr
+    (22) expr -> . expr INF_EGAL expr
+    (23) expr -> . expr SUP expr
+    (24) expr -> . expr INF expr
+    (25) expr -> . expr OU expr
+    (26) expr -> . expr ET expr
+    (27) expr -> . expr MINUS term
+    (28) expr -> . expr PLUS term
+    (29) term -> . factor
+    (30) term -> . term DIV factor
+    (31) term -> . term MULT factor
+    (32) factor -> . BOOLEEN_LITERAL
+    (33) factor -> . BOOLEEN
+    (34) factor -> . ( expr )
+    (35) factor -> . IDENTIFIANT
+    (36) factor -> . ENTIER
+    NON             shift and go to state 18
+    BOOLEEN_LITERAL shift and go to state 20
+    BOOLEEN         shift and go to state 23
+    (               shift and go to state 24
+    IDENTIFIANT     shift and go to state 19
+    ENTIER          shift and go to state 25
+
+    expr                           shift and go to state 68
+    term                           shift and go to state 21
+    factor                         shift and go to state 22
+
+state 50
+
+    (12) declaration -> ENT IDENTIFIANT = . expr ;
+    (16) expr -> . NON IDENTIFIANT
+    (17) expr -> . NON BOOLEEN_LITERAL
+    (18) expr -> . term
+    (19) expr -> . expr DIFF expr
+    (20) expr -> . expr EGAL expr
+    (21) expr -> . expr SUP_EGAL expr
+    (22) expr -> . expr INF_EGAL expr
+    (23) expr -> . expr SUP expr
+    (24) expr -> . expr INF expr
+    (25) expr -> . expr OU expr
+    (26) expr -> . expr ET expr
+    (27) expr -> . expr MINUS term
+    (28) expr -> . expr PLUS term
+    (29) term -> . factor
+    (30) term -> . term DIV factor
+    (31) term -> . term MULT factor
+    (32) factor -> . BOOLEEN_LITERAL
+    (33) factor -> . BOOLEEN
+    (34) factor -> . ( expr )
+    (35) factor -> . IDENTIFIANT
+    (36) factor -> . ENTIER
+    NON             shift and go to state 18
+    BOOLEEN_LITERAL shift and go to state 20
+    BOOLEEN         shift and go to state 23
+    (               shift and go to state 24
+    IDENTIFIANT     shift and go to state 19
+    ENTIER          shift and go to state 25
+
+    expr                           shift and go to state 69
+    term                           shift and go to state 21
+    factor                         shift and go to state 22
+
+state 51
+
+    (10) ecrire -> ECRIRE ( expr . ) ;
+    (19) expr -> expr . DIFF expr
+    (20) expr -> expr . EGAL expr
+    (21) expr -> expr . SUP_EGAL expr
+    (22) expr -> expr . INF_EGAL expr
+    (23) expr -> expr . SUP expr
+    (24) expr -> expr . INF expr
+    (25) expr -> expr . OU expr
+    (26) expr -> expr . ET expr
+    (27) expr -> expr . MINUS term
+    (28) expr -> expr . PLUS term
+    )               shift and go to state 70
+    DIFF            shift and go to state 32
+    EGAL            shift and go to state 33
+    SUP_EGAL        shift and go to state 34
+    INF_EGAL        shift and go to state 35
+    SUP             shift and go to state 36
+    INF             shift and go to state 37
+    OU              shift and go to state 38
+    ET              shift and go to state 39
+    MINUS           shift and go to state 40
+    PLUS            shift and go to state 41
+
+
+state 52
 
     (15) boucle -> TANTQUE expr { listeInstructions . }
     (3) listeInstructions -> listeInstructions . instruction
@@ -788,7 +1248,7 @@ state 43
     (11) declaration -> . BOOLEEN IDENTIFIANT = expr ;
     (12) declaration -> . ENT IDENTIFIANT = expr ;
     (10) ecrire -> . ECRIRE ( expr ) ;
-    }               shift and go to state 56
+    }               shift and go to state 71
     TANTQUE         shift and go to state 10
     SI              shift and go to state 11
     IDENTIFIANT     shift and go to state 12
@@ -803,120 +1263,348 @@ state 43
     declaration                    shift and go to state 8
     ecrire                         shift and go to state 9
 
-state 44
+state 53
 
-    (18) expr -> expr OU expr .
-    (18) expr -> expr . OU expr
-    (19) expr -> expr . ET expr
-    (20) expr -> expr . MINUS term
-    (21) expr -> expr . PLUS term
-    {               reduce using rule 18 (expr -> expr OU expr .)
-    OU              reduce using rule 18 (expr -> expr OU expr .)
-    ET              reduce using rule 18 (expr -> expr OU expr .)
-    MINUS           reduce using rule 18 (expr -> expr OU expr .)
-    PLUS            reduce using rule 18 (expr -> expr OU expr .)
-    ALORS           reduce using rule 18 (expr -> expr OU expr .)
-    )               reduce using rule 18 (expr -> expr OU expr .)
-    ;               reduce using rule 18 (expr -> expr OU expr .)
-
-
-state 45
-
-    (19) expr -> expr ET expr .
-    (18) expr -> expr . OU expr
-    (19) expr -> expr . ET expr
-    (20) expr -> expr . MINUS term
-    (21) expr -> expr . PLUS term
-    {               reduce using rule 19 (expr -> expr ET expr .)
-    ET              reduce using rule 19 (expr -> expr ET expr .)
-    MINUS           reduce using rule 19 (expr -> expr ET expr .)
-    PLUS            reduce using rule 19 (expr -> expr ET expr .)
-    ALORS           reduce using rule 19 (expr -> expr ET expr .)
-    )               reduce using rule 19 (expr -> expr ET expr .)
-    ;               reduce using rule 19 (expr -> expr ET expr .)
-    OU              shift and go to state 30
+    (19) expr -> expr DIFF expr .
+    (19) expr -> expr . DIFF expr
+    (20) expr -> expr . EGAL expr
+    (21) expr -> expr . SUP_EGAL expr
+    (22) expr -> expr . INF_EGAL expr
+    (23) expr -> expr . SUP expr
+    (24) expr -> expr . INF expr
+    (25) expr -> expr . OU expr
+    (26) expr -> expr . ET expr
+    (27) expr -> expr . MINUS term
+    (28) expr -> expr . PLUS term
+    {               reduce using rule 19 (expr -> expr DIFF expr .)
+    DIFF            reduce using rule 19 (expr -> expr DIFF expr .)
+    EGAL            reduce using rule 19 (expr -> expr DIFF expr .)
+    SUP_EGAL        reduce using rule 19 (expr -> expr DIFF expr .)
+    INF_EGAL        reduce using rule 19 (expr -> expr DIFF expr .)
+    SUP             reduce using rule 19 (expr -> expr DIFF expr .)
+    INF             reduce using rule 19 (expr -> expr DIFF expr .)
+    ALORS           reduce using rule 19 (expr -> expr DIFF expr .)
+    )               reduce using rule 19 (expr -> expr DIFF expr .)
+    ;               reduce using rule 19 (expr -> expr DIFF expr .)
+    OU              shift and go to state 38
+    ET              shift and go to state 39
+    MINUS           shift and go to state 40
+    PLUS            shift and go to state 41
 
 
-state 46
+state 54
 
-    (20) expr -> expr MINUS term .
-    (23) term -> term . DIV factor
-    (24) term -> term . MULT factor
-    {               reduce using rule 20 (expr -> expr MINUS term .)
-    OU              reduce using rule 20 (expr -> expr MINUS term .)
-    ET              reduce using rule 20 (expr -> expr MINUS term .)
-    MINUS           reduce using rule 20 (expr -> expr MINUS term .)
-    PLUS            reduce using rule 20 (expr -> expr MINUS term .)
-    ALORS           reduce using rule 20 (expr -> expr MINUS term .)
-    )               reduce using rule 20 (expr -> expr MINUS term .)
-    ;               reduce using rule 20 (expr -> expr MINUS term .)
-    DIV             shift and go to state 35
-    MULT            shift and go to state 36
-
-
-state 47
-
-    (21) expr -> expr PLUS term .
-    (23) term -> term . DIV factor
-    (24) term -> term . MULT factor
-    {               reduce using rule 21 (expr -> expr PLUS term .)
-    OU              reduce using rule 21 (expr -> expr PLUS term .)
-    ET              reduce using rule 21 (expr -> expr PLUS term .)
-    MINUS           reduce using rule 21 (expr -> expr PLUS term .)
-    PLUS            reduce using rule 21 (expr -> expr PLUS term .)
-    ALORS           reduce using rule 21 (expr -> expr PLUS term .)
-    )               reduce using rule 21 (expr -> expr PLUS term .)
-    ;               reduce using rule 21 (expr -> expr PLUS term .)
-    DIV             shift and go to state 35
-    MULT            shift and go to state 36
+    (20) expr -> expr EGAL expr .
+    (19) expr -> expr . DIFF expr
+    (20) expr -> expr . EGAL expr
+    (21) expr -> expr . SUP_EGAL expr
+    (22) expr -> expr . INF_EGAL expr
+    (23) expr -> expr . SUP expr
+    (24) expr -> expr . INF expr
+    (25) expr -> expr . OU expr
+    (26) expr -> expr . ET expr
+    (27) expr -> expr . MINUS term
+    (28) expr -> expr . PLUS term
+    {               reduce using rule 20 (expr -> expr EGAL expr .)
+    DIFF            reduce using rule 20 (expr -> expr EGAL expr .)
+    EGAL            reduce using rule 20 (expr -> expr EGAL expr .)
+    SUP_EGAL        reduce using rule 20 (expr -> expr EGAL expr .)
+    INF_EGAL        reduce using rule 20 (expr -> expr EGAL expr .)
+    SUP             reduce using rule 20 (expr -> expr EGAL expr .)
+    INF             reduce using rule 20 (expr -> expr EGAL expr .)
+    ALORS           reduce using rule 20 (expr -> expr EGAL expr .)
+    )               reduce using rule 20 (expr -> expr EGAL expr .)
+    ;               reduce using rule 20 (expr -> expr EGAL expr .)
+    OU              shift and go to state 38
+    ET              shift and go to state 39
+    MINUS           shift and go to state 40
+    PLUS            shift and go to state 41
 
 
-state 48
+state 55
 
-    (23) term -> term DIV factor .
-    DIV             reduce using rule 23 (term -> term DIV factor .)
-    MULT            reduce using rule 23 (term -> term DIV factor .)
-    {               reduce using rule 23 (term -> term DIV factor .)
-    OU              reduce using rule 23 (term -> term DIV factor .)
-    ET              reduce using rule 23 (term -> term DIV factor .)
-    MINUS           reduce using rule 23 (term -> term DIV factor .)
-    PLUS            reduce using rule 23 (term -> term DIV factor .)
-    ALORS           reduce using rule 23 (term -> term DIV factor .)
-    )               reduce using rule 23 (term -> term DIV factor .)
-    ;               reduce using rule 23 (term -> term DIV factor .)
-
-
-state 49
-
-    (24) term -> term MULT factor .
-    DIV             reduce using rule 24 (term -> term MULT factor .)
-    MULT            reduce using rule 24 (term -> term MULT factor .)
-    {               reduce using rule 24 (term -> term MULT factor .)
-    OU              reduce using rule 24 (term -> term MULT factor .)
-    ET              reduce using rule 24 (term -> term MULT factor .)
-    MINUS           reduce using rule 24 (term -> term MULT factor .)
-    PLUS            reduce using rule 24 (term -> term MULT factor .)
-    ALORS           reduce using rule 24 (term -> term MULT factor .)
-    )               reduce using rule 24 (term -> term MULT factor .)
-    ;               reduce using rule 24 (term -> term MULT factor .)
-
-
-state 50
-
-    (25) factor -> ( expr ) .
-    DIV             reduce using rule 25 (factor -> ( expr ) .)
-    MULT            reduce using rule 25 (factor -> ( expr ) .)
-    {               reduce using rule 25 (factor -> ( expr ) .)
-    OU              reduce using rule 25 (factor -> ( expr ) .)
-    ET              reduce using rule 25 (factor -> ( expr ) .)
-    MINUS           reduce using rule 25 (factor -> ( expr ) .)
-    PLUS            reduce using rule 25 (factor -> ( expr ) .)
-    ALORS           reduce using rule 25 (factor -> ( expr ) .)
-    )               reduce using rule 25 (factor -> ( expr ) .)
-    ;               reduce using rule 25 (factor -> ( expr ) .)
+    (21) expr -> expr SUP_EGAL expr .
+    (19) expr -> expr . DIFF expr
+    (20) expr -> expr . EGAL expr
+    (21) expr -> expr . SUP_EGAL expr
+    (22) expr -> expr . INF_EGAL expr
+    (23) expr -> expr . SUP expr
+    (24) expr -> expr . INF expr
+    (25) expr -> expr . OU expr
+    (26) expr -> expr . ET expr
+    (27) expr -> expr . MINUS term
+    (28) expr -> expr . PLUS term
+    {               reduce using rule 21 (expr -> expr SUP_EGAL expr .)
+    DIFF            reduce using rule 21 (expr -> expr SUP_EGAL expr .)
+    EGAL            reduce using rule 21 (expr -> expr SUP_EGAL expr .)
+    SUP_EGAL        reduce using rule 21 (expr -> expr SUP_EGAL expr .)
+    INF_EGAL        reduce using rule 21 (expr -> expr SUP_EGAL expr .)
+    SUP             reduce using rule 21 (expr -> expr SUP_EGAL expr .)
+    INF             reduce using rule 21 (expr -> expr SUP_EGAL expr .)
+    ALORS           reduce using rule 21 (expr -> expr SUP_EGAL expr .)
+    )               reduce using rule 21 (expr -> expr SUP_EGAL expr .)
+    ;               reduce using rule 21 (expr -> expr SUP_EGAL expr .)
+    OU              shift and go to state 38
+    ET              shift and go to state 39
+    MINUS           shift and go to state 40
+    PLUS            shift and go to state 41
 
 
-state 51
+state 56
+
+    (22) expr -> expr INF_EGAL expr .
+    (19) expr -> expr . DIFF expr
+    (20) expr -> expr . EGAL expr
+    (21) expr -> expr . SUP_EGAL expr
+    (22) expr -> expr . INF_EGAL expr
+    (23) expr -> expr . SUP expr
+    (24) expr -> expr . INF expr
+    (25) expr -> expr . OU expr
+    (26) expr -> expr . ET expr
+    (27) expr -> expr . MINUS term
+    (28) expr -> expr . PLUS term
+    {               reduce using rule 22 (expr -> expr INF_EGAL expr .)
+    DIFF            reduce using rule 22 (expr -> expr INF_EGAL expr .)
+    EGAL            reduce using rule 22 (expr -> expr INF_EGAL expr .)
+    SUP_EGAL        reduce using rule 22 (expr -> expr INF_EGAL expr .)
+    INF_EGAL        reduce using rule 22 (expr -> expr INF_EGAL expr .)
+    SUP             reduce using rule 22 (expr -> expr INF_EGAL expr .)
+    INF             reduce using rule 22 (expr -> expr INF_EGAL expr .)
+    ALORS           reduce using rule 22 (expr -> expr INF_EGAL expr .)
+    )               reduce using rule 22 (expr -> expr INF_EGAL expr .)
+    ;               reduce using rule 22 (expr -> expr INF_EGAL expr .)
+    OU              shift and go to state 38
+    ET              shift and go to state 39
+    MINUS           shift and go to state 40
+    PLUS            shift and go to state 41
+
+
+state 57
+
+    (23) expr -> expr SUP expr .
+    (19) expr -> expr . DIFF expr
+    (20) expr -> expr . EGAL expr
+    (21) expr -> expr . SUP_EGAL expr
+    (22) expr -> expr . INF_EGAL expr
+    (23) expr -> expr . SUP expr
+    (24) expr -> expr . INF expr
+    (25) expr -> expr . OU expr
+    (26) expr -> expr . ET expr
+    (27) expr -> expr . MINUS term
+    (28) expr -> expr . PLUS term
+    {               reduce using rule 23 (expr -> expr SUP expr .)
+    DIFF            reduce using rule 23 (expr -> expr SUP expr .)
+    EGAL            reduce using rule 23 (expr -> expr SUP expr .)
+    SUP_EGAL        reduce using rule 23 (expr -> expr SUP expr .)
+    INF_EGAL        reduce using rule 23 (expr -> expr SUP expr .)
+    SUP             reduce using rule 23 (expr -> expr SUP expr .)
+    INF             reduce using rule 23 (expr -> expr SUP expr .)
+    ALORS           reduce using rule 23 (expr -> expr SUP expr .)
+    )               reduce using rule 23 (expr -> expr SUP expr .)
+    ;               reduce using rule 23 (expr -> expr SUP expr .)
+    OU              shift and go to state 38
+    ET              shift and go to state 39
+    MINUS           shift and go to state 40
+    PLUS            shift and go to state 41
+
+
+state 58
+
+    (24) expr -> expr INF expr .
+    (19) expr -> expr . DIFF expr
+    (20) expr -> expr . EGAL expr
+    (21) expr -> expr . SUP_EGAL expr
+    (22) expr -> expr . INF_EGAL expr
+    (23) expr -> expr . SUP expr
+    (24) expr -> expr . INF expr
+    (25) expr -> expr . OU expr
+    (26) expr -> expr . ET expr
+    (27) expr -> expr . MINUS term
+    (28) expr -> expr . PLUS term
+    {               reduce using rule 24 (expr -> expr INF expr .)
+    DIFF            reduce using rule 24 (expr -> expr INF expr .)
+    EGAL            reduce using rule 24 (expr -> expr INF expr .)
+    SUP_EGAL        reduce using rule 24 (expr -> expr INF expr .)
+    INF_EGAL        reduce using rule 24 (expr -> expr INF expr .)
+    SUP             reduce using rule 24 (expr -> expr INF expr .)
+    INF             reduce using rule 24 (expr -> expr INF expr .)
+    ALORS           reduce using rule 24 (expr -> expr INF expr .)
+    )               reduce using rule 24 (expr -> expr INF expr .)
+    ;               reduce using rule 24 (expr -> expr INF expr .)
+    OU              shift and go to state 38
+    ET              shift and go to state 39
+    MINUS           shift and go to state 40
+    PLUS            shift and go to state 41
+
+
+state 59
+
+    (25) expr -> expr OU expr .
+    (19) expr -> expr . DIFF expr
+    (20) expr -> expr . EGAL expr
+    (21) expr -> expr . SUP_EGAL expr
+    (22) expr -> expr . INF_EGAL expr
+    (23) expr -> expr . SUP expr
+    (24) expr -> expr . INF expr
+    (25) expr -> expr . OU expr
+    (26) expr -> expr . ET expr
+    (27) expr -> expr . MINUS term
+    (28) expr -> expr . PLUS term
+    {               reduce using rule 25 (expr -> expr OU expr .)
+    DIFF            reduce using rule 25 (expr -> expr OU expr .)
+    EGAL            reduce using rule 25 (expr -> expr OU expr .)
+    SUP_EGAL        reduce using rule 25 (expr -> expr OU expr .)
+    INF_EGAL        reduce using rule 25 (expr -> expr OU expr .)
+    SUP             reduce using rule 25 (expr -> expr OU expr .)
+    INF             reduce using rule 25 (expr -> expr OU expr .)
+    OU              reduce using rule 25 (expr -> expr OU expr .)
+    ET              reduce using rule 25 (expr -> expr OU expr .)
+    MINUS           reduce using rule 25 (expr -> expr OU expr .)
+    PLUS            reduce using rule 25 (expr -> expr OU expr .)
+    ALORS           reduce using rule 25 (expr -> expr OU expr .)
+    )               reduce using rule 25 (expr -> expr OU expr .)
+    ;               reduce using rule 25 (expr -> expr OU expr .)
+
+
+state 60
+
+    (26) expr -> expr ET expr .
+    (19) expr -> expr . DIFF expr
+    (20) expr -> expr . EGAL expr
+    (21) expr -> expr . SUP_EGAL expr
+    (22) expr -> expr . INF_EGAL expr
+    (23) expr -> expr . SUP expr
+    (24) expr -> expr . INF expr
+    (25) expr -> expr . OU expr
+    (26) expr -> expr . ET expr
+    (27) expr -> expr . MINUS term
+    (28) expr -> expr . PLUS term
+    {               reduce using rule 26 (expr -> expr ET expr .)
+    DIFF            reduce using rule 26 (expr -> expr ET expr .)
+    EGAL            reduce using rule 26 (expr -> expr ET expr .)
+    SUP_EGAL        reduce using rule 26 (expr -> expr ET expr .)
+    INF_EGAL        reduce using rule 26 (expr -> expr ET expr .)
+    SUP             reduce using rule 26 (expr -> expr ET expr .)
+    INF             reduce using rule 26 (expr -> expr ET expr .)
+    ET              reduce using rule 26 (expr -> expr ET expr .)
+    MINUS           reduce using rule 26 (expr -> expr ET expr .)
+    PLUS            reduce using rule 26 (expr -> expr ET expr .)
+    ALORS           reduce using rule 26 (expr -> expr ET expr .)
+    )               reduce using rule 26 (expr -> expr ET expr .)
+    ;               reduce using rule 26 (expr -> expr ET expr .)
+    OU              shift and go to state 38
+
+
+state 61
+
+    (27) expr -> expr MINUS term .
+    (30) term -> term . DIV factor
+    (31) term -> term . MULT factor
+    {               reduce using rule 27 (expr -> expr MINUS term .)
+    DIFF            reduce using rule 27 (expr -> expr MINUS term .)
+    EGAL            reduce using rule 27 (expr -> expr MINUS term .)
+    SUP_EGAL        reduce using rule 27 (expr -> expr MINUS term .)
+    INF_EGAL        reduce using rule 27 (expr -> expr MINUS term .)
+    SUP             reduce using rule 27 (expr -> expr MINUS term .)
+    INF             reduce using rule 27 (expr -> expr MINUS term .)
+    OU              reduce using rule 27 (expr -> expr MINUS term .)
+    ET              reduce using rule 27 (expr -> expr MINUS term .)
+    MINUS           reduce using rule 27 (expr -> expr MINUS term .)
+    PLUS            reduce using rule 27 (expr -> expr MINUS term .)
+    ALORS           reduce using rule 27 (expr -> expr MINUS term .)
+    )               reduce using rule 27 (expr -> expr MINUS term .)
+    ;               reduce using rule 27 (expr -> expr MINUS term .)
+    DIV             shift and go to state 44
+    MULT            shift and go to state 45
+
+
+state 62
+
+    (28) expr -> expr PLUS term .
+    (30) term -> term . DIV factor
+    (31) term -> term . MULT factor
+    {               reduce using rule 28 (expr -> expr PLUS term .)
+    DIFF            reduce using rule 28 (expr -> expr PLUS term .)
+    EGAL            reduce using rule 28 (expr -> expr PLUS term .)
+    SUP_EGAL        reduce using rule 28 (expr -> expr PLUS term .)
+    INF_EGAL        reduce using rule 28 (expr -> expr PLUS term .)
+    SUP             reduce using rule 28 (expr -> expr PLUS term .)
+    INF             reduce using rule 28 (expr -> expr PLUS term .)
+    OU              reduce using rule 28 (expr -> expr PLUS term .)
+    ET              reduce using rule 28 (expr -> expr PLUS term .)
+    MINUS           reduce using rule 28 (expr -> expr PLUS term .)
+    PLUS            reduce using rule 28 (expr -> expr PLUS term .)
+    ALORS           reduce using rule 28 (expr -> expr PLUS term .)
+    )               reduce using rule 28 (expr -> expr PLUS term .)
+    ;               reduce using rule 28 (expr -> expr PLUS term .)
+    DIV             shift and go to state 44
+    MULT            shift and go to state 45
+
+
+state 63
+
+    (30) term -> term DIV factor .
+    DIV             reduce using rule 30 (term -> term DIV factor .)
+    MULT            reduce using rule 30 (term -> term DIV factor .)
+    {               reduce using rule 30 (term -> term DIV factor .)
+    DIFF            reduce using rule 30 (term -> term DIV factor .)
+    EGAL            reduce using rule 30 (term -> term DIV factor .)
+    SUP_EGAL        reduce using rule 30 (term -> term DIV factor .)
+    INF_EGAL        reduce using rule 30 (term -> term DIV factor .)
+    SUP             reduce using rule 30 (term -> term DIV factor .)
+    INF             reduce using rule 30 (term -> term DIV factor .)
+    OU              reduce using rule 30 (term -> term DIV factor .)
+    ET              reduce using rule 30 (term -> term DIV factor .)
+    MINUS           reduce using rule 30 (term -> term DIV factor .)
+    PLUS            reduce using rule 30 (term -> term DIV factor .)
+    ALORS           reduce using rule 30 (term -> term DIV factor .)
+    )               reduce using rule 30 (term -> term DIV factor .)
+    ;               reduce using rule 30 (term -> term DIV factor .)
+
+
+state 64
+
+    (31) term -> term MULT factor .
+    DIV             reduce using rule 31 (term -> term MULT factor .)
+    MULT            reduce using rule 31 (term -> term MULT factor .)
+    {               reduce using rule 31 (term -> term MULT factor .)
+    DIFF            reduce using rule 31 (term -> term MULT factor .)
+    EGAL            reduce using rule 31 (term -> term MULT factor .)
+    SUP_EGAL        reduce using rule 31 (term -> term MULT factor .)
+    INF_EGAL        reduce using rule 31 (term -> term MULT factor .)
+    SUP             reduce using rule 31 (term -> term MULT factor .)
+    INF             reduce using rule 31 (term -> term MULT factor .)
+    OU              reduce using rule 31 (term -> term MULT factor .)
+    ET              reduce using rule 31 (term -> term MULT factor .)
+    MINUS           reduce using rule 31 (term -> term MULT factor .)
+    PLUS            reduce using rule 31 (term -> term MULT factor .)
+    ALORS           reduce using rule 31 (term -> term MULT factor .)
+    )               reduce using rule 31 (term -> term MULT factor .)
+    ;               reduce using rule 31 (term -> term MULT factor .)
+
+
+state 65
+
+    (34) factor -> ( expr ) .
+    DIV             reduce using rule 34 (factor -> ( expr ) .)
+    MULT            reduce using rule 34 (factor -> ( expr ) .)
+    {               reduce using rule 34 (factor -> ( expr ) .)
+    DIFF            reduce using rule 34 (factor -> ( expr ) .)
+    EGAL            reduce using rule 34 (factor -> ( expr ) .)
+    SUP_EGAL        reduce using rule 34 (factor -> ( expr ) .)
+    INF_EGAL        reduce using rule 34 (factor -> ( expr ) .)
+    SUP             reduce using rule 34 (factor -> ( expr ) .)
+    INF             reduce using rule 34 (factor -> ( expr ) .)
+    OU              reduce using rule 34 (factor -> ( expr ) .)
+    ET              reduce using rule 34 (factor -> ( expr ) .)
+    MINUS           reduce using rule 34 (factor -> ( expr ) .)
+    PLUS            reduce using rule 34 (factor -> ( expr ) .)
+    ALORS           reduce using rule 34 (factor -> ( expr ) .)
+    )               reduce using rule 34 (factor -> ( expr ) .)
+    ;               reduce using rule 34 (factor -> ( expr ) .)
+
+
+state 66
 
     (14) structure_conditionnelle -> SI expr ALORS { . listeInstructions } SINON { listeInstructions }
     (3) listeInstructions -> . listeInstructions instruction
@@ -939,7 +1627,7 @@ state 51
     ENT             shift and go to state 14
     ECRIRE          shift and go to state 15
 
-    listeInstructions              shift and go to state 57
+    listeInstructions              shift and go to state 72
     instruction                    shift and go to state 4
     boucle                         shift and go to state 5
     structure_conditionnelle       shift and go to state 6
@@ -947,7 +1635,7 @@ state 51
     declaration                    shift and go to state 8
     ecrire                         shift and go to state 9
 
-state 52
+state 67
 
     (13) affectation -> IDENTIFIANT = expr ; .
     TANTQUE         reduce using rule 13 (affectation -> IDENTIFIANT = expr ; .)
@@ -960,41 +1648,65 @@ state 52
     }               reduce using rule 13 (affectation -> IDENTIFIANT = expr ; .)
 
 
-state 53
+state 68
 
     (11) declaration -> BOOLEEN IDENTIFIANT = expr . ;
-    (18) expr -> expr . OU expr
-    (19) expr -> expr . ET expr
-    (20) expr -> expr . MINUS term
-    (21) expr -> expr . PLUS term
-    ;               shift and go to state 58
-    OU              shift and go to state 30
-    ET              shift and go to state 31
-    MINUS           shift and go to state 32
-    PLUS            shift and go to state 33
+    (19) expr -> expr . DIFF expr
+    (20) expr -> expr . EGAL expr
+    (21) expr -> expr . SUP_EGAL expr
+    (22) expr -> expr . INF_EGAL expr
+    (23) expr -> expr . SUP expr
+    (24) expr -> expr . INF expr
+    (25) expr -> expr . OU expr
+    (26) expr -> expr . ET expr
+    (27) expr -> expr . MINUS term
+    (28) expr -> expr . PLUS term
+    ;               shift and go to state 73
+    DIFF            shift and go to state 32
+    EGAL            shift and go to state 33
+    SUP_EGAL        shift and go to state 34
+    INF_EGAL        shift and go to state 35
+    SUP             shift and go to state 36
+    INF             shift and go to state 37
+    OU              shift and go to state 38
+    ET              shift and go to state 39
+    MINUS           shift and go to state 40
+    PLUS            shift and go to state 41
 
 
-state 54
+state 69
 
     (12) declaration -> ENT IDENTIFIANT = expr . ;
-    (18) expr -> expr . OU expr
-    (19) expr -> expr . ET expr
-    (20) expr -> expr . MINUS term
-    (21) expr -> expr . PLUS term
-    ;               shift and go to state 59
-    OU              shift and go to state 30
-    ET              shift and go to state 31
-    MINUS           shift and go to state 32
-    PLUS            shift and go to state 33
+    (19) expr -> expr . DIFF expr
+    (20) expr -> expr . EGAL expr
+    (21) expr -> expr . SUP_EGAL expr
+    (22) expr -> expr . INF_EGAL expr
+    (23) expr -> expr . SUP expr
+    (24) expr -> expr . INF expr
+    (25) expr -> expr . OU expr
+    (26) expr -> expr . ET expr
+    (27) expr -> expr . MINUS term
+    (28) expr -> expr . PLUS term
+    ;               shift and go to state 74
+    DIFF            shift and go to state 32
+    EGAL            shift and go to state 33
+    SUP_EGAL        shift and go to state 34
+    INF_EGAL        shift and go to state 35
+    SUP             shift and go to state 36
+    INF             shift and go to state 37
+    OU              shift and go to state 38
+    ET              shift and go to state 39
+    MINUS           shift and go to state 40
+    PLUS            shift and go to state 41
 
 
-state 55
+state 70
 
     (10) ecrire -> ECRIRE ( expr ) . ;
-    ;               shift and go to state 60
+    ;               shift and go to state 75
 
 
-state 56
+state 71
 
     (15) boucle -> TANTQUE expr { listeInstructions } .
     TANTQUE         reduce using rule 15 (boucle -> TANTQUE expr { listeInstructions } .)
@@ -1007,7 +1719,7 @@ state 56
     }               reduce using rule 15 (boucle -> TANTQUE expr { listeInstructions } .)
 
 
-state 57
+state 72
 
     (14) structure_conditionnelle -> SI expr ALORS { listeInstructions . } SINON { listeInstructions }
     (3) listeInstructions -> listeInstructions . instruction
@@ -1022,7 +1734,7 @@ state 57
     (11) declaration -> . BOOLEEN IDENTIFIANT = expr ;
     (12) declaration -> . ENT IDENTIFIANT = expr ;
     (10) ecrire -> . ECRIRE ( expr ) ;
-    }               shift and go to state 61
+    }               shift and go to state 76
     TANTQUE         shift and go to state 10
     SI              shift and go to state 11
     IDENTIFIANT     shift and go to state 12
@@ -1037,7 +1749,7 @@ state 57
     declaration                    shift and go to state 8
     ecrire                         shift and go to state 9
 
-state 58
+state 73
 
     (11) declaration -> BOOLEEN IDENTIFIANT = expr ; .
     TANTQUE         reduce using rule 11 (declaration -> BOOLEEN IDENTIFIANT = expr ; .)
@@ -1050,7 +1762,7 @@ state 58
     }               reduce using rule 11 (declaration -> BOOLEEN IDENTIFIANT = expr ; .)
 
 
-state 59
+state 74
 
     (12) declaration -> ENT IDENTIFIANT = expr ; .
     TANTQUE         reduce using rule 12 (declaration -> ENT IDENTIFIANT = expr ; .)
@@ -1063,7 +1775,7 @@ state 59
     }               reduce using rule 12 (declaration -> ENT IDENTIFIANT = expr ; .)
 
 
-state 60
+state 75
 
     (10) ecrire -> ECRIRE ( expr ) ; .
     TANTQUE         reduce using rule 10 (ecrire -> ECRIRE ( expr ) ; .)
@@ -1076,19 +1788,19 @@ state 60
     }               reduce using rule 10 (ecrire -> ECRIRE ( expr ) ; .)
 
 
-state 61
+state 76
 
     (14) structure_conditionnelle -> SI expr ALORS { listeInstructions } . SINON { listeInstructions }
-    SINON           shift and go to state 62
+    SINON           shift and go to state 77
 
 
-state 62
+state 77
 
     (14) structure_conditionnelle -> SI expr ALORS { listeInstructions } SINON . { listeInstructions }
-    {               shift and go to state 63
+    {               shift and go to state 78
 
 
-state 63
+state 78
 
     (14) structure_conditionnelle -> SI expr ALORS { listeInstructions } SINON { . listeInstructions }
     (3) listeInstructions -> . listeInstructions instruction
@@ -1111,7 +1823,7 @@ state 63
     ENT             shift and go to state 14
     ECRIRE          shift and go to state 15
 
-    listeInstructions              shift and go to state 64
+    listeInstructions              shift and go to state 79
     instruction                    shift and go to state 4
     boucle                         shift and go to state 5
     structure_conditionnelle       shift and go to state 6
@@ -1119,7 +1831,7 @@ state 63
     declaration                    shift and go to state 8
     ecrire                         shift and go to state 9
 
-state 64
+state 79
 
     (14) structure_conditionnelle -> SI expr ALORS { listeInstructions } SINON { listeInstructions . }
     (3) listeInstructions -> listeInstructions . instruction
@@ -1134,7 +1846,7 @@ state 64
     (11) declaration -> . BOOLEEN IDENTIFIANT = expr ;
     (12) declaration -> . ENT IDENTIFIANT = expr ;
     (10) ecrire -> . ECRIRE ( expr ) ;
-    }               shift and go to state 65
+    }               shift and go to state 80
     TANTQUE         shift and go to state 10
     SI              shift and go to state 11
     IDENTIFIANT     shift and go to state 12
@@ -1149,7 +1861,7 @@ state 64
     declaration                    shift and go to state 8
     ecrire                         shift and go to state 9
 
-state 65
+state 80
 
     (14) structure_conditionnelle -> SI expr ALORS { listeInstructions } SINON { listeInstructions } .
     TANTQUE         reduce using rule 14 (structure_conditionnelle -> SI expr ALORS { listeInstructions } SINON { listeInstructions } .)

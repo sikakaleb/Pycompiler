@@ -78,6 +78,15 @@ class FloParser(Parser):
     def expr(self, p):
         return arbre_abstrait.Operation(p[1], p[0], p[2])
 
+    @_('expr INF expr',
+       'expr SUP expr',
+       'expr INF_EGAL expr',
+       'expr SUP_EGAL expr',
+       'expr EGAL expr',
+       'expr DIFF expr')
+    def expr(self, p):
+        return arbre_abstrait.Operation(p[1], p[0], p[2])
+
     @_('term')
     def expr(self, p):
         return p.term
@@ -103,9 +112,22 @@ class FloParser(Parser):
     def factor(self, p):
         return p.expr
 
-    @_('NON expr')
+    @_('BOOLEEN')
+    def factor(self, p):
+        return arbre_abstrait.Booleen(p.BOOLEEN)
+    
+    @_('BOOLEEN_LITERAL')
+    def factor(self, p):
+        return arbre_abstrait.Booleen(p.BOOLEEN_LITERAL)
+
+
+    @_('NON BOOLEEN_LITERAL')
     def expr(self, p):
-        return arbre_abstrait.Operation("non", p[1], None)
+        return arbre_abstrait.Operation("non", arbre_abstrait.Booleen(p.BOOLEEN_LITERAL), None)
+
+    @_('NON IDENTIFIANT')
+    def expr(self, p):
+        return arbre_abstrait.Operation("non", arbre_abstrait.Identifiant(p.IDENTIFIANT), None)
 
 
 if __name__ == '__main__':
