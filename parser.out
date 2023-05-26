@@ -30,13 +30,13 @@ Rule 26    factor -> ENTIER
 
 Unused terminals:
 
-    SUP
-    DIFF
-    UMINUS
+    INF_EGAL
     SUP_EGAL
     EGAL
     INF
-    INF_EGAL
+    DIFF
+    UMINUS
+    SUP
 
 Terminals, with rules where they appear:
 

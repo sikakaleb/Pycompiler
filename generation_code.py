@@ -104,6 +104,8 @@ Affiche le code nasm correspondant à une instruction
 def gen_instruction(instruction):
     if type(instruction) == arbre_abstrait.Ecrire:
         gen_ecrire(instruction)
+    elif type(instruction) == arbre_abstrait.Lire:
+        gen_lire(instruction)
     else:
         print("type instruction inconnu", type(instruction))
         exit(0)
@@ -115,6 +117,7 @@ Affiche le code nasm correspondant au fait d'envoyer la valeur entière d'une ex
 
 
 def gen_ecrire(ecrire):
+    print(ecrire.exp)
     gen_expression(ecrire.exp)  # on calcule et empile la valeur d'expression
     nasm_instruction("pop", "eax", "", "", "")  # on dépile la valeur d'expression sur eax
     nasm_instruction("call", "iprintLF", "", "", "")  # on envoie la valeur d'eax sur la sortie standard
@@ -135,14 +138,19 @@ Affiche le code nasm pour calculer et empiler la valeur d'une expression
 
 def gen_expression(expression):
     if type(expression) == arbre_abstrait.Operation:
-        gen_operation(expression)  # on calcule et empile la valeur de l'opération
+        gen_operation(expression)
+        return arbre_abstrait.Operation  # on calcule et empile la valeur de l'opération
     elif type(expression) == arbre_abstrait.Entier:
-        nasm_instruction("push", str(expression.valeur), "", "", "");  # on met sur la pile la valeur entière
+        nasm_instruction("push", str(expression.valeur), "", "", "");
+        return arbre_abstrait.Entier  # on met sur la pile la valeur entière
     elif type(expression) == arbre_abstrait.Booleen:
         if str(expression.valeur) == "vrai":
-            nasm_instruction("push", "1", "", "", "");  # on met sur la pile la valeur entière
+            nasm_instruction("push", "1", "", "", "");
+            return arbre_abstrait.Booleen  # on met sur la pile la valeur booléenne
         elif str(expression.valeur) == "faux":
             nasm_instruction("push", "0", "", "", "");
+            return arbre_abstrait.Booleen
+
 
 
     else:
@@ -158,14 +166,15 @@ Affiche le code nasm pour calculer l'opération et la mettre en haut de la pile
 def gen_operation(operation):
     op = operation.op
 
-    gen_expression(operation.exp1)  # on calcule et empile la valeur de exp1
-    gen_expression(operation.exp2)  # on calcule et empile la valeur de exp2
+    type_exp1 = gen_expression(operation.exp1)  # on calcule et empile la valeur de exp1
+    type_exp2 = gen_expression(operation.exp2)  # on calcule et empile la valeur de exp2
 
     nasm_instruction("pop", "ebx", "", "", "dépile la seconde operande dans ebx")
     nasm_instruction("pop", "eax", "", "", "dépile la permière operande dans eax")
 
-    code = {"+": "add", "*": "imul", "-": "sub", "/": "div",
-            "%": "modulo"}  # Un dictionnaire qui associe à chaque opérateur sa fonction nasm
+    code = {"+": "add", "*": "imul", "-": "sub", "/": "idiv",
+            "%": "modulo", "et": "and", "ou": "or",
+            "non": "xor"}  # Un dictionnaire qui associe à chaque opérateur sa fonction nasm
     # Voir: https://www.bencode.net/blob/nasmcheatsheet.pdf
     if op in ['+']:
         nasm_instruction(code[op], "eax", "ebx", "",
@@ -173,13 +182,39 @@ def gen_operation(operation):
     if op == '*':
         nasm_instruction(code[op], "ebx", "", "", "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
     if op == '-':
-        nasm_instruction(code[op], "ebx", "", "", "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
-        if op == '/':
+        nasm_instruction(code[op], "eax", "ebx", "",
+                         "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
+    if op == '/':
+        nasm_instruction(code[op], "ebx", "", "",
+                         "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
+    if op == '%':
+        nasm_instruction("idiv", "ebx", "", "",
+                         "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
+        nasm_instruction("mov", "eax", "edx", "",
+                         "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
+        # nasm_instruction(code[op], "ebx", "", "",
+        # "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
+    if op == 'et':
+        if type_exp2 == arbre_abstrait.Booleen and type_exp1 == arbre_abstrait.Booleen:
             nasm_instruction(code[op], "ebx", "", "",
                              "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
-        if op == '%':
+        else:
+            print("you made a mistake ")
+            exit(0)
+    if op == 'ou':
+        if type_exp2 == arbre_abstrait.Booleen and type_exp1 == arbre_abstrait.Booleen:
             nasm_instruction(code[op], "ebx", "", "",
                              "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
+        else:
+            print("you made a mistake ")
+            exit(0)
+    if op == 'non':
+        if type_exp2 == arbre_abstrait.Booleen and type_exp1 == arbre_abstrait.Booleen:
+            nasm_instruction(code[op], "ebx", "", "",
+                             "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
+        else:
+            print("you made a mistake ")
+            exit(0)
 
     nasm_instruction("push", "eax", "", "", "empile le résultat");
 
