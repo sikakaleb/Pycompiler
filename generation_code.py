@@ -141,13 +141,13 @@ def gen_expression(expression):
         gen_operation(expression)
         return arbre_abstrait.Operation  # on calcule et empile la valeur de l'opération
     elif type(expression) == arbre_abstrait.Entier:
-        nasm_instruction("push", str(expression.valeur), "", "", "");
+        nasm_instruction("push", str(expression.valeur), "", "", "")
         return arbre_abstrait.Entier  # on met sur la pile la valeur entière
-    elif type(expression) == arbre_abstrait.Booleen:
-        if str(expression.valeur) == "vrai":
-            nasm_instruction("push", "1", "", "", "");
+    elif type(expression) == arbre_abstrait.Identifiant and (expression.nom == "vrai" or expression.nom == "faux"):
+        if str(expression.nom) == "vrai":
+            nasm_instruction("push", "1", "", "", "")
             return arbre_abstrait.Booleen  # on met sur la pile la valeur booléenne
-        elif str(expression.valeur) == "faux":
+        elif str(expression.nom) == "faux":
             nasm_instruction("push", "0", "", "", "");
             return arbre_abstrait.Booleen
 
@@ -237,3 +237,6 @@ if __name__ == "__main__":
             gen_programme(arbre)
         except EOFError:
             exit()
+
+
+#le ecrire(vrai) vrai est reconnu comme un identifiant à qméliorer

@@ -1,2 +1,8 @@
 ecrire( 2/3);
 ecrire(vrai);
+ecrire(faux);
+ecrire(vrai ou faux);
+ecrire(vrai et faux);
+
+#ecrire(vrai ou 2);
+
