@@ -39,9 +39,9 @@ Rule 35    factor -> ENTIER
 
 Unused terminals:
 
-    SUP_EGAL
     UMINUS
     INF_EGAL
+    SUP_EGAL
 
 Terminals, with rules where they appear:
 
