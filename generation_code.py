@@ -6,6 +6,12 @@ import arbre_abstrait
 # Permet de donner des noms différents à toutes les étiquettes (en les appelant e0, e1,e2,...)
 num_etiquette_courante = -1
 
+def nom_nouvelle_etiquette ( ) :
+    global num_etiquette_courante
+    num_etiquette_courante +=1
+    return " e "+ str ( num_etiquette_courante )
+
+
 afficher_table = False
 afficher_nasm = False
 """
@@ -91,9 +97,6 @@ Retourne le nom d'une nouvelle étiquette
 """
 
 
-def nasm_nouvelle_etiquette():
-    num_etiquette_courante += 1
-    return "e" + str(num_etiquette_courante)
 
 
 """
@@ -255,15 +258,15 @@ def gen_operation(operation):
 
 
     if op == "==" or op == "!=" or op == "<=" or op == ">=" or op == "<" or op == ">":
-        etiquette_vrai = nasm_nouvelle_etiquette()
-        etiquette_fin = nasm_nouvelle_etiquette()
-        nasm_instruction("cmp", "eax", "ebx", "", "")
+        etiquette_vrai = nom_nouvelle_etiquette()
+        etiquette_fin = nom_nouvelle_etiquette()
+        nasm_instruction("cmp", "eax", "ebx", "", " compare exp1 et exp2")
         nasm_instruction(code[op], etiquette_vrai, "", "", "")
         nasm_instruction("push", "0", "", "", "")  # Mettre la valeur 0 sur la pile (faux)
         nasm_instruction("jmp", etiquette_fin, "", "", "")
-        nasm_instruction(etiquette_vrai + ":")
+        nasm_instruction(etiquette_vrai )
         nasm_instruction("push", "1", "", "", "")  # Mettre la valeur 1 sur la pile (vrai)
-        nasm_instruction(etiquette_fin + ":")
+        nasm_instruction(etiquette_fin )
 
     nasm_instruction("push", "eax", "", "", "empile le résultat")
 
