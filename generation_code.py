@@ -3,7 +3,8 @@ from analyse_lexicale import FloLexer
 from analyse_syntaxique import FloParser
 import arbre_abstrait
 
-num_etiquette_courante = -1  # Permet de donner des noms différents à toutes les étiquettes (en les appelant e0, e1,e2,...)
+# Permet de donner des noms différents à toutes les étiquettes (en les appelant e0, e1,e2,...)
+num_etiquette_courante = -1
 
 afficher_table = False
 afficher_nasm = False
@@ -54,7 +55,8 @@ def nasm_instruction(opcode, op1="", op2="", op3="", comment=""):
     elif op3 == "":
         printifm("\t" + opcode + "\t" + op1 + ",\t" + op2 + "\t", end="")
     else:
-        printifm("\t" + opcode + "\t" + op1 + ",\t" + op2 + ",\t" + op3, end="")
+        printifm("\t" + opcode + "\t" + op1 +
+                 ",\t" + op2 + ",\t" + op3, end="")
     nasm_comment(comment)
 
 
@@ -76,7 +78,8 @@ Affiche le code nasm correspondant à tout un programme
 def gen_programme(programme):
     printifm('%include\t"io.asm"')
     printifm('section\t.bss')
-    printifm('sinput:	resb	255	;reserve a 255 byte space in memory for the users input string')
+    printifm(
+        'sinput:	resb	255	;reserve a 255 byte space in memory for the users input string')
     printifm('v$a:	resd	1')
     printifm('section\t.text')
     printifm('global _start')
@@ -92,7 +95,7 @@ Affiche le code nasm correspondant à une suite d'instructions
 
 
 def gen_listeInstructions(listeInstructions):
-    for instruction in listeInstructions.instructions:
+    for instruction in listeInstructions:
         gen_instruction(instruction)
 
 
@@ -119,13 +122,17 @@ Affiche le code nasm correspondant au fait d'envoyer la valeur entière d'une ex
 def gen_ecrire(ecrire):
     print(ecrire.exp)
     gen_expression(ecrire.exp)  # on calcule et empile la valeur d'expression
-    nasm_instruction("pop", "eax", "", "", "")  # on dépile la valeur d'expression sur eax
-    nasm_instruction("call", "iprintLF", "", "", "")  # on envoie la valeur d'eax sur la sortie standard
+    # on dépile la valeur d'expression sur eax
+    nasm_instruction("pop", "eax", "", "", "")
+    # on envoie la valeur d'eax sur la sortie standard
+    nasm_instruction("call", "iprintLF", "", "", "")
 
 
 def gen_lire(ecrire):
-    nasm_instruction("mov", "eax", "sinput", "", "")  # charge l’adresse sinput dans eax
-    nasm_instruction("call", "readline", "", "", "")  # copie l’entrée utilisateur à l’adresse indiquée dans eax
+    # charge l’adresse sinput dans eax
+    nasm_instruction("mov", "eax", "sinput", "", "")
+    # copie l’entrée utilisateur à l’adresse indiquée dans eax
+    nasm_instruction("call", "readline", "", "", "")
     nasm_instruction("call", "atoi", "", "",
                      "")  # transforme la chaîne de caractère à l’adresse indiquée dans eax en entier et met le résultat dans eax
     nasm_instruction("push", "eax", "", "", "")  # empile eax.
@@ -151,8 +158,6 @@ def gen_expression(expression):
             nasm_instruction("push", "0", "", "", "")
             return arbre_abstrait.Booleen
 
-
-
     else:
         print("type d'expression inconnu", type(expression))
         exit(0)
@@ -166,11 +171,15 @@ Affiche le code nasm pour calculer l'opération et la mettre en haut de la pile
 def gen_operation(operation):
     op = operation.op
 
-    type_exp1 = gen_expression(operation.exp1)  # on calcule et empile la valeur de exp1
-    type_exp2 = gen_expression(operation.exp2)  # on calcule et empile la valeur de exp2
+    # on calcule et empile la valeur de exp1
+    type_exp1 = gen_expression(operation.exp1)
+    # on calcule et empile la valeur de exp2
+    type_exp2 = gen_expression(operation.exp2)
 
-    nasm_instruction("pop", "ebx", "", "", "dépile la seconde operande dans ebx")
-    nasm_instruction("pop", "eax", "", "", "dépile la permière operande dans eax")
+    nasm_instruction("pop", "ebx", "", "",
+                     "dépile la seconde operande dans ebx")
+    nasm_instruction("pop", "eax", "", "",
+                     "dépile la permière operande dans eax")
 
     code = {"+": "add", "*": "imul", "-": "sub", "/": "idiv",
             "%": "modulo", "et": "and", "ou": "or",
@@ -180,7 +189,8 @@ def gen_operation(operation):
         nasm_instruction(code[op], "eax", "ebx", "",
                          "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
     if op == '*':
-        nasm_instruction(code[op], "ebx", "", "", "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
+        nasm_instruction(code[op], "ebx", "", "", "effectue l'opération eax" +
+                         op + "ebx et met le résultat dans eax")
     if op == '-':
         nasm_instruction(code[op], "eax", "ebx", "",
                          "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
@@ -209,14 +219,14 @@ def gen_operation(operation):
             print("you made a mistake ")
             exit(0)
     if op == 'non':
-        if type_exp1 == arbre_abstrait.Booleen :
+        if type_exp1 == arbre_abstrait.Booleen:
             nasm_instruction(code[op], "ebx", "", "",
                              "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
         else:
             print("you made a mistake ")
             exit(0)
 
-    nasm_instruction("push", "eax", "", "", "empile le résultat");
+    nasm_instruction("push", "eax", "", "", "empile le résultat")
 
 
 if __name__ == "__main__":
@@ -239,4 +249,4 @@ if __name__ == "__main__":
             exit()
 
 
-#le ecrire(vrai) vrai est reconnu comme un identifiant à qméliorer
+# le ecrire(vrai) vrai est reconnu comme un identifiant à qméliorer

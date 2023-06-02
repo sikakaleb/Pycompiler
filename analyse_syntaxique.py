@@ -9,7 +9,8 @@ class FloParser(Parser):
     debugfile = "parser.out"
 
     precedence = (
-        ('nonassoc', 'INF', 'SUP', 'INF_EGAL', 'SUP_EGAL', 'EGAL', 'DIFF'),
+        ('nonassoc', 'COMPARATEUR', 'INF', 'SUP',
+         'INF_EGAL', 'SUP_EGAL', 'EGAL', 'DIFF'),
         ('left', 'PLUS', 'MINUS'),
         ('left', 'MULT', 'DIV'),
         ('nonassoc', 'UMINUS'),
@@ -29,11 +30,13 @@ class FloParser(Parser):
     @_('instruction')
     def listeInstructions(self, p):
         l = arbre_abstrait.ListeInstructions()
+        # l.instructions.insert(0,p.instruction)
         l.append(p.instruction)
         return l
 
     @_('listeInstructions instruction')
     def listeInstructions(self, p):
+        # p.listeInstructions.instructions.insert(0,p.instruction)
         p.listeInstructions.append(p.instruction)
         return p.listeInstructions
 
@@ -80,8 +83,8 @@ class FloParser(Parser):
 
     @_('expr INF expr',
        'expr SUP expr',
-       'expr INF_EGAL expr',
-       'expr SUP_EGAL expr',
+       'expr COMPARATEUR expr',
+       # 'expr SUP_EGAL expr',
        'expr EGAL expr',
        'expr DIFF expr')
     def expr(self, p):
@@ -115,11 +118,10 @@ class FloParser(Parser):
     @_('BOOLEEN')
     def factor(self, p):
         return arbre_abstrait.Booleen(p.BOOLEEN)
-    
+
     @_('BOOLEEN_LITERAL')
     def factor(self, p):
         return arbre_abstrait.Booleen(p.BOOLEEN_LITERAL)
-
 
     @_('NON BOOLEEN_LITERAL')
     def expr(self, p):

@@ -31,7 +31,8 @@ class FloLexer(Lexer):
         MULT,
         DIV,
         UMINUS,
-        BOOLEEN
+        BOOLEEN,
+        COMPARATEUR
     }
 
     literals = {'+', '*', '/', '(', ')', '{', '}',
@@ -52,17 +53,20 @@ class FloLexer(Lexer):
     MINUS = r'-'
     MULT = r'\*'
     DIV = r'/'
-
-    INF = r'<'
-    SUP = r'>'
-    INF_EGAL = r'<='
-    SUP_EGAL = r'>='
-    EGAL = r'=='
-    DIFF = r'!='
-
     ignore = ' \t'
-
     UMINUS = r'-'
+    ignore_comment = r'\#.*'
+
+    @_(r'<=|>=|<|>|==|!=')
+    def COMPARATEUR(self, t):
+        return t
+
+    # INF = r'<'
+    # SUP = r'>'
+    # INF_EGAL = r'<='
+    # SUP_EGAL = r'>='
+    # EGAL = r'=='
+    # DIFF = r'!='
 
     @_(r'vrai|faux')
     def BOOLEEN_LITERAL(self, t):
@@ -75,8 +79,6 @@ class FloLexer(Lexer):
         return t
 
     IDENTIFIANT = r'[a-zA-Z][a-zA-Z0-9_]*'
-
-    ignore_comment = r'\#.*'
 
     @_(r'\n+')
     def ignore_newline(self, t):

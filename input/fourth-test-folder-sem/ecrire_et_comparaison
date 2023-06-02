@@ -1,0 +1,9 @@
+ecrire(2!=5);
+ecrire(2<5);
+ecrire(2>5);
+ecrire(2<=5);
+ecrire(2>=5);
+ecrire(2==5);
+#ecrire(29856==5);
+
+
