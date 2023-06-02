@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #ecrire( 2/3);
 #ecrire(vrai);
 #ecrire(faux);
@@ -7,3 +8,5 @@ ecrire(36);
 #ecrire(non vrai);
 #ecrire(vrai ou 2);
 
+=======
+>>>>>>> origin/dev-kaleb

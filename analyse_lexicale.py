@@ -7,6 +7,7 @@ from sly import Lexer
 
 class FloLexer(Lexer):
     tokens = {
+        BOOLEEN_LITERAL,
         IDENTIFIANT,
         ENTIER,
         ENT,
@@ -29,7 +30,9 @@ class FloLexer(Lexer):
         MINUS,
         MULT,
         DIV,
-        UMINUS
+        UMINUS,
+        BOOLEEN,
+        COMPARATEUR
     }
 
     literals = {'+', '*', '/', '(', ')', '{', '}',
@@ -40,7 +43,7 @@ class FloLexer(Lexer):
     ECRIRE = r'ecrire'
     SI = r'si'
     ALORS = r'alors'
-    SINON = r'sinon'
+    SINON = r'snon'
     TANTQUE = r'tantque'
 
     ET = r'et'
@@ -50,17 +53,25 @@ class FloLexer(Lexer):
     MINUS = r'-'
     MULT = r'\*'
     DIV = r'/'
-
-    INF = r'<'
-    SUP = r'>'
-    INF_EGAL = r'<='
-    SUP_EGAL = r'>='
-    EGAL = r'=='
-    DIFF = r'!='
-
     ignore = ' \t'
-
     UMINUS = r'-'
+    ignore_comment = r'\#.*'
+
+    @_(r'<=|>=|<|>|==|!=')
+    def COMPARATEUR(self, t):
+        return t
+
+    # INF = r'<'
+    # SUP = r'>'
+    # INF_EGAL = r'<='
+    # SUP_EGAL = r'>='
+    # EGAL = r'=='
+    # DIFF = r'!='
+
+    @_(r'vrai|faux')
+    def BOOLEEN_LITERAL(self, t):
+        t.value = (t.value == 'vrai')  # Convertir la valeur en un vrai booléen
+        return t
 
     @_(r'0|[1-9][0-9]*')
     def ENTIER(self, t):
@@ -68,8 +79,6 @@ class FloLexer(Lexer):
         return t
 
     IDENTIFIANT = r'[a-zA-Z][a-zA-Z0-9_]*'
-
-    ignore_comment = r'\#.*'
 
     @_(r'\n+')
     def ignore_newline(self, t):

@@ -1,0 +1,5 @@
+si vrai alors {
+    ecrire(5);
+} snon {
+    ecrire(51);
+}

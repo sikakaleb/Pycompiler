@@ -1,0 +1,5 @@
+entier i = 0;
+tantque i+h==25+2 {
+    ecrire(i);
+    ecrire(0);
+}

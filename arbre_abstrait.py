@@ -17,14 +17,14 @@ class Programme:
         afficher("</programme>", indent)
 
 
-class ListeInstructions:
+class ListeInstructions(list):
     def __init__(self):
-        self.instructions = []
+        pass
 
     def afficher(self, indent=0):
         afficher("<listeInstructions>", indent)
         # Inverser l'ordre des instructions
-        for instruction in reversed(self.instructions):
+        for instruction in self:
             instruction.afficher(indent+1)
         afficher("</listeInstructions>", indent)
 
@@ -37,6 +37,7 @@ class Ecrire:
         afficher("<ecrire>", indent)
         self.exp.afficher(indent+1)
         afficher("</ecrire>", indent)
+
 
 class Lire:
     def __init__(self, exp):
@@ -70,12 +71,18 @@ class Entier:
     def afficher(self, indent=0):
         afficher("[Entier:"+str(self.valeur)+"]", indent)
 
+
 class Booleen:
     def __init__(self, valeur):
         self.valeur = valeur
 
     def afficher(self, indent=0):
-        afficher("[Booleen:"+str(self.valeur)+"]", indent)
+        if (self.valeur == True):
+            afficher(f"[Booleen:vrai]", indent)
+        elif (self.valeur == False):
+            afficher(f"[Booleen:faux]", indent)
+        else:
+            afficher("[Booleen:"+str(self.valeur)+"]", indent)
 
 
 class Declaration:

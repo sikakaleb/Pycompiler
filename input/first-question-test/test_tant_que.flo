@@ -1,5 +1,0 @@
-entier i = 0;
-tantque i < 10 {
-    ecrire(i);
-    i = i + 1;
-}

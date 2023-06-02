@@ -1,0 +1,3 @@
+ecrire(5+5);
+ecrire(5-5);
+ecrire(5/8); 

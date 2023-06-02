@@ -1,6 +1,0 @@
-entier a = 10;
-si a < 20 alors {
-    ecrire(a);
-} sinon {
-    ecrire(20);
-}
