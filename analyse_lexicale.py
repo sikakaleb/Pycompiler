@@ -7,6 +7,7 @@ from sly import Lexer
 
 class FloLexer(Lexer):
     tokens = {
+        BOOLEEN_LITERAL,
         IDENTIFIANT,
         ENTIER,
         ENT,
@@ -29,7 +30,8 @@ class FloLexer(Lexer):
         MINUS,
         MULT,
         DIV,
-        UMINUS
+        UMINUS,
+        BOOLEEN
     }
 
     literals = {'+', '*', '/', '(', ')', '{', '}',
@@ -40,7 +42,7 @@ class FloLexer(Lexer):
     ECRIRE = r'ecrire'
     SI = r'si'
     ALORS = r'alors'
-    SINON = r'sinon'
+    SINON = r'snon'
     TANTQUE = r'tantque'
 
     ET = r'et'
@@ -61,6 +63,11 @@ class FloLexer(Lexer):
     ignore = ' \t'
 
     UMINUS = r'-'
+
+    @_(r'vrai|faux')
+    def BOOLEEN_LITERAL(self, t):
+        t.value = (t.value == 'vrai')  # Convertir la valeur en un vrai booléen
+        return t
 
     @_(r'0|[1-9][0-9]*')
     def ENTIER(self, t):

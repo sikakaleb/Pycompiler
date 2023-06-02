@@ -29,16 +29,16 @@ class FloParser(Parser):
     @_('instruction')
     def listeInstructions(self, p):
         l = arbre_abstrait.ListeInstructions()
-        l.instructions.append(p.instruction)
+        l.append(p.instruction)
         return l
 
-    @_('instruction listeInstructions')
+    @_('listeInstructions instruction')
     def listeInstructions(self, p):
-        p.listeInstructions.instructions.append(p.instruction)
+        p.listeInstructions.append(p.instruction)
         return p.listeInstructions
 
     # 'structure_iteration')
-    @_('ecrire', 'declaration', 'affectation', 'structure_conditionnelle', )
+    @_('ecrire', 'declaration', 'affectation', 'structure_conditionnelle', 'boucle')
     def instruction(self, p):
         return p[0]
 
@@ -57,14 +57,15 @@ class FloParser(Parser):
     @_('IDENTIFIANT "=" expr ";"')
     def affectation(self, p):
         return arbre_abstrait.Affectation(p.IDENTIFIANT, p.expr)
+    #
 
-    @_('SI expr ALORS "{" listeInstructions "}" SINON "{" listeInstructions "}"',
-       'TANTQUE expr "{" listeInstructions "}"')
+    @_('SI expr ALORS "{" listeInstructions "}"  SINON  "{" listeInstructions "}"  ')
     def structure_conditionnelle(self, p):
-        if p[0] == 'si':
-            return arbre_abstrait.Condition(p.expr, p.listeInstructions0, p.listeInstructions1)
-        else:
-            return arbre_abstrait.TantQue(p.expr, p.listeInstructions)
+        return arbre_abstrait.Condition(p.expr, p.listeInstructions0, p.listeInstructions1)
+
+    @_('TANTQUE expr "{" listeInstructions "}"')
+    def boucle(self, p):
+        return arbre_abstrait.TantQue(p.expr, p.listeInstructions)
 
     # @_('REPETER "{" listeInstructions "}" JUSQU_A expr ";"')
     # def structure_iteration(self, p):
@@ -74,6 +75,15 @@ class FloParser(Parser):
        'expr MINUS term',
        'expr ET expr',
        'expr OU expr')
+    def expr(self, p):
+        return arbre_abstrait.Operation(p[1], p[0], p[2])
+
+    @_('expr INF expr',
+       'expr SUP expr',
+       'expr INF_EGAL expr',
+       'expr SUP_EGAL expr',
+       'expr EGAL expr',
+       'expr DIFF expr')
     def expr(self, p):
         return arbre_abstrait.Operation(p[1], p[0], p[2])
 
@@ -102,9 +112,22 @@ class FloParser(Parser):
     def factor(self, p):
         return p.expr
 
-    @_('NON expr')
+    @_('BOOLEEN')
+    def factor(self, p):
+        return arbre_abstrait.Booleen(p.BOOLEEN)
+    
+    @_('BOOLEEN_LITERAL')
+    def factor(self, p):
+        return arbre_abstrait.Booleen(p.BOOLEEN_LITERAL)
+
+
+    @_('NON BOOLEEN_LITERAL')
     def expr(self, p):
-        return arbre_abstrait.Operation("non", p[1], None)
+        return arbre_abstrait.Operation("non", arbre_abstrait.Booleen(p.BOOLEEN_LITERAL), None)
+
+    @_('NON IDENTIFIANT')
+    def expr(self, p):
+        return arbre_abstrait.Operation("non", arbre_abstrait.Identifiant(p.IDENTIFIANT), None)
 
 
 if __name__ == '__main__':
