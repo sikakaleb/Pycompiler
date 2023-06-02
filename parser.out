@@ -39,9 +39,9 @@ Rule 35    factor -> ENTIER
 
 Unused terminals:
 
-    INF_EGAL
-    UMINUS
     SUP_EGAL
+    UMINUS
+    INF_EGAL
 
 Terminals, with rules where they appear:
 
@@ -250,23 +250,33 @@ state 9
 
 state 10
 
-    (14) structure_conditionnelle -> SI . expr ALORS { listeInstructions } SINON { listeInstructions }
-    (15) expr -> . NON expr
-    (16) expr -> . term
-    (17) expr -> . expr OU expr
-    (18) expr -> . expr ET expr
-    (19) expr -> . expr MINUS term
-    (20) expr -> . expr PLUS term
-    (21) term -> . factor
-    (22) term -> . term DIV factor
-    (23) term -> . term MULT factor
-    (24) factor -> . ( expr )
-    (25) factor -> . IDENTIFIANT
-    (26) factor -> . ENTIER
-    NON             shift and go to state 17
-    (               shift and go to state 20
-    IDENTIFIANT     shift and go to state 21
-    ENTIER          shift and go to state 22
+    (15) boucle -> TANTQUE . expr { listeInstructions }
+    (16) expr -> . NON IDENTIFIANT
+    (17) expr -> . NON BOOLEEN_LITERAL
+    (18) expr -> . term
+    (19) expr -> . expr DIFF expr
+    (20) expr -> . expr EGAL expr
+    (21) expr -> . expr COMPARATEUR expr
+    (22) expr -> . expr SUP expr
+    (23) expr -> . expr INF expr
+    (24) expr -> . expr OU expr
+    (25) expr -> . expr ET expr
+    (26) expr -> . expr MINUS term
+    (27) expr -> . expr PLUS term
+    (28) term -> . factor
+    (29) term -> . term DIV factor
+    (30) term -> . term MULT factor
+    (31) factor -> . BOOLEEN_LITERAL
+    (32) factor -> . BOOLEEN
+    (33) factor -> . ( expr )
+    (34) factor -> . IDENTIFIANT
+    (35) factor -> . ENTIER
+    NON             shift and go to state 18
+    BOOLEEN_LITERAL shift and go to state 20
+    BOOLEEN         shift and go to state 23
+    (               shift and go to state 24
+    IDENTIFIANT     shift and go to state 19
+    ENTIER          shift and go to state 25
 
     expr                           shift and go to state 17
     term                           shift and go to state 21
