@@ -48,6 +48,32 @@ Par convention, les derniers opérandes sont nuls si l'opération a moins de 3 a
 """
 
 
+def generer_code_comparaison():
+    etiquette_vrai = nasm_nouvelle_etiquette()
+    etiquette_fin = nasm_nouvelle_etiquette()
+
+    nasm_instruction("cmp", "eax", "ebx", "", "")
+
+    if operateur == "==":
+        nasm_instruction("je", etiquette_vrai, "", "", "")
+    elif operateur == "!=":
+        nasm_instruction("jne", etiquette_vrai, "", "", "")
+    elif operateur == "<":
+        nasm_instruction("jl", etiquette_vrai, "", "", "")
+    elif operateur == ">":
+        nasm_instruction("jg", etiquette_vrai, "", "", "")
+    elif operateur == "<=":
+        nasm_instruction("jle", etiquette_vrai, "", "", "")
+    elif operateur == ">=":
+        nasm_instruction("jge", etiquette_vrai, "", "", "")
+
+    nasm_instruction("push", "0", "", "", "")  # Mettre la valeur 0 sur la pile (faux)
+    nasm_instruction("jmp", etiquette_fin, "", "", "")
+    nasm_instruction(etiquette_vrai + ":")
+    nasm_instruction("push", "1", "", "", "")  # Mettre la valeur 1 sur la pile (vrai)
+    nasm_instruction(etiquette_fin + ":")
+
+
 def nasm_instruction(opcode, op1="", op2="", op3="", comment=""):
     if op2 == "":
         printifm("\t" + opcode + "\t" + op1 + "\t\t", end="")
@@ -174,7 +200,8 @@ def gen_operation(operation):
 
     code = {"+": "add", "*": "imul", "-": "sub", "/": "idiv",
             "%": "modulo", "et": "and", "ou": "or",
-            "non": "xor"}  # Un dictionnaire qui associe à chaque opérateur sa fonction nasm
+            "non": "xor", "==": "je", "!=": "jne", "<": "jl", ">": "jg", "<=": "jle",
+            ">=": "jge"}  # Un dictionnaire qui associe à chaque opérateur sa fonction nasm
     # Voir: https://www.bencode.net/blob/nasmcheatsheet.pdf
     if op in ['+']:
         nasm_instruction(code[op], "eax", "ebx", "",
@@ -209,12 +236,23 @@ def gen_operation(operation):
             print("you made a mistake ")
             exit(0)
     if op == 'non':
-        if type_exp1 == arbre_abstrait.Booleen :
+        if type_exp1 == arbre_abstrait.Booleen:
             nasm_instruction(code[op], "ebx", "", "",
                              "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
         else:
             print("you made a mistake ")
             exit(0)
+
+    if op == "==" or op == "!=" or op == "<=" or op == ">=" or op == "<" or op == ">":
+        etiquette_vrai = nasm_nouvelle_etiquette()
+        etiquette_fin = nasm_nouvelle_etiquette()
+        nasm_instruction("cmp", "eax", "ebx", "", "")
+        nasm_instruction(code[op], etiquette_vrai, "", "", "")
+        nasm_instruction("push", "0", "", "", "")  # Mettre la valeur 0 sur la pile (faux)
+        nasm_instruction("jmp", etiquette_fin, "", "", "")
+        nasm_instruction(etiquette_vrai + ":")
+        nasm_instruction("push", "1", "", "", "")  # Mettre la valeur 1 sur la pile (vrai)
+        nasm_instruction(etiquette_fin + ":")
 
     nasm_instruction("push", "eax", "", "", "empile le résultat");
 
@@ -238,5 +276,4 @@ if __name__ == "__main__":
         except EOFError:
             exit()
 
-
-#le ecrire(vrai) vrai est reconnu comme un identifiant à qméliorer
+# le ecrire(vrai) vrai est reconnu comme un identifiant à qméliorer

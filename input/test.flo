@@ -1,8 +1,9 @@
-ecrire( 2/3);
-ecrire(vrai);
-ecrire(faux);
-ecrire(vrai ou faux);
-ecrire(vrai et faux);
+#ecrire( 2/3);
+#ecrire(vrai);
+#ecrire(faux);
+#ecrire(vrai ou faux);
+#ecrire(vrai et faux);
+ecrire(36);
 #ecrire(non vrai);
 #ecrire(vrai ou 2);
 
