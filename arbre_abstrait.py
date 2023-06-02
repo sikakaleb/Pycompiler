@@ -39,6 +39,16 @@ class Ecrire:
         afficher("</ecrire>", indent)
 
 
+class Lire:
+    def __init__(self, exp):
+        self.exp = exp
+
+    def afficher(self, indent=0):
+        afficher("<lire>", indent)
+        self.exp.afficher(indent+1)
+        afficher("</lire>", indent)
+
+
 class Operation:
     def __init__(self, op, exp1, exp2=None):
         self.exp1 = exp1
@@ -61,12 +71,18 @@ class Entier:
     def afficher(self, indent=0):
         afficher("[Entier:"+str(self.valeur)+"]", indent)
 
+
 class Booleen:
     def __init__(self, valeur):
         self.valeur = valeur
 
     def afficher(self, indent=0):
-        afficher("[Booleen:"+str(self.valeur)+"]", indent)
+        if (self.valeur == True):
+            afficher(f"[Booleen:vrai]", indent)
+        elif (self.valeur == False):
+            afficher(f"[Booleen:faux]", indent)
+        else:
+            afficher("[Booleen:"+str(self.valeur)+"]", indent)
 
 
 class Declaration:
@@ -131,14 +147,3 @@ class TantQue:
         self.expression.afficher(indent + 1)
         self.liste_instructions.afficher(indent + 1)
         afficher("</tantque>", indent)
-
-
-class Booleen:
-    def __init__(self, valeur):
-        self.valeur = valeur
-
-    def afficher(self, indent=0):
-        if (self.valeur == True):
-            afficher(f"[Booleen:vrai]", indent)
-        else:
-            afficher(f"[Booleen:faux]", indent)
