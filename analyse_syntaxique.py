@@ -131,6 +131,10 @@ class FloParser(Parser):
     def expr(self, p):
         return arbre_abstrait.Operation("non", arbre_abstrait.Identifiant(p.IDENTIFIANT), None)
 
+    @_('MINUS expr %prec UMINUS')
+    def expr(self, p):
+        return arbre_abstrait.Operation('-', p.expr)
+
 
 if __name__ == '__main__':
     lexer = FloLexer()

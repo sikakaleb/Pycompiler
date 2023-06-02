@@ -1,10 +1,6 @@
 import sys
 from sly import Lexer
 
-
-from sly import Lexer
-
-
 class FloLexer(Lexer):
     tokens = {
         BOOLEEN_LITERAL,
