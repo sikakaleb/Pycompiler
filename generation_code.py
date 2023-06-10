@@ -119,6 +119,12 @@ def gen_programme(programme):
 """
 Affiche le code nasm correspondant à une suite d'instructions
 """
+def gen_fonctions(fonctions):
+    for fonction in fonctions:
+        gen_def_fonction(fonction)
+def gen_def_fonction(fonction):
+    nasm_instruction("_"+fonction)
+    gen_listeInstructions(fonction.listeInstructions)
 
 
 def gen_listeInstructions(listeInstructions):
