@@ -2,9 +2,6 @@ import sys
 from sly import Lexer
 
 
-from sly import Lexer
-
-
 class FloLexer(Lexer):
     tokens = {
         BOOLEEN_LITERAL,
@@ -32,18 +29,21 @@ class FloLexer(Lexer):
         DIV,
         UMINUS,
         BOOLEEN,
-        COMPARATEUR
+        COMPARATEUR,
+        MODULO,
+        LIRE
     }
 
-    literals = {'+', '*', '/', '(', ')', '{', '}',
-                '[', ']', ',', ';', '=', '<', '>', '&', '!'}
+    literals = {'+', '-', '*', '/', '(', ')', '{', '}',
+                '[', ']', ',', ';', '=', '<', '>', '&', '!', ':', '%'}
 
     ENT = r'entier'
     BOOLEEN = r'booleen'
     ECRIRE = r'ecrire'
+    LIRE = r'lire'
+    SINON = r'sinon'
     SI = r'si'
     ALORS = r'alors'
-    SINON = r'snon'
     TANTQUE = r'tantque'
 
     ET = r'et'
@@ -57,6 +57,10 @@ class FloLexer(Lexer):
     UMINUS = r'-'
     ignore_comment = r'\#.*'
 
+    @_('%')
+    def MODULO(self, t):
+        return t
+
     @_(r'<=|>=|<|>|==|!=')
     def COMPARATEUR(self, t):
         return t
@@ -67,10 +71,9 @@ class FloLexer(Lexer):
     # SUP_EGAL = r'>='
     # EGAL = r'=='
     # DIFF = r'!='
-
-    @_(r'vrai|faux')
+    @_(r'Vrai|Faux')
     def BOOLEEN_LITERAL(self, t):
-        t.value = (t.value == 'vrai')  # Convertir la valeur en un vrai booléen
+        t.value = (t.value == 'Vrai')  # Convertir la valeur en un vrai booléen
         return t
 
     @_(r'0|[1-9][0-9]*')

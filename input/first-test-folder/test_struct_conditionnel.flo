@@ -1,5 +1,6 @@
-si vrai alors {
+
+si (vrai) {
     ecrire(5);
-} snon {
+} sinon {
     ecrire(51);
 }

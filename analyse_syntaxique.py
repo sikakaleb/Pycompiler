@@ -9,14 +9,14 @@ class FloParser(Parser):
     debugfile = "parser.out"
 
     precedence = (
-        ('nonassoc', 'COMPARATEUR', 'INF', 'SUP',
-         'INF_EGAL', 'SUP_EGAL', 'EGAL', 'DIFF'),
-        ('left', 'PLUS', 'MINUS'),
-        ('left', 'MULT', 'DIV'),
+        ('nonassoc', 'NON'),
         ('nonassoc', 'UMINUS'),
+        ('left', 'MULT', 'DIV', 'MODULO'),
+        ('left', 'PLUS', 'MINUS'),
         ('left', 'ET'),
         ('left', 'OU'),
-        ('nonassoc', 'NON'),
+        ('nonassoc', 'INF', 'SUP', 'INF_EGAL',
+         'SUP_EGAL', 'EGAL', 'DIFF', 'COMPARATEUR'),
     )
 
     @_('prog')
@@ -41,13 +41,17 @@ class FloParser(Parser):
         return p.listeInstructions
 
     # 'structure_iteration')
-    @_('ecrire', 'declaration', 'affectation', 'structure_conditionnelle', 'boucle')
+    @_('ecrire', 'declaration', 'affectation', 'condition', 'boucle', 'suite_sinosi')
     def instruction(self, p):
         return p[0]
 
     @_('ECRIRE "(" expr ")" ";"')
     def ecrire(self, p):
         return arbre_abstrait.Ecrire(p.expr)
+
+    @_('LIRE "(" ")"')
+    def factor(self, p):
+        return arbre_abstrait.Lire()
 
     @_('ENT IDENTIFIANT "=" expr ";"')
     def declaration(self, p):
@@ -60,13 +64,24 @@ class FloParser(Parser):
     @_('IDENTIFIANT "=" expr ";"')
     def affectation(self, p):
         return arbre_abstrait.Affectation(p.IDENTIFIANT, p.expr)
-    #
 
-    @_('SI expr ALORS "{" listeInstructions "}"  SINON  "{" listeInstructions "}"  ')
-    def structure_conditionnelle(self, p):
-        return arbre_abstrait.Condition(p.expr, p.listeInstructions0, p.listeInstructions1)
+    @_('SI "(" expr ")" "{" listeInstructions "}" suite_sinosi')
+    def condition(self, p):
+        return arbre_abstrait.Condition(p.expr, p.listeInstructions, p.suite_sinosi)
 
-    @_('TANTQUE expr "{" listeInstructions "}"')
+    @_('SINON "{" listeInstructions "}"')
+    def suite_sinosi(self, p):
+        return p.listeInstructions
+
+    @_('SINON SI "(" expr ")" "{" listeInstructions "}" suite_sinosi')
+    def suite_sinosi(self, p):
+        return arbre_abstrait.Condition(p.expr, p.listeInstructions, p.suite_sinosi)
+
+    @_('')
+    def suite_sinosi(self, p):
+        return None
+
+    @_('TANTQUE "(" expr ")" "{" listeInstructions "}"')
     def boucle(self, p):
         return arbre_abstrait.TantQue(p.expr, p.listeInstructions)
 
@@ -77,16 +92,15 @@ class FloParser(Parser):
     @_('expr PLUS term',
        'expr MINUS term',
        'expr ET expr',
-       'expr OU expr')
+       'expr OU expr',)
     def expr(self, p):
         return arbre_abstrait.Operation(p[1], p[0], p[2])
 
     @_('expr INF expr',
        'expr SUP expr',
        'expr COMPARATEUR expr',
-       # 'expr SUP_EGAL expr',
        'expr EGAL expr',
-       'expr DIFF expr')
+       'expr DIFF expr',)
     def expr(self, p):
         return arbre_abstrait.Operation(p[1], p[0], p[2])
 
@@ -95,9 +109,11 @@ class FloParser(Parser):
         return p.term
 
     @_('term MULT factor',
-       'term DIV factor')
+       'term DIV factor',
+       'term MODULO factor',
+       'factor MODULO factor')
     def term(self, p):
-        return arbre_abstrait.Operation(p[1], p.term, p.factor)
+        return arbre_abstrait.Operation(p[1], p[0], p[2])
 
     @_('factor')
     def term(self, p):
@@ -130,6 +146,14 @@ class FloParser(Parser):
     @_('NON IDENTIFIANT')
     def expr(self, p):
         return arbre_abstrait.Operation("non", arbre_abstrait.Identifiant(p.IDENTIFIANT), None)
+
+    @_('NON expr')
+    def expr(self, p):
+        return arbre_abstrait.Operation("non", p.expr, None)
+
+    @_('MINUS expr %prec UMINUS')
+    def expr(self, p):
+        return arbre_abstrait.Operation('*', p.expr, arbre_abstrait.Entier(-1))
 
 
 if __name__ == '__main__':

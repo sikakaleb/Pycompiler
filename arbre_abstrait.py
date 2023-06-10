@@ -40,13 +40,11 @@ class Ecrire:
 
 
 class Lire:
-    def __init__(self, exp):
+    def __init__(self, exp=None):
         self.exp = exp
 
     def afficher(self, indent=0):
-        afficher("<lire>", indent)
-        self.exp.afficher(indent+1)
-        afficher("</lire>", indent)
+        afficher("[lire:]", indent)
 
 
 class Operation:
@@ -112,20 +110,27 @@ class Affectation:
 
 
 class Condition:
-    def __init__(self, expression, liste_instructions_vrai, liste_instructions_faux):
+    def __init__(self, expression, liste_instructions_vrai, suite_sinosi):
         self.expression = expression
         self.liste_instructions_vrai = liste_instructions_vrai
-        self.liste_instructions_faux = liste_instructions_faux
+        self.suite_sinosi = suite_sinosi
 
     def afficher(self, indent=0):
         afficher("<condition>", indent)
-        self.expression.afficher(indent + 1)
+        if self.expression:
+            self.expression.afficher(indent + 1)
         afficher("<alors>", indent)
         self.liste_instructions_vrai.afficher(indent + 1)
         afficher("</alors>", indent)
-        afficher("<sinon>", indent)
-        self.liste_instructions_faux.afficher(indent + 1)
-        afficher("</sinon>", indent)
+        if self.suite_sinosi:
+            if isinstance(self.suite_sinosi, Condition):
+                afficher("<sinon>", indent)
+                self.suite_sinosi.afficher(indent + 1)
+                afficher("</sinon>", indent)
+            else:
+                afficher("<sinon>", indent)
+                self.suite_sinosi.afficher(indent + 1)
+                afficher("</sinon>", indent)
         afficher("</condition>", indent)
 
 
