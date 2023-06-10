@@ -11,7 +11,7 @@ class FloParser(Parser):
     precedence = (
         ('nonassoc', 'NON'),
         ('nonassoc', 'UMINUS'),
-        ('left', 'MULT', 'DIV'),
+        ('left', 'MULT', 'DIV', 'MODULO'),
         ('left', 'PLUS', 'MINUS'),
         ('left', 'ET'),
         ('left', 'OU'),
@@ -41,7 +41,7 @@ class FloParser(Parser):
         return p.listeInstructions
 
     # 'structure_iteration')
-    @_('ecrire', 'declaration', 'affectation', 'structure_conditionnelle', 'boucle')
+    @_('ecrire', 'declaration', 'affectation', 'condition', 'boucle', 'suite_sinosi')
     def instruction(self, p):
         return p[0]
 
@@ -64,11 +64,22 @@ class FloParser(Parser):
     @_('IDENTIFIANT "=" expr ";"')
     def affectation(self, p):
         return arbre_abstrait.Affectation(p.IDENTIFIANT, p.expr)
-    #
 
-    @_('SI expr ALORS "{" listeInstructions "}"  SINON  "{" listeInstructions "}"  ')
-    def structure_conditionnelle(self, p):
-        return arbre_abstrait.Condition(p.expr, p.listeInstructions0, p.listeInstructions1)
+    @_('SI "(" expr ")" "{" listeInstructions "}" suite_sinosi')
+    def condition(self, p):
+        return arbre_abstrait.Condition(p.expr, p.listeInstructions, p.suite_sinosi)
+
+    @_('SINON "{" listeInstructions "}"')
+    def suite_sinosi(self, p):
+        return p.listeInstructions
+
+    @_('SINON SI "(" expr ")" "{" listeInstructions "}" suite_sinosi')
+    def suite_sinosi(self, p):
+        return arbre_abstrait.Condition(p.expr, p.listeInstructions, p.suite_sinosi)
+
+    @_('')
+    def suite_sinosi(self, p):
+        return None
 
     @_('TANTQUE "(" expr ")" "{" listeInstructions "}"')
     def boucle(self, p):

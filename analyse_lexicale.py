@@ -41,9 +41,9 @@ class FloLexer(Lexer):
     BOOLEEN = r'booleen'
     ECRIRE = r'ecrire'
     LIRE = r'lire'
+    SINON = r'sinon'
     SI = r'si'
     ALORS = r'alors'
-    SINON = r'snon'
     TANTQUE = r'tantque'
 
     ET = r'et'
@@ -71,10 +71,9 @@ class FloLexer(Lexer):
     # SUP_EGAL = r'>='
     # EGAL = r'=='
     # DIFF = r'!='
-
-    @_(r'vrai|faux')
+    @_(r'Vrai|Faux')
     def BOOLEEN_LITERAL(self, t):
-        t.value = (t.value == 'vrai')  # Convertir la valeur en un vrai booléen
+        t.value = (t.value == 'Vrai')  # Convertir la valeur en un vrai booléen
         return t
 
     @_(r'0|[1-9][0-9]*')
