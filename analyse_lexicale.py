@@ -1,6 +1,7 @@
 import sys
 from sly import Lexer
 
+
 class FloLexer(Lexer):
     tokens = {
         BOOLEEN_LITERAL,
@@ -28,15 +29,18 @@ class FloLexer(Lexer):
         DIV,
         UMINUS,
         BOOLEEN,
-        COMPARATEUR
+        COMPARATEUR,
+        MODULO,
+        LIRE
     }
 
-    literals = {'+', '*', '/', '(', ')', '{', '}',
-                '[', ']', ',', ';', '=', '<', '>', '&', '!'}
+    literals = {'+', '-', '*', '/', '(', ')', '{', '}',
+                '[', ']', ',', ';', '=', '<', '>', '&', '!', ':', '%'}
 
     ENT = r'entier'
     BOOLEEN = r'booleen'
     ECRIRE = r'ecrire'
+    LIRE = r'lire'
     SI = r'si'
     ALORS = r'alors'
     SINON = r'snon'
@@ -52,6 +56,10 @@ class FloLexer(Lexer):
     ignore = ' \t'
     UMINUS = r'-'
     ignore_comment = r'\#.*'
+
+    @_('%')
+    def MODULO(self, t):
+        return t
 
     @_(r'<=|>=|<|>|==|!=')
     def COMPARATEUR(self, t):

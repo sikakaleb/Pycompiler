@@ -40,13 +40,11 @@ class Ecrire:
 
 
 class Lire:
-    def __init__(self, exp):
+    def __init__(self, exp=None):
         self.exp = exp
 
     def afficher(self, indent=0):
-        afficher("<lire>", indent)
-        self.exp.afficher(indent+1)
-        afficher("</lire>", indent)
+        afficher("[lire:]", indent)
 
 
 class Operation:

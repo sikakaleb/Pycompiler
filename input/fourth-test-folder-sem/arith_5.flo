@@ -1,0 +1,4 @@
+entier 5  != 0;
+tantque(vrai){
+	ecrire(0);
+}

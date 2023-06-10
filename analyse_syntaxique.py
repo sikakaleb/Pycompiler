@@ -9,14 +9,14 @@ class FloParser(Parser):
     debugfile = "parser.out"
 
     precedence = (
-        ('nonassoc', 'COMPARATEUR', 'INF', 'SUP',
-         'INF_EGAL', 'SUP_EGAL', 'EGAL', 'DIFF'),
-        ('left', 'PLUS', 'MINUS'),
-        ('left', 'MULT', 'DIV'),
+        ('nonassoc', 'NON'),
         ('nonassoc', 'UMINUS'),
+        ('left', 'MULT', 'DIV'),
+        ('left', 'PLUS', 'MINUS'),
         ('left', 'ET'),
         ('left', 'OU'),
-        ('nonassoc', 'NON'),
+        ('nonassoc', 'INF', 'SUP', 'INF_EGAL',
+         'SUP_EGAL', 'EGAL', 'DIFF', 'COMPARATEUR'),
     )
 
     @_('prog')
@@ -49,6 +49,10 @@ class FloParser(Parser):
     def ecrire(self, p):
         return arbre_abstrait.Ecrire(p.expr)
 
+    @_('LIRE "(" ")"')
+    def factor(self, p):
+        return arbre_abstrait.Lire()
+
     @_('ENT IDENTIFIANT "=" expr ";"')
     def declaration(self, p):
         return arbre_abstrait.Declaration(p.IDENTIFIANT, p.expr, "ENTIER")
@@ -66,7 +70,7 @@ class FloParser(Parser):
     def structure_conditionnelle(self, p):
         return arbre_abstrait.Condition(p.expr, p.listeInstructions0, p.listeInstructions1)
 
-    @_('TANTQUE expr "{" listeInstructions "}"')
+    @_('TANTQUE "(" expr ")" "{" listeInstructions "}"')
     def boucle(self, p):
         return arbre_abstrait.TantQue(p.expr, p.listeInstructions)
 
@@ -77,16 +81,15 @@ class FloParser(Parser):
     @_('expr PLUS term',
        'expr MINUS term',
        'expr ET expr',
-       'expr OU expr')
+       'expr OU expr',)
     def expr(self, p):
         return arbre_abstrait.Operation(p[1], p[0], p[2])
 
     @_('expr INF expr',
        'expr SUP expr',
        'expr COMPARATEUR expr',
-       # 'expr SUP_EGAL expr',
        'expr EGAL expr',
-       'expr DIFF expr')
+       'expr DIFF expr',)
     def expr(self, p):
         return arbre_abstrait.Operation(p[1], p[0], p[2])
 
@@ -95,9 +98,11 @@ class FloParser(Parser):
         return p.term
 
     @_('term MULT factor',
-       'term DIV factor')
+       'term DIV factor',
+       'term MODULO factor',
+       'factor MODULO factor')
     def term(self, p):
-        return arbre_abstrait.Operation(p[1], p.term, p.factor)
+        return arbre_abstrait.Operation(p[1], p[0], p[2])
 
     @_('factor')
     def term(self, p):
@@ -131,9 +136,13 @@ class FloParser(Parser):
     def expr(self, p):
         return arbre_abstrait.Operation("non", arbre_abstrait.Identifiant(p.IDENTIFIANT), None)
 
+    @_('NON expr')
+    def expr(self, p):
+        return arbre_abstrait.Operation("non", p.expr, None)
+
     @_('MINUS expr %prec UMINUS')
     def expr(self, p):
-        return arbre_abstrait.Operation('-', p.expr)
+        return arbre_abstrait.Operation('*', p.expr, arbre_abstrait.Entier(-1))
 
 
 if __name__ == '__main__':
