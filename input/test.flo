@@ -1,13 +1,2 @@
-#ecrire( 2/3);
-#ecrire(vrai);
-#ecrire(faux);
-#ecrire(vrai ou faux);
-#ecrire(vrai et faux);
-ecrire(6==7);
-ecrire(6<=7);
-ecrire(2*6!=7);
-
-
-
-#ecrire(non vrai);
-#ecrire(vrai ou 2);
+entier x =25 ;
+booleen y = vrai;
