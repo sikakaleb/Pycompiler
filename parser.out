@@ -3,110 +3,108 @@ Grammar:
 Rule 0     S' -> statement
 Rule 1     statement -> prog
 Rule 2     prog -> listeInstructions
-Rule 3     listeInstructions -> listeInstructions instruction
-Rule 4     listeInstructions -> instruction
-Rule 5     instruction -> suite_sinosi
-Rule 6     instruction -> boucle
-Rule 7     instruction -> condition
-Rule 8     instruction -> affectation
-Rule 9     instruction -> declaration
-Rule 10    instruction -> ecrire
-Rule 11    ecrire -> ECRIRE ( expr ) ;
-Rule 12    factor -> BOOLEEN_LITERAL
-Rule 13    factor -> BOOLEEN
-Rule 14    factor -> ( expr )
-Rule 15    factor -> IDENTIFIANT
-Rule 16    factor -> ENTIER
-Rule 17    factor -> LIRE ( )
-Rule 18    type -> BOOLEEN
-Rule 19    type -> ENT
-Rule 20    declaration -> type IDENTIFIANT = expr ;
-Rule 21    affectation -> IDENTIFIANT = expr ;
-Rule 22    condition -> SI ( expr ) { listeInstructions } suite_sinosi
-Rule 23    suite_sinosi -> <empty>
-Rule 24    suite_sinosi -> SINON SI ( expr ) { listeInstructions } suite_sinosi
-Rule 25    suite_sinosi -> SINON { listeInstructions }
-Rule 26    boucle -> TANTQUE ( expr ) { listeInstructions }
-Rule 27    expr -> MINUS expr  [precedence=nonassoc, level=2]
-Rule 28    expr -> NON expr  [precedence=nonassoc, level=1]
-Rule 29    expr -> NON IDENTIFIANT
-Rule 30    expr -> NON BOOLEEN_LITERAL
-Rule 31    expr -> term
-Rule 32    expr -> expr DIFF expr  [precedence=nonassoc, level=7]
-Rule 33    expr -> expr EGAL expr  [precedence=nonassoc, level=7]
-Rule 34    expr -> expr COMPARATEUR expr  [precedence=nonassoc, level=7]
-Rule 35    expr -> expr SUP expr  [precedence=nonassoc, level=7]
-Rule 36    expr -> expr INF expr  [precedence=nonassoc, level=7]
-Rule 37    expr -> expr OU expr  [precedence=left, level=6]
-Rule 38    expr -> expr ET expr  [precedence=left, level=5]
-Rule 39    expr -> expr MINUS term  [precedence=left, level=4]
-Rule 40    expr -> expr PLUS term  [precedence=left, level=4]
-Rule 41    term -> factor
-Rule 42    term -> factor MODULO factor  [precedence=left, level=3]
-Rule 43    term -> term MODULO factor  [precedence=left, level=3]
-Rule 44    term -> term DIV factor  [precedence=left, level=3]
-Rule 45    term -> term MULT factor  [precedence=left, level=3]
+Rule 3     listeInstructions -> instruction
+Rule 4     listeInstructions -> listeInstructions instruction
+Rule 5     instruction -> fonction_declaration
+Rule 6     instruction -> appel_fonction_1
+Rule 7     instruction -> appel_fonction_2
+Rule 8     instruction -> retourner
+Rule 9     instruction -> boucle
+Rule 10    instruction -> condition
+Rule 11    instruction -> affectation
+Rule 12    instruction -> declaration
+Rule 13    instruction -> ecrire
+Rule 14    ecrire -> ECRIRE ( expr ) ;
+Rule 15    declaration -> type IDENTIFIANT = expr ;
+Rule 16    affectation -> IDENTIFIANT = expr ;
+Rule 17    condition -> SI ( expr ) { listeInstructions } suite_sinosi
+Rule 18    suite_sinosi -> <empty>
+Rule 19    suite_sinosi -> SINON SI ( expr ) { listeInstructions } suite_sinosi
+Rule 20    suite_sinosi -> SINON { listeInstructions }
+Rule 21    boucle -> TANTQUE ( expr ) { listeInstructions }
+Rule 22    retourner -> RETOURNER expr ;
+Rule 23    retourner -> retourner
+Rule 24    appel_fonction_2 -> IDENTIFIANT ( ) ;
+Rule 25    appel_fonction_1 -> IDENTIFIANT ( )
+Rule 26    fonction_declaration -> type IDENTIFIANT ( ) { listeInstructions }
+Rule 27    factor -> LIRE ( )
+Rule 28    factor -> MINUS expr  [precedence=nonassoc, level=2]
+Rule 29    factor -> NON expr  [precedence=nonassoc, level=1]
+Rule 30    factor -> factor OU expr  [precedence=left, level=6]
+Rule 31    factor -> factor ET expr  [precedence=left, level=5]
+Rule 32    factor -> IDENTIFIANT
+Rule 33    factor -> ( expr )
+Rule 34    factor -> BOOLEEN_LITERAL
+Rule 35    factor -> ENTIER
+Rule 36    expr -> expr COMPARATEUR expr  [precedence=nonassoc, level=7]
+Rule 37    expr -> term
+Rule 38    expr -> expr MINUS term  [precedence=left, level=4]
+Rule 39    expr -> expr PLUS term  [precedence=left, level=4]
+Rule 40    term -> factor
+Rule 41    term -> term MODULO factor  [precedence=left, level=3]
+Rule 42    term -> term DIV factor  [precedence=left, level=3]
+Rule 43    term -> term MULT factor  [precedence=left, level=3]
+Rule 44    term -> appel_fonction_1
+Rule 45    type -> ENT
+Rule 46    type -> BOOLEEN
 
 Unused terminals:
 
-    SUP_EGAL
     ALORS
     UMINUS
-    INF_EGAL
 
 Terminals, with rules where they appear:
 
-(                    : 11 14 17 22 24 26
-)                    : 11 14 17 22 24 26
-;                    : 11 20 21
-=                    : 20 21
+(                    : 14 17 19 21 24 25 26 27 33
+)                    : 14 17 19 21 24 25 26 27 33
+;                    : 14 15 16 22 24
+=                    : 15 16
 ALORS                : 
-BOOLEEN              : 13 18
-BOOLEEN_LITERAL      : 12 30
-COMPARATEUR          : 34
-DIFF                 : 32
-DIV                  : 44
-ECRIRE               : 11
-EGAL                 : 33
-ENT                  : 19
-ENTIER               : 16
-ET                   : 38
-IDENTIFIANT          : 15 20 21 29
-INF                  : 36
-INF_EGAL             : 
-LIRE                 : 17
-MINUS                : 27 39
-MODULO               : 42 43
-MULT                 : 45
-NON                  : 28 29 30
-OU                   : 37
-PLUS                 : 40
-SI                   : 22 24
-SINON                : 24 25
-SUP                  : 35
-SUP_EGAL             : 
-TANTQUE              : 26
+BOOLEEN              : 46
+BOOLEEN_LITERAL      : 34
+COMPARATEUR          : 36
+DIV                  : 42
+ECRIRE               : 14
+ENT                  : 45
+ENTIER               : 35
+ET                   : 31
+IDENTIFIANT          : 15 16 24 25 26 32
+LIRE                 : 27
+MINUS                : 28 38
+MODULO               : 41
+MULT                 : 43
+NON                  : 29
+OU                   : 30
+PLUS                 : 39
+RETOURNER            : 22
+SI                   : 17 19
+SINON                : 19 20
+TANTQUE              : 21
 UMINUS               : 
 error                : 
-{                    : 22 24 25 26
-}                    : 22 24 25 26
+{                    : 17 19 20 21 26
+}                    : 17 19 20 21 26
 
 Nonterminals, with rules where they appear:
 
-affectation          : 8
-boucle               : 6
-condition            : 7
-declaration          : 9
-ecrire               : 10
-expr                 : 11 14 20 21 22 24 26 27 28 32 32 33 33 34 34 35 35 36 36 37 37 38 38 39 40
-factor               : 41 42 42 43 44 45
+affectation          : 11
+appel_fonction_1     : 6 44
+appel_fonction_2     : 7
+boucle               : 9
+condition            : 10
+declaration          : 12
+ecrire               : 13
+expr                 : 14 15 16 17 19 21 22 28 29 30 31 33 36 36 38 39
+factor               : 30 31 40 41 42 43
+fonction_declaration : 5
 instruction          : 3 4
-listeInstructions    : 2 3 22 24 25 26
+listeInstructions    : 2 4 17 19 20 21 26
 prog                 : 1
+retourner            : 8 23
 statement            : 0
-suite_sinosi         : 5 22 24
-term                 : 31 39 40 43 44 45
-type                 : 20
+suite_sinosi         : 17 19
+term                 : 37 38 39 41 42 43
+type                 : 15 26
 
 
 state 0
@@ -114,51 +112,51 @@ state 0
     (0) S' -> . statement
     (1) statement -> . prog
     (2) prog -> . listeInstructions
-    (3) listeInstructions -> . listeInstructions instruction
-    (4) listeInstructions -> . instruction
-    (5) instruction -> . suite_sinosi
-    (6) instruction -> . boucle
-    (7) instruction -> . condition
-    (8) instruction -> . affectation
-    (9) instruction -> . declaration
-    (10) instruction -> . ecrire
-    (23) suite_sinosi -> .
-    (24) suite_sinosi -> . SINON SI ( expr ) { listeInstructions } suite_sinosi
-    (25) suite_sinosi -> . SINON { listeInstructions }
-    (26) boucle -> . TANTQUE ( expr ) { listeInstructions }
-    (22) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
-    (21) affectation -> . IDENTIFIANT = expr ;
-    (20) declaration -> . type IDENTIFIANT = expr ;
-    (11) ecrire -> . ECRIRE ( expr ) ;
-    (18) type -> . BOOLEEN
-    (19) type -> . ENT
-  ! shift/reduce conflict for SINON resolved as shift
-  ! shift/reduce conflict for TANTQUE resolved as shift
-  ! shift/reduce conflict for SI resolved as shift
-  ! shift/reduce conflict for IDENTIFIANT resolved as shift
-  ! shift/reduce conflict for ECRIRE resolved as shift
-  ! shift/reduce conflict for BOOLEEN resolved as shift
-  ! shift/reduce conflict for ENT resolved as shift
-    $end            reduce using rule 23 (suite_sinosi -> .)
-    SINON           shift and go to state 11
-    TANTQUE         shift and go to state 13
-    SI              shift and go to state 12
-    IDENTIFIANT     shift and go to state 14
-    ECRIRE          shift and go to state 16
-    BOOLEEN         shift and go to state 17
-    ENT             shift and go to state 18
+    (3) listeInstructions -> . instruction
+    (4) listeInstructions -> . listeInstructions instruction
+    (5) instruction -> . fonction_declaration
+    (6) instruction -> . appel_fonction_1
+    (7) instruction -> . appel_fonction_2
+    (8) instruction -> . retourner
+    (9) instruction -> . boucle
+    (10) instruction -> . condition
+    (11) instruction -> . affectation
+    (12) instruction -> . declaration
+    (13) instruction -> . ecrire
+    (26) fonction_declaration -> . type IDENTIFIANT ( ) { listeInstructions }
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    (24) appel_fonction_2 -> . IDENTIFIANT ( ) ;
+    (22) retourner -> . RETOURNER expr ;
+    (23) retourner -> . retourner
+    (21) boucle -> . TANTQUE ( expr ) { listeInstructions }
+    (17) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
+    (16) affectation -> . IDENTIFIANT = expr ;
+    (15) declaration -> . type IDENTIFIANT = expr ;
+    (14) ecrire -> . ECRIRE ( expr ) ;
+    (45) type -> . ENT
+    (46) type -> . BOOLEEN
+    IDENTIFIANT     shift and go to state 15
+    RETOURNER       shift and go to state 16
+    TANTQUE         shift and go to state 17
+    SI              shift and go to state 18
+    ECRIRE          shift and go to state 19
+    ENT             shift and go to state 20
+    BOOLEEN         shift and go to state 21
 
     statement                      shift and go to state 1
     prog                           shift and go to state 2
     listeInstructions              shift and go to state 3
     instruction                    shift and go to state 4
-    suite_sinosi                   shift and go to state 5
-    boucle                         shift and go to state 6
-    condition                      shift and go to state 7
-    affectation                    shift and go to state 8
-    declaration                    shift and go to state 9
-    ecrire                         shift and go to state 10
-    type                           shift and go to state 15
+    fonction_declaration           shift and go to state 5
+    appel_fonction_1               shift and go to state 6
+    appel_fonction_2               shift and go to state 7
+    retourner                      shift and go to state 8
+    boucle                         shift and go to state 9
+    condition                      shift and go to state 10
+    affectation                    shift and go to state 11
+    declaration                    shift and go to state 12
+    ecrire                         shift and go to state 13
+    type                           shift and go to state 14
 
 state 1
 
@@ -174,2361 +172,2024 @@ state 2
 state 3
 
     (2) prog -> listeInstructions .
-    (3) listeInstructions -> listeInstructions . instruction
-    (5) instruction -> . suite_sinosi
-    (6) instruction -> . boucle
-    (7) instruction -> . condition
-    (8) instruction -> . affectation
-    (9) instruction -> . declaration
-    (10) instruction -> . ecrire
-    (23) suite_sinosi -> .
-    (24) suite_sinosi -> . SINON SI ( expr ) { listeInstructions } suite_sinosi
-    (25) suite_sinosi -> . SINON { listeInstructions }
-    (26) boucle -> . TANTQUE ( expr ) { listeInstructions }
-    (22) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
-    (21) affectation -> . IDENTIFIANT = expr ;
-    (20) declaration -> . type IDENTIFIANT = expr ;
-    (11) ecrire -> . ECRIRE ( expr ) ;
-    (18) type -> . BOOLEEN
-    (19) type -> . ENT
-  ! reduce/reduce conflict for $end resolved using rule 2 (prog -> listeInstructions .)
-  ! shift/reduce conflict for SINON resolved as shift
-  ! shift/reduce conflict for TANTQUE resolved as shift
-  ! shift/reduce conflict for SI resolved as shift
-  ! shift/reduce conflict for IDENTIFIANT resolved as shift
-  ! shift/reduce conflict for ECRIRE resolved as shift
-  ! shift/reduce conflict for BOOLEEN resolved as shift
-  ! shift/reduce conflict for ENT resolved as shift
+    (4) listeInstructions -> listeInstructions . instruction
+    (5) instruction -> . fonction_declaration
+    (6) instruction -> . appel_fonction_1
+    (7) instruction -> . appel_fonction_2
+    (8) instruction -> . retourner
+    (9) instruction -> . boucle
+    (10) instruction -> . condition
+    (11) instruction -> . affectation
+    (12) instruction -> . declaration
+    (13) instruction -> . ecrire
+    (26) fonction_declaration -> . type IDENTIFIANT ( ) { listeInstructions }
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    (24) appel_fonction_2 -> . IDENTIFIANT ( ) ;
+    (22) retourner -> . RETOURNER expr ;
+    (23) retourner -> . retourner
+    (21) boucle -> . TANTQUE ( expr ) { listeInstructions }
+    (17) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
+    (16) affectation -> . IDENTIFIANT = expr ;
+    (15) declaration -> . type IDENTIFIANT = expr ;
+    (14) ecrire -> . ECRIRE ( expr ) ;
+    (45) type -> . ENT
+    (46) type -> . BOOLEEN
     $end            reduce using rule 2 (prog -> listeInstructions .)
-    SINON           shift and go to state 11
-    TANTQUE         shift and go to state 13
-    SI              shift and go to state 12
-    IDENTIFIANT     shift and go to state 14
-    ECRIRE          shift and go to state 16
-    BOOLEEN         shift and go to state 17
-    ENT             shift and go to state 18
+    IDENTIFIANT     shift and go to state 15
+    RETOURNER       shift and go to state 16
+    TANTQUE         shift and go to state 17
+    SI              shift and go to state 18
+    ECRIRE          shift and go to state 19
+    ENT             shift and go to state 20
+    BOOLEEN         shift and go to state 21
 
-    instruction                    shift and go to state 19
-    suite_sinosi                   shift and go to state 5
-    boucle                         shift and go to state 6
-    condition                      shift and go to state 7
-    affectation                    shift and go to state 8
-    declaration                    shift and go to state 9
-    ecrire                         shift and go to state 10
-    type                           shift and go to state 15
+    instruction                    shift and go to state 22
+    fonction_declaration           shift and go to state 5
+    appel_fonction_1               shift and go to state 6
+    appel_fonction_2               shift and go to state 7
+    retourner                      shift and go to state 8
+    boucle                         shift and go to state 9
+    condition                      shift and go to state 10
+    affectation                    shift and go to state 11
+    declaration                    shift and go to state 12
+    ecrire                         shift and go to state 13
+    type                           shift and go to state 14
 
 state 4
 
-    (4) listeInstructions -> instruction .
-    SINON           reduce using rule 4 (listeInstructions -> instruction .)
-    TANTQUE         reduce using rule 4 (listeInstructions -> instruction .)
-    SI              reduce using rule 4 (listeInstructions -> instruction .)
-    IDENTIFIANT     reduce using rule 4 (listeInstructions -> instruction .)
-    ECRIRE          reduce using rule 4 (listeInstructions -> instruction .)
-    BOOLEEN         reduce using rule 4 (listeInstructions -> instruction .)
-    ENT             reduce using rule 4 (listeInstructions -> instruction .)
-    $end            reduce using rule 4 (listeInstructions -> instruction .)
-    }               reduce using rule 4 (listeInstructions -> instruction .)
+    (3) listeInstructions -> instruction .
+    IDENTIFIANT     reduce using rule 3 (listeInstructions -> instruction .)
+    RETOURNER       reduce using rule 3 (listeInstructions -> instruction .)
+    TANTQUE         reduce using rule 3 (listeInstructions -> instruction .)
+    SI              reduce using rule 3 (listeInstructions -> instruction .)
+    ECRIRE          reduce using rule 3 (listeInstructions -> instruction .)
+    ENT             reduce using rule 3 (listeInstructions -> instruction .)
+    BOOLEEN         reduce using rule 3 (listeInstructions -> instruction .)
+    $end            reduce using rule 3 (listeInstructions -> instruction .)
+    }               reduce using rule 3 (listeInstructions -> instruction .)
 
 
 state 5
 
-    (5) instruction -> suite_sinosi .
-    SINON           reduce using rule 5 (instruction -> suite_sinosi .)
-    TANTQUE         reduce using rule 5 (instruction -> suite_sinosi .)
-    SI              reduce using rule 5 (instruction -> suite_sinosi .)
-    IDENTIFIANT     reduce using rule 5 (instruction -> suite_sinosi .)
-    ECRIRE          reduce using rule 5 (instruction -> suite_sinosi .)
-    BOOLEEN         reduce using rule 5 (instruction -> suite_sinosi .)
-    ENT             reduce using rule 5 (instruction -> suite_sinosi .)
-    $end            reduce using rule 5 (instruction -> suite_sinosi .)
-    }               reduce using rule 5 (instruction -> suite_sinosi .)
+    (5) instruction -> fonction_declaration .
+    IDENTIFIANT     reduce using rule 5 (instruction -> fonction_declaration .)
+    RETOURNER       reduce using rule 5 (instruction -> fonction_declaration .)
+    TANTQUE         reduce using rule 5 (instruction -> fonction_declaration .)
+    SI              reduce using rule 5 (instruction -> fonction_declaration .)
+    ECRIRE          reduce using rule 5 (instruction -> fonction_declaration .)
+    ENT             reduce using rule 5 (instruction -> fonction_declaration .)
+    BOOLEEN         reduce using rule 5 (instruction -> fonction_declaration .)
+    $end            reduce using rule 5 (instruction -> fonction_declaration .)
+    }               reduce using rule 5 (instruction -> fonction_declaration .)
 
 
 state 6
 
-    (6) instruction -> boucle .
-    SINON           reduce using rule 6 (instruction -> boucle .)
-    TANTQUE         reduce using rule 6 (instruction -> boucle .)
-    SI              reduce using rule 6 (instruction -> boucle .)
-    IDENTIFIANT     reduce using rule 6 (instruction -> boucle .)
-    ECRIRE          reduce using rule 6 (instruction -> boucle .)
-    BOOLEEN         reduce using rule 6 (instruction -> boucle .)
-    ENT             reduce using rule 6 (instruction -> boucle .)
-    $end            reduce using rule 6 (instruction -> boucle .)
-    }               reduce using rule 6 (instruction -> boucle .)
+    (6) instruction -> appel_fonction_1 .
+    IDENTIFIANT     reduce using rule 6 (instruction -> appel_fonction_1 .)
+    RETOURNER       reduce using rule 6 (instruction -> appel_fonction_1 .)
+    TANTQUE         reduce using rule 6 (instruction -> appel_fonction_1 .)
+    SI              reduce using rule 6 (instruction -> appel_fonction_1 .)
+    ECRIRE          reduce using rule 6 (instruction -> appel_fonction_1 .)
+    ENT             reduce using rule 6 (instruction -> appel_fonction_1 .)
+    BOOLEEN         reduce using rule 6 (instruction -> appel_fonction_1 .)
+    $end            reduce using rule 6 (instruction -> appel_fonction_1 .)
+    }               reduce using rule 6 (instruction -> appel_fonction_1 .)
 
 
 state 7
 
-    (7) instruction -> condition .
-    SINON           reduce using rule 7 (instruction -> condition .)
-    TANTQUE         reduce using rule 7 (instruction -> condition .)
-    SI              reduce using rule 7 (instruction -> condition .)
-    IDENTIFIANT     reduce using rule 7 (instruction -> condition .)
-    ECRIRE          reduce using rule 7 (instruction -> condition .)
-    BOOLEEN         reduce using rule 7 (instruction -> condition .)
-    ENT             reduce using rule 7 (instruction -> condition .)
-    $end            reduce using rule 7 (instruction -> condition .)
-    }               reduce using rule 7 (instruction -> condition .)
+    (7) instruction -> appel_fonction_2 .
+    IDENTIFIANT     reduce using rule 7 (instruction -> appel_fonction_2 .)
+    RETOURNER       reduce using rule 7 (instruction -> appel_fonction_2 .)
+    TANTQUE         reduce using rule 7 (instruction -> appel_fonction_2 .)
+    SI              reduce using rule 7 (instruction -> appel_fonction_2 .)
+    ECRIRE          reduce using rule 7 (instruction -> appel_fonction_2 .)
+    ENT             reduce using rule 7 (instruction -> appel_fonction_2 .)
+    BOOLEEN         reduce using rule 7 (instruction -> appel_fonction_2 .)
+    $end            reduce using rule 7 (instruction -> appel_fonction_2 .)
+    }               reduce using rule 7 (instruction -> appel_fonction_2 .)
 
 
 state 8
 
-    (8) instruction -> affectation .
-    SINON           reduce using rule 8 (instruction -> affectation .)
-    TANTQUE         reduce using rule 8 (instruction -> affectation .)
-    SI              reduce using rule 8 (instruction -> affectation .)
-    IDENTIFIANT     reduce using rule 8 (instruction -> affectation .)
-    ECRIRE          reduce using rule 8 (instruction -> affectation .)
-    BOOLEEN         reduce using rule 8 (instruction -> affectation .)
-    ENT             reduce using rule 8 (instruction -> affectation .)
-    $end            reduce using rule 8 (instruction -> affectation .)
-    }               reduce using rule 8 (instruction -> affectation .)
+    (8) instruction -> retourner .
+    (23) retourner -> retourner .
+  ! reduce/reduce conflict for IDENTIFIANT resolved using rule 8 (instruction -> retourner .)
+  ! reduce/reduce conflict for RETOURNER resolved using rule 8 (instruction -> retourner .)
+  ! reduce/reduce conflict for TANTQUE resolved using rule 8 (instruction -> retourner .)
+  ! reduce/reduce conflict for SI resolved using rule 8 (instruction -> retourner .)
+  ! reduce/reduce conflict for ECRIRE resolved using rule 8 (instruction -> retourner .)
+  ! reduce/reduce conflict for ENT resolved using rule 8 (instruction -> retourner .)
+  ! reduce/reduce conflict for BOOLEEN resolved using rule 8 (instruction -> retourner .)
+  ! reduce/reduce conflict for $end resolved using rule 8 (instruction -> retourner .)
+  ! reduce/reduce conflict for } resolved using rule 8 (instruction -> retourner .)
+    IDENTIFIANT     reduce using rule 8 (instruction -> retourner .)
+    RETOURNER       reduce using rule 8 (instruction -> retourner .)
+    TANTQUE         reduce using rule 8 (instruction -> retourner .)
+    SI              reduce using rule 8 (instruction -> retourner .)
+    ECRIRE          reduce using rule 8 (instruction -> retourner .)
+    ENT             reduce using rule 8 (instruction -> retourner .)
+    BOOLEEN         reduce using rule 8 (instruction -> retourner .)
+    $end            reduce using rule 8 (instruction -> retourner .)
+    }               reduce using rule 8 (instruction -> retourner .)
 
 
 state 9
 
-    (9) instruction -> declaration .
-    SINON           reduce using rule 9 (instruction -> declaration .)
-    TANTQUE         reduce using rule 9 (instruction -> declaration .)
-    SI              reduce using rule 9 (instruction -> declaration .)
-    IDENTIFIANT     reduce using rule 9 (instruction -> declaration .)
-    ECRIRE          reduce using rule 9 (instruction -> declaration .)
-    BOOLEEN         reduce using rule 9 (instruction -> declaration .)
-    ENT             reduce using rule 9 (instruction -> declaration .)
-    $end            reduce using rule 9 (instruction -> declaration .)
-    }               reduce using rule 9 (instruction -> declaration .)
+    (9) instruction -> boucle .
+    IDENTIFIANT     reduce using rule 9 (instruction -> boucle .)
+    RETOURNER       reduce using rule 9 (instruction -> boucle .)
+    TANTQUE         reduce using rule 9 (instruction -> boucle .)
+    SI              reduce using rule 9 (instruction -> boucle .)
+    ECRIRE          reduce using rule 9 (instruction -> boucle .)
+    ENT             reduce using rule 9 (instruction -> boucle .)
+    BOOLEEN         reduce using rule 9 (instruction -> boucle .)
+    $end            reduce using rule 9 (instruction -> boucle .)
+    }               reduce using rule 9 (instruction -> boucle .)
 
 
 state 10
 
-    (10) instruction -> ecrire .
-    SINON           reduce using rule 10 (instruction -> ecrire .)
-    TANTQUE         reduce using rule 10 (instruction -> ecrire .)
-    SI              reduce using rule 10 (instruction -> ecrire .)
-    IDENTIFIANT     reduce using rule 10 (instruction -> ecrire .)
-    ECRIRE          reduce using rule 10 (instruction -> ecrire .)
-    BOOLEEN         reduce using rule 10 (instruction -> ecrire .)
-    ENT             reduce using rule 10 (instruction -> ecrire .)
-    $end            reduce using rule 10 (instruction -> ecrire .)
-    }               reduce using rule 10 (instruction -> ecrire .)
+    (10) instruction -> condition .
+    IDENTIFIANT     reduce using rule 10 (instruction -> condition .)
+    RETOURNER       reduce using rule 10 (instruction -> condition .)
+    TANTQUE         reduce using rule 10 (instruction -> condition .)
+    SI              reduce using rule 10 (instruction -> condition .)
+    ECRIRE          reduce using rule 10 (instruction -> condition .)
+    ENT             reduce using rule 10 (instruction -> condition .)
+    BOOLEEN         reduce using rule 10 (instruction -> condition .)
+    $end            reduce using rule 10 (instruction -> condition .)
+    }               reduce using rule 10 (instruction -> condition .)
 
 
 state 11
 
-    (24) suite_sinosi -> SINON . SI ( expr ) { listeInstructions } suite_sinosi
-    (25) suite_sinosi -> SINON . { listeInstructions }
-    SI              shift and go to state 20
-    {               shift and go to state 21
+    (11) instruction -> affectation .
+    IDENTIFIANT     reduce using rule 11 (instruction -> affectation .)
+    RETOURNER       reduce using rule 11 (instruction -> affectation .)
+    TANTQUE         reduce using rule 11 (instruction -> affectation .)
+    SI              reduce using rule 11 (instruction -> affectation .)
+    ECRIRE          reduce using rule 11 (instruction -> affectation .)
+    ENT             reduce using rule 11 (instruction -> affectation .)
+    BOOLEEN         reduce using rule 11 (instruction -> affectation .)
+    $end            reduce using rule 11 (instruction -> affectation .)
+    }               reduce using rule 11 (instruction -> affectation .)
 
 
 state 12
 
-    (22) condition -> SI . ( expr ) { listeInstructions } suite_sinosi
-    (               shift and go to state 22
+    (12) instruction -> declaration .
+    IDENTIFIANT     reduce using rule 12 (instruction -> declaration .)
+    RETOURNER       reduce using rule 12 (instruction -> declaration .)
+    TANTQUE         reduce using rule 12 (instruction -> declaration .)
+    SI              reduce using rule 12 (instruction -> declaration .)
+    ECRIRE          reduce using rule 12 (instruction -> declaration .)
+    ENT             reduce using rule 12 (instruction -> declaration .)
+    BOOLEEN         reduce using rule 12 (instruction -> declaration .)
+    $end            reduce using rule 12 (instruction -> declaration .)
+    }               reduce using rule 12 (instruction -> declaration .)
 
 
 state 13
 
-    (26) boucle -> TANTQUE . ( expr ) { listeInstructions }
-    (               shift and go to state 23
+    (13) instruction -> ecrire .
+    IDENTIFIANT     reduce using rule 13 (instruction -> ecrire .)
+    RETOURNER       reduce using rule 13 (instruction -> ecrire .)
+    TANTQUE         reduce using rule 13 (instruction -> ecrire .)
+    SI              reduce using rule 13 (instruction -> ecrire .)
+    ECRIRE          reduce using rule 13 (instruction -> ecrire .)
+    ENT             reduce using rule 13 (instruction -> ecrire .)
+    BOOLEEN         reduce using rule 13 (instruction -> ecrire .)
+    $end            reduce using rule 13 (instruction -> ecrire .)
+    }               reduce using rule 13 (instruction -> ecrire .)
 
 
 state 14
 
-    (21) affectation -> IDENTIFIANT . = expr ;
-    =               shift and go to state 24
+    (26) fonction_declaration -> type . IDENTIFIANT ( ) { listeInstructions }
+    (15) declaration -> type . IDENTIFIANT = expr ;
+    IDENTIFIANT     shift and go to state 23
 
 
 state 15
 
-    (20) declaration -> type . IDENTIFIANT = expr ;
-    IDENTIFIANT     shift and go to state 25
+    (25) appel_fonction_1 -> IDENTIFIANT . ( )
+    (24) appel_fonction_2 -> IDENTIFIANT . ( ) ;
+    (16) affectation -> IDENTIFIANT . = expr ;
+    (               shift and go to state 24
+    =               shift and go to state 25
 
 
 state 16
 
-    (11) ecrire -> ECRIRE . ( expr ) ;
-    (               shift and go to state 26
+    (22) retourner -> RETOURNER . expr ;
+    (36) expr -> . expr COMPARATEUR expr
+    (37) expr -> . term
+    (38) expr -> . expr MINUS term
+    (39) expr -> . expr PLUS term
+    (40) term -> . factor
+    (41) term -> . term MODULO factor
+    (42) term -> . term DIV factor
+    (43) term -> . term MULT factor
+    (44) term -> . appel_fonction_1
+    (27) factor -> . LIRE ( )
+    (28) factor -> . MINUS expr
+    (29) factor -> . NON expr
+    (30) factor -> . factor OU expr
+    (31) factor -> . factor ET expr
+    (32) factor -> . IDENTIFIANT
+    (33) factor -> . ( expr )
+    (34) factor -> . BOOLEEN_LITERAL
+    (35) factor -> . ENTIER
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    LIRE            shift and go to state 31
+    MINUS           shift and go to state 28
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
+    expr                           shift and go to state 26
+    term                           shift and go to state 27
+    factor                         shift and go to state 29
+    appel_fonction_1               shift and go to state 30
 
 state 17
 
-    (18) type -> BOOLEEN .
-    IDENTIFIANT     reduce using rule 18 (type -> BOOLEEN .)
+    (21) boucle -> TANTQUE . ( expr ) { listeInstructions }
+    (               shift and go to state 37
 
 
 state 18
 
-    (19) type -> ENT .
-    IDENTIFIANT     reduce using rule 19 (type -> ENT .)
+    (17) condition -> SI . ( expr ) { listeInstructions } suite_sinosi
+    (               shift and go to state 38
 
 
 state 19
 
-    (3) listeInstructions -> listeInstructions instruction .
-    SINON           reduce using rule 3 (listeInstructions -> listeInstructions instruction .)
-    TANTQUE         reduce using rule 3 (listeInstructions -> listeInstructions instruction .)
-    SI              reduce using rule 3 (listeInstructions -> listeInstructions instruction .)
-    IDENTIFIANT     reduce using rule 3 (listeInstructions -> listeInstructions instruction .)
-    ECRIRE          reduce using rule 3 (listeInstructions -> listeInstructions instruction .)
-    BOOLEEN         reduce using rule 3 (listeInstructions -> listeInstructions instruction .)
-    ENT             reduce using rule 3 (listeInstructions -> listeInstructions instruction .)
-    $end            reduce using rule 3 (listeInstructions -> listeInstructions instruction .)
-    }               reduce using rule 3 (listeInstructions -> listeInstructions instruction .)
+    (14) ecrire -> ECRIRE . ( expr ) ;
+    (               shift and go to state 39
 
 
 state 20
 
-    (24) suite_sinosi -> SINON SI . ( expr ) { listeInstructions } suite_sinosi
-    (               shift and go to state 27
+    (45) type -> ENT .
+    IDENTIFIANT     reduce using rule 45 (type -> ENT .)
 
 
 state 21
 
-    (25) suite_sinosi -> SINON { . listeInstructions }
-    (3) listeInstructions -> . listeInstructions instruction
-    (4) listeInstructions -> . instruction
-    (5) instruction -> . suite_sinosi
-    (6) instruction -> . boucle
-    (7) instruction -> . condition
-    (8) instruction -> . affectation
-    (9) instruction -> . declaration
-    (10) instruction -> . ecrire
-    (23) suite_sinosi -> .
-    (24) suite_sinosi -> . SINON SI ( expr ) { listeInstructions } suite_sinosi
-    (25) suite_sinosi -> . SINON { listeInstructions }
-    (26) boucle -> . TANTQUE ( expr ) { listeInstructions }
-    (22) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
-    (21) affectation -> . IDENTIFIANT = expr ;
-    (20) declaration -> . type IDENTIFIANT = expr ;
-    (11) ecrire -> . ECRIRE ( expr ) ;
-    (18) type -> . BOOLEEN
-    (19) type -> . ENT
-  ! shift/reduce conflict for SINON resolved as shift
-  ! shift/reduce conflict for TANTQUE resolved as shift
-  ! shift/reduce conflict for SI resolved as shift
-  ! shift/reduce conflict for IDENTIFIANT resolved as shift
-  ! shift/reduce conflict for ECRIRE resolved as shift
-  ! shift/reduce conflict for BOOLEEN resolved as shift
-  ! shift/reduce conflict for ENT resolved as shift
-    }               reduce using rule 23 (suite_sinosi -> .)
-    SINON           shift and go to state 11
-    TANTQUE         shift and go to state 13
-    SI              shift and go to state 12
-    IDENTIFIANT     shift and go to state 14
-    ECRIRE          shift and go to state 16
-    BOOLEEN         shift and go to state 17
-    ENT             shift and go to state 18
+    (46) type -> BOOLEEN .
+    IDENTIFIANT     reduce using rule 46 (type -> BOOLEEN .)
 
-    listeInstructions              shift and go to state 28
-    instruction                    shift and go to state 4
-    suite_sinosi                   shift and go to state 5
-    boucle                         shift and go to state 6
-    condition                      shift and go to state 7
-    affectation                    shift and go to state 8
-    declaration                    shift and go to state 9
-    ecrire                         shift and go to state 10
-    type                           shift and go to state 15
 
 state 22
 
-    (22) condition -> SI ( . expr ) { listeInstructions } suite_sinosi
-    (27) expr -> . MINUS expr
-    (28) expr -> . NON expr
-    (29) expr -> . NON IDENTIFIANT
-    (30) expr -> . NON BOOLEEN_LITERAL
-    (31) expr -> . term
-    (32) expr -> . expr DIFF expr
-    (33) expr -> . expr EGAL expr
-    (34) expr -> . expr COMPARATEUR expr
-    (35) expr -> . expr SUP expr
-    (36) expr -> . expr INF expr
-    (37) expr -> . expr OU expr
-    (38) expr -> . expr ET expr
-    (39) expr -> . expr MINUS term
-    (40) expr -> . expr PLUS term
-    (41) term -> . factor
-    (42) term -> . factor MODULO factor
-    (43) term -> . term MODULO factor
-    (44) term -> . term DIV factor
-    (45) term -> . term MULT factor
-    (12) factor -> . BOOLEEN_LITERAL
-    (13) factor -> . BOOLEEN
-    (14) factor -> . ( expr )
-    (15) factor -> . IDENTIFIANT
-    (16) factor -> . ENTIER
-    (17) factor -> . LIRE ( )
-    MINUS           shift and go to state 31
-    NON             shift and go to state 32
-    BOOLEEN_LITERAL shift and go to state 34
-    BOOLEEN         shift and go to state 37
-    (               shift and go to state 29
-    IDENTIFIANT     shift and go to state 33
-    ENTIER          shift and go to state 38
-    LIRE            shift and go to state 39
+    (4) listeInstructions -> listeInstructions instruction .
+    IDENTIFIANT     reduce using rule 4 (listeInstructions -> listeInstructions instruction .)
+    RETOURNER       reduce using rule 4 (listeInstructions -> listeInstructions instruction .)
+    TANTQUE         reduce using rule 4 (listeInstructions -> listeInstructions instruction .)
+    SI              reduce using rule 4 (listeInstructions -> listeInstructions instruction .)
+    ECRIRE          reduce using rule 4 (listeInstructions -> listeInstructions instruction .)
+    ENT             reduce using rule 4 (listeInstructions -> listeInstructions instruction .)
+    BOOLEEN         reduce using rule 4 (listeInstructions -> listeInstructions instruction .)
+    $end            reduce using rule 4 (listeInstructions -> listeInstructions instruction .)
+    }               reduce using rule 4 (listeInstructions -> listeInstructions instruction .)
 
-    expr                           shift and go to state 30
-    term                           shift and go to state 35
-    factor                         shift and go to state 36
 
 state 23
 
-    (26) boucle -> TANTQUE ( . expr ) { listeInstructions }
-    (27) expr -> . MINUS expr
-    (28) expr -> . NON expr
-    (29) expr -> . NON IDENTIFIANT
-    (30) expr -> . NON BOOLEEN_LITERAL
-    (31) expr -> . term
-    (32) expr -> . expr DIFF expr
-    (33) expr -> . expr EGAL expr
-    (34) expr -> . expr COMPARATEUR expr
-    (35) expr -> . expr SUP expr
-    (36) expr -> . expr INF expr
-    (37) expr -> . expr OU expr
-    (38) expr -> . expr ET expr
-    (39) expr -> . expr MINUS term
-    (40) expr -> . expr PLUS term
-    (41) term -> . factor
-    (42) term -> . factor MODULO factor
-    (43) term -> . term MODULO factor
-    (44) term -> . term DIV factor
-    (45) term -> . term MULT factor
-    (12) factor -> . BOOLEEN_LITERAL
-    (13) factor -> . BOOLEEN
-    (14) factor -> . ( expr )
-    (15) factor -> . IDENTIFIANT
-    (16) factor -> . ENTIER
-    (17) factor -> . LIRE ( )
-    MINUS           shift and go to state 31
-    NON             shift and go to state 32
-    BOOLEEN_LITERAL shift and go to state 34
-    BOOLEEN         shift and go to state 37
-    (               shift and go to state 29
-    IDENTIFIANT     shift and go to state 33
-    ENTIER          shift and go to state 38
-    LIRE            shift and go to state 39
+    (26) fonction_declaration -> type IDENTIFIANT . ( ) { listeInstructions }
+    (15) declaration -> type IDENTIFIANT . = expr ;
+    (               shift and go to state 40
+    =               shift and go to state 41
 
-    expr                           shift and go to state 40
-    term                           shift and go to state 35
-    factor                         shift and go to state 36
 
 state 24
 
-    (21) affectation -> IDENTIFIANT = . expr ;
-    (27) expr -> . MINUS expr
-    (28) expr -> . NON expr
-    (29) expr -> . NON IDENTIFIANT
-    (30) expr -> . NON BOOLEEN_LITERAL
-    (31) expr -> . term
-    (32) expr -> . expr DIFF expr
-    (33) expr -> . expr EGAL expr
-    (34) expr -> . expr COMPARATEUR expr
-    (35) expr -> . expr SUP expr
-    (36) expr -> . expr INF expr
-    (37) expr -> . expr OU expr
-    (38) expr -> . expr ET expr
-    (39) expr -> . expr MINUS term
-    (40) expr -> . expr PLUS term
-    (41) term -> . factor
-    (42) term -> . factor MODULO factor
-    (43) term -> . term MODULO factor
-    (44) term -> . term DIV factor
-    (45) term -> . term MULT factor
-    (12) factor -> . BOOLEEN_LITERAL
-    (13) factor -> . BOOLEEN
-    (14) factor -> . ( expr )
-    (15) factor -> . IDENTIFIANT
-    (16) factor -> . ENTIER
-    (17) factor -> . LIRE ( )
-    MINUS           shift and go to state 31
-    NON             shift and go to state 32
-    BOOLEEN_LITERAL shift and go to state 34
-    BOOLEEN         shift and go to state 37
-    (               shift and go to state 29
-    IDENTIFIANT     shift and go to state 33
-    ENTIER          shift and go to state 38
-    LIRE            shift and go to state 39
+    (25) appel_fonction_1 -> IDENTIFIANT ( . )
+    (24) appel_fonction_2 -> IDENTIFIANT ( . ) ;
+    )               shift and go to state 42
 
-    expr                           shift and go to state 41
-    term                           shift and go to state 35
-    factor                         shift and go to state 36
 
 state 25
 
-    (20) declaration -> type IDENTIFIANT . = expr ;
-    =               shift and go to state 42
+    (16) affectation -> IDENTIFIANT = . expr ;
+    (36) expr -> . expr COMPARATEUR expr
+    (37) expr -> . term
+    (38) expr -> . expr MINUS term
+    (39) expr -> . expr PLUS term
+    (40) term -> . factor
+    (41) term -> . term MODULO factor
+    (42) term -> . term DIV factor
+    (43) term -> . term MULT factor
+    (44) term -> . appel_fonction_1
+    (27) factor -> . LIRE ( )
+    (28) factor -> . MINUS expr
+    (29) factor -> . NON expr
+    (30) factor -> . factor OU expr
+    (31) factor -> . factor ET expr
+    (32) factor -> . IDENTIFIANT
+    (33) factor -> . ( expr )
+    (34) factor -> . BOOLEEN_LITERAL
+    (35) factor -> . ENTIER
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    LIRE            shift and go to state 31
+    MINUS           shift and go to state 28
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
+    expr                           shift and go to state 43
+    term                           shift and go to state 27
+    factor                         shift and go to state 29
+    appel_fonction_1               shift and go to state 30
 
 state 26
 
-    (11) ecrire -> ECRIRE ( . expr ) ;
-    (27) expr -> . MINUS expr
-    (28) expr -> . NON expr
-    (29) expr -> . NON IDENTIFIANT
-    (30) expr -> . NON BOOLEEN_LITERAL
-    (31) expr -> . term
-    (32) expr -> . expr DIFF expr
-    (33) expr -> . expr EGAL expr
-    (34) expr -> . expr COMPARATEUR expr
-    (35) expr -> . expr SUP expr
-    (36) expr -> . expr INF expr
-    (37) expr -> . expr OU expr
-    (38) expr -> . expr ET expr
-    (39) expr -> . expr MINUS term
-    (40) expr -> . expr PLUS term
-    (41) term -> . factor
-    (42) term -> . factor MODULO factor
-    (43) term -> . term MODULO factor
-    (44) term -> . term DIV factor
-    (45) term -> . term MULT factor
-    (12) factor -> . BOOLEEN_LITERAL
-    (13) factor -> . BOOLEEN
-    (14) factor -> . ( expr )
-    (15) factor -> . IDENTIFIANT
-    (16) factor -> . ENTIER
-    (17) factor -> . LIRE ( )
-    MINUS           shift and go to state 31
-    NON             shift and go to state 32
-    BOOLEEN_LITERAL shift and go to state 34
-    BOOLEEN         shift and go to state 37
-    (               shift and go to state 29
-    IDENTIFIANT     shift and go to state 33
-    ENTIER          shift and go to state 38
-    LIRE            shift and go to state 39
+    (22) retourner -> RETOURNER expr . ;
+    (36) expr -> expr . COMPARATEUR expr
+    (38) expr -> expr . MINUS term
+    (39) expr -> expr . PLUS term
+    ;               shift and go to state 44
+    COMPARATEUR     shift and go to state 45
+    MINUS           shift and go to state 46
+    PLUS            shift and go to state 47
 
-    expr                           shift and go to state 43
-    term                           shift and go to state 35
-    factor                         shift and go to state 36
 
 state 27
 
-    (24) suite_sinosi -> SINON SI ( . expr ) { listeInstructions } suite_sinosi
-    (27) expr -> . MINUS expr
-    (28) expr -> . NON expr
-    (29) expr -> . NON IDENTIFIANT
-    (30) expr -> . NON BOOLEEN_LITERAL
-    (31) expr -> . term
-    (32) expr -> . expr DIFF expr
-    (33) expr -> . expr EGAL expr
-    (34) expr -> . expr COMPARATEUR expr
-    (35) expr -> . expr SUP expr
-    (36) expr -> . expr INF expr
-    (37) expr -> . expr OU expr
-    (38) expr -> . expr ET expr
-    (39) expr -> . expr MINUS term
-    (40) expr -> . expr PLUS term
-    (41) term -> . factor
-    (42) term -> . factor MODULO factor
-    (43) term -> . term MODULO factor
-    (44) term -> . term DIV factor
-    (45) term -> . term MULT factor
-    (12) factor -> . BOOLEEN_LITERAL
-    (13) factor -> . BOOLEEN
-    (14) factor -> . ( expr )
-    (15) factor -> . IDENTIFIANT
-    (16) factor -> . ENTIER
-    (17) factor -> . LIRE ( )
-    MINUS           shift and go to state 31
-    NON             shift and go to state 32
-    BOOLEEN_LITERAL shift and go to state 34
-    BOOLEEN         shift and go to state 37
-    (               shift and go to state 29
-    IDENTIFIANT     shift and go to state 33
-    ENTIER          shift and go to state 38
-    LIRE            shift and go to state 39
+    (37) expr -> term .
+    (41) term -> term . MODULO factor
+    (42) term -> term . DIV factor
+    (43) term -> term . MULT factor
+  ! shift/reduce conflict for MODULO resolved as shift
+  ! shift/reduce conflict for DIV resolved as shift
+  ! shift/reduce conflict for MULT resolved as shift
+    ;               reduce using rule 37 (expr -> term .)
+    COMPARATEUR     reduce using rule 37 (expr -> term .)
+    MINUS           reduce using rule 37 (expr -> term .)
+    PLUS            reduce using rule 37 (expr -> term .)
+    OU              reduce using rule 37 (expr -> term .)
+    ET              reduce using rule 37 (expr -> term .)
+    )               reduce using rule 37 (expr -> term .)
+    MODULO          shift and go to state 48
+    DIV             shift and go to state 49
+    MULT            shift and go to state 50
 
-    expr                           shift and go to state 44
-    term                           shift and go to state 35
-    factor                         shift and go to state 36
 
 state 28
 
-    (25) suite_sinosi -> SINON { listeInstructions . }
-    (3) listeInstructions -> listeInstructions . instruction
-    (5) instruction -> . suite_sinosi
-    (6) instruction -> . boucle
-    (7) instruction -> . condition
-    (8) instruction -> . affectation
-    (9) instruction -> . declaration
-    (10) instruction -> . ecrire
-    (23) suite_sinosi -> .
-    (24) suite_sinosi -> . SINON SI ( expr ) { listeInstructions } suite_sinosi
-    (25) suite_sinosi -> . SINON { listeInstructions }
-    (26) boucle -> . TANTQUE ( expr ) { listeInstructions }
-    (22) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
-    (21) affectation -> . IDENTIFIANT = expr ;
-    (20) declaration -> . type IDENTIFIANT = expr ;
-    (11) ecrire -> . ECRIRE ( expr ) ;
-    (18) type -> . BOOLEEN
-    (19) type -> . ENT
-  ! shift/reduce conflict for } resolved as shift
-  ! shift/reduce conflict for SINON resolved as shift
-  ! shift/reduce conflict for TANTQUE resolved as shift
-  ! shift/reduce conflict for SI resolved as shift
-  ! shift/reduce conflict for IDENTIFIANT resolved as shift
-  ! shift/reduce conflict for ECRIRE resolved as shift
-  ! shift/reduce conflict for BOOLEEN resolved as shift
-  ! shift/reduce conflict for ENT resolved as shift
-    }               shift and go to state 45
-    SINON           shift and go to state 11
-    TANTQUE         shift and go to state 13
-    SI              shift and go to state 12
-    IDENTIFIANT     shift and go to state 14
-    ECRIRE          shift and go to state 16
-    BOOLEEN         shift and go to state 17
-    ENT             shift and go to state 18
+    (28) factor -> MINUS . expr
+    (36) expr -> . expr COMPARATEUR expr
+    (37) expr -> . term
+    (38) expr -> . expr MINUS term
+    (39) expr -> . expr PLUS term
+    (40) term -> . factor
+    (41) term -> . term MODULO factor
+    (42) term -> . term DIV factor
+    (43) term -> . term MULT factor
+    (44) term -> . appel_fonction_1
+    (27) factor -> . LIRE ( )
+    (28) factor -> . MINUS expr
+    (29) factor -> . NON expr
+    (30) factor -> . factor OU expr
+    (31) factor -> . factor ET expr
+    (32) factor -> . IDENTIFIANT
+    (33) factor -> . ( expr )
+    (34) factor -> . BOOLEEN_LITERAL
+    (35) factor -> . ENTIER
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    LIRE            shift and go to state 31
+    MINUS           shift and go to state 28
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
-    instruction                    shift and go to state 19
-    suite_sinosi                   shift and go to state 5
-    boucle                         shift and go to state 6
-    condition                      shift and go to state 7
-    affectation                    shift and go to state 8
-    declaration                    shift and go to state 9
-    ecrire                         shift and go to state 10
-    type                           shift and go to state 15
+    expr                           shift and go to state 51
+    term                           shift and go to state 27
+    factor                         shift and go to state 29
+    appel_fonction_1               shift and go to state 30
 
 state 29
 
-    (14) factor -> ( . expr )
-    (27) expr -> . MINUS expr
-    (28) expr -> . NON expr
-    (29) expr -> . NON IDENTIFIANT
-    (30) expr -> . NON BOOLEEN_LITERAL
-    (31) expr -> . term
-    (32) expr -> . expr DIFF expr
-    (33) expr -> . expr EGAL expr
-    (34) expr -> . expr COMPARATEUR expr
-    (35) expr -> . expr SUP expr
-    (36) expr -> . expr INF expr
-    (37) expr -> . expr OU expr
-    (38) expr -> . expr ET expr
-    (39) expr -> . expr MINUS term
-    (40) expr -> . expr PLUS term
-    (41) term -> . factor
-    (42) term -> . factor MODULO factor
-    (43) term -> . term MODULO factor
-    (44) term -> . term DIV factor
-    (45) term -> . term MULT factor
-    (12) factor -> . BOOLEEN_LITERAL
-    (13) factor -> . BOOLEEN
-    (14) factor -> . ( expr )
-    (15) factor -> . IDENTIFIANT
-    (16) factor -> . ENTIER
-    (17) factor -> . LIRE ( )
-    MINUS           shift and go to state 31
-    NON             shift and go to state 32
-    BOOLEEN_LITERAL shift and go to state 34
-    BOOLEEN         shift and go to state 37
-    (               shift and go to state 29
-    IDENTIFIANT     shift and go to state 33
-    ENTIER          shift and go to state 38
-    LIRE            shift and go to state 39
+    (40) term -> factor .
+    (30) factor -> factor . OU expr
+    (31) factor -> factor . ET expr
+  ! shift/reduce conflict for OU resolved as shift
+  ! shift/reduce conflict for ET resolved as shift
+    MODULO          reduce using rule 40 (term -> factor .)
+    DIV             reduce using rule 40 (term -> factor .)
+    MULT            reduce using rule 40 (term -> factor .)
+    ;               reduce using rule 40 (term -> factor .)
+    COMPARATEUR     reduce using rule 40 (term -> factor .)
+    MINUS           reduce using rule 40 (term -> factor .)
+    PLUS            reduce using rule 40 (term -> factor .)
+    )               reduce using rule 40 (term -> factor .)
+    OU              shift and go to state 52
+    ET              shift and go to state 53
 
-    expr                           shift and go to state 46
-    term                           shift and go to state 35
-    factor                         shift and go to state 36
 
 state 30
 
-    (22) condition -> SI ( expr . ) { listeInstructions } suite_sinosi
-    (32) expr -> expr . DIFF expr
-    (33) expr -> expr . EGAL expr
-    (34) expr -> expr . COMPARATEUR expr
-    (35) expr -> expr . SUP expr
-    (36) expr -> expr . INF expr
-    (37) expr -> expr . OU expr
-    (38) expr -> expr . ET expr
-    (39) expr -> expr . MINUS term
-    (40) expr -> expr . PLUS term
-    )               shift and go to state 47
-    DIFF            shift and go to state 48
-    EGAL            shift and go to state 49
-    COMPARATEUR     shift and go to state 50
-    SUP             shift and go to state 51
-    INF             shift and go to state 52
-    OU              shift and go to state 53
-    ET              shift and go to state 54
-    MINUS           shift and go to state 55
-    PLUS            shift and go to state 56
+    (44) term -> appel_fonction_1 .
+    MODULO          reduce using rule 44 (term -> appel_fonction_1 .)
+    DIV             reduce using rule 44 (term -> appel_fonction_1 .)
+    MULT            reduce using rule 44 (term -> appel_fonction_1 .)
+    ;               reduce using rule 44 (term -> appel_fonction_1 .)
+    COMPARATEUR     reduce using rule 44 (term -> appel_fonction_1 .)
+    MINUS           reduce using rule 44 (term -> appel_fonction_1 .)
+    PLUS            reduce using rule 44 (term -> appel_fonction_1 .)
+    OU              reduce using rule 44 (term -> appel_fonction_1 .)
+    ET              reduce using rule 44 (term -> appel_fonction_1 .)
+    )               reduce using rule 44 (term -> appel_fonction_1 .)
 
 
 state 31
 
-    (27) expr -> MINUS . expr
-    (27) expr -> . MINUS expr
-    (28) expr -> . NON expr
-    (29) expr -> . NON IDENTIFIANT
-    (30) expr -> . NON BOOLEEN_LITERAL
-    (31) expr -> . term
-    (32) expr -> . expr DIFF expr
-    (33) expr -> . expr EGAL expr
-    (34) expr -> . expr COMPARATEUR expr
-    (35) expr -> . expr SUP expr
-    (36) expr -> . expr INF expr
-    (37) expr -> . expr OU expr
-    (38) expr -> . expr ET expr
-    (39) expr -> . expr MINUS term
-    (40) expr -> . expr PLUS term
-    (41) term -> . factor
-    (42) term -> . factor MODULO factor
-    (43) term -> . term MODULO factor
-    (44) term -> . term DIV factor
-    (45) term -> . term MULT factor
-    (12) factor -> . BOOLEEN_LITERAL
-    (13) factor -> . BOOLEEN
-    (14) factor -> . ( expr )
-    (15) factor -> . IDENTIFIANT
-    (16) factor -> . ENTIER
-    (17) factor -> . LIRE ( )
-    MINUS           shift and go to state 31
-    NON             shift and go to state 32
-    BOOLEEN_LITERAL shift and go to state 34
-    BOOLEEN         shift and go to state 37
-    (               shift and go to state 29
-    IDENTIFIANT     shift and go to state 33
-    ENTIER          shift and go to state 38
-    LIRE            shift and go to state 39
+    (27) factor -> LIRE . ( )
+    (               shift and go to state 54
 
-    expr                           shift and go to state 57
-    term                           shift and go to state 35
-    factor                         shift and go to state 36
 
 state 32
 
-    (28) expr -> NON . expr
-    (29) expr -> NON . IDENTIFIANT
-    (30) expr -> NON . BOOLEEN_LITERAL
-    (27) expr -> . MINUS expr
-    (28) expr -> . NON expr
-    (29) expr -> . NON IDENTIFIANT
-    (30) expr -> . NON BOOLEEN_LITERAL
-    (31) expr -> . term
-    (32) expr -> . expr DIFF expr
-    (33) expr -> . expr EGAL expr
-    (34) expr -> . expr COMPARATEUR expr
-    (35) expr -> . expr SUP expr
-    (36) expr -> . expr INF expr
-    (37) expr -> . expr OU expr
-    (38) expr -> . expr ET expr
-    (39) expr -> . expr MINUS term
-    (40) expr -> . expr PLUS term
-    (41) term -> . factor
-    (42) term -> . factor MODULO factor
-    (43) term -> . term MODULO factor
-    (44) term -> . term DIV factor
-    (45) term -> . term MULT factor
-    (12) factor -> . BOOLEEN_LITERAL
-    (13) factor -> . BOOLEEN
-    (14) factor -> . ( expr )
-    (15) factor -> . IDENTIFIANT
-    (16) factor -> . ENTIER
-    (17) factor -> . LIRE ( )
-    IDENTIFIANT     shift and go to state 59
-    BOOLEEN_LITERAL shift and go to state 60
-    MINUS           shift and go to state 31
-    NON             shift and go to state 32
-    BOOLEEN         shift and go to state 37
-    (               shift and go to state 29
-    ENTIER          shift and go to state 38
-    LIRE            shift and go to state 39
+    (33) factor -> ( . expr )
+    (36) expr -> . expr COMPARATEUR expr
+    (37) expr -> . term
+    (38) expr -> . expr MINUS term
+    (39) expr -> . expr PLUS term
+    (40) term -> . factor
+    (41) term -> . term MODULO factor
+    (42) term -> . term DIV factor
+    (43) term -> . term MULT factor
+    (44) term -> . appel_fonction_1
+    (27) factor -> . LIRE ( )
+    (28) factor -> . MINUS expr
+    (29) factor -> . NON expr
+    (30) factor -> . factor OU expr
+    (31) factor -> . factor ET expr
+    (32) factor -> . IDENTIFIANT
+    (33) factor -> . ( expr )
+    (34) factor -> . BOOLEEN_LITERAL
+    (35) factor -> . ENTIER
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    LIRE            shift and go to state 31
+    MINUS           shift and go to state 28
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
-    expr                           shift and go to state 58
-    term                           shift and go to state 35
-    factor                         shift and go to state 36
+    expr                           shift and go to state 55
+    term                           shift and go to state 27
+    factor                         shift and go to state 29
+    appel_fonction_1               shift and go to state 30
 
 state 33
 
-    (15) factor -> IDENTIFIANT .
-    MODULO          reduce using rule 15 (factor -> IDENTIFIANT .)
-    DIV             reduce using rule 15 (factor -> IDENTIFIANT .)
-    MULT            reduce using rule 15 (factor -> IDENTIFIANT .)
-    )               reduce using rule 15 (factor -> IDENTIFIANT .)
-    DIFF            reduce using rule 15 (factor -> IDENTIFIANT .)
-    EGAL            reduce using rule 15 (factor -> IDENTIFIANT .)
-    COMPARATEUR     reduce using rule 15 (factor -> IDENTIFIANT .)
-    SUP             reduce using rule 15 (factor -> IDENTIFIANT .)
-    INF             reduce using rule 15 (factor -> IDENTIFIANT .)
-    OU              reduce using rule 15 (factor -> IDENTIFIANT .)
-    ET              reduce using rule 15 (factor -> IDENTIFIANT .)
-    MINUS           reduce using rule 15 (factor -> IDENTIFIANT .)
-    PLUS            reduce using rule 15 (factor -> IDENTIFIANT .)
-    ;               reduce using rule 15 (factor -> IDENTIFIANT .)
+    (29) factor -> NON . expr
+    (36) expr -> . expr COMPARATEUR expr
+    (37) expr -> . term
+    (38) expr -> . expr MINUS term
+    (39) expr -> . expr PLUS term
+    (40) term -> . factor
+    (41) term -> . term MODULO factor
+    (42) term -> . term DIV factor
+    (43) term -> . term MULT factor
+    (44) term -> . appel_fonction_1
+    (27) factor -> . LIRE ( )
+    (28) factor -> . MINUS expr
+    (29) factor -> . NON expr
+    (30) factor -> . factor OU expr
+    (31) factor -> . factor ET expr
+    (32) factor -> . IDENTIFIANT
+    (33) factor -> . ( expr )
+    (34) factor -> . BOOLEEN_LITERAL
+    (35) factor -> . ENTIER
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    LIRE            shift and go to state 31
+    MINUS           shift and go to state 28
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
+    expr                           shift and go to state 56
+    term                           shift and go to state 27
+    factor                         shift and go to state 29
+    appel_fonction_1               shift and go to state 30
 
 state 34
 
-    (12) factor -> BOOLEEN_LITERAL .
-    MODULO          reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    DIV             reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    MULT            reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    )               reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    DIFF            reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    EGAL            reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    COMPARATEUR     reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    SUP             reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    INF             reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    OU              reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    ET              reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    MINUS           reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    PLUS            reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    ;               reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
+    (32) factor -> IDENTIFIANT .
+    (25) appel_fonction_1 -> IDENTIFIANT . ( )
+    OU              reduce using rule 32 (factor -> IDENTIFIANT .)
+    ET              reduce using rule 32 (factor -> IDENTIFIANT .)
+    MODULO          reduce using rule 32 (factor -> IDENTIFIANT .)
+    DIV             reduce using rule 32 (factor -> IDENTIFIANT .)
+    MULT            reduce using rule 32 (factor -> IDENTIFIANT .)
+    ;               reduce using rule 32 (factor -> IDENTIFIANT .)
+    COMPARATEUR     reduce using rule 32 (factor -> IDENTIFIANT .)
+    MINUS           reduce using rule 32 (factor -> IDENTIFIANT .)
+    PLUS            reduce using rule 32 (factor -> IDENTIFIANT .)
+    )               reduce using rule 32 (factor -> IDENTIFIANT .)
+    (               shift and go to state 57
 
 
 state 35
 
-    (31) expr -> term .
-    (43) term -> term . MODULO factor
-    (44) term -> term . DIV factor
-    (45) term -> term . MULT factor
-    )               reduce using rule 31 (expr -> term .)
-    DIFF            reduce using rule 31 (expr -> term .)
-    EGAL            reduce using rule 31 (expr -> term .)
-    COMPARATEUR     reduce using rule 31 (expr -> term .)
-    SUP             reduce using rule 31 (expr -> term .)
-    INF             reduce using rule 31 (expr -> term .)
-    OU              reduce using rule 31 (expr -> term .)
-    ET              reduce using rule 31 (expr -> term .)
-    MINUS           reduce using rule 31 (expr -> term .)
-    PLUS            reduce using rule 31 (expr -> term .)
-    ;               reduce using rule 31 (expr -> term .)
-    MODULO          shift and go to state 61
-    DIV             shift and go to state 62
-    MULT            shift and go to state 63
+    (34) factor -> BOOLEEN_LITERAL .
+    OU              reduce using rule 34 (factor -> BOOLEEN_LITERAL .)
+    ET              reduce using rule 34 (factor -> BOOLEEN_LITERAL .)
+    MODULO          reduce using rule 34 (factor -> BOOLEEN_LITERAL .)
+    DIV             reduce using rule 34 (factor -> BOOLEEN_LITERAL .)
+    MULT            reduce using rule 34 (factor -> BOOLEEN_LITERAL .)
+    ;               reduce using rule 34 (factor -> BOOLEEN_LITERAL .)
+    COMPARATEUR     reduce using rule 34 (factor -> BOOLEEN_LITERAL .)
+    MINUS           reduce using rule 34 (factor -> BOOLEEN_LITERAL .)
+    PLUS            reduce using rule 34 (factor -> BOOLEEN_LITERAL .)
+    )               reduce using rule 34 (factor -> BOOLEEN_LITERAL .)
 
 
 state 36
 
-    (41) term -> factor .
-    (42) term -> factor . MODULO factor
-  ! shift/reduce conflict for MODULO resolved as shift
-    DIV             reduce using rule 41 (term -> factor .)
-    MULT            reduce using rule 41 (term -> factor .)
-    )               reduce using rule 41 (term -> factor .)
-    DIFF            reduce using rule 41 (term -> factor .)
-    EGAL            reduce using rule 41 (term -> factor .)
-    COMPARATEUR     reduce using rule 41 (term -> factor .)
-    SUP             reduce using rule 41 (term -> factor .)
-    INF             reduce using rule 41 (term -> factor .)
-    OU              reduce using rule 41 (term -> factor .)
-    ET              reduce using rule 41 (term -> factor .)
-    MINUS           reduce using rule 41 (term -> factor .)
-    PLUS            reduce using rule 41 (term -> factor .)
-    ;               reduce using rule 41 (term -> factor .)
-    MODULO          shift and go to state 64
+    (35) factor -> ENTIER .
+    OU              reduce using rule 35 (factor -> ENTIER .)
+    ET              reduce using rule 35 (factor -> ENTIER .)
+    MODULO          reduce using rule 35 (factor -> ENTIER .)
+    DIV             reduce using rule 35 (factor -> ENTIER .)
+    MULT            reduce using rule 35 (factor -> ENTIER .)
+    ;               reduce using rule 35 (factor -> ENTIER .)
+    COMPARATEUR     reduce using rule 35 (factor -> ENTIER .)
+    MINUS           reduce using rule 35 (factor -> ENTIER .)
+    PLUS            reduce using rule 35 (factor -> ENTIER .)
+    )               reduce using rule 35 (factor -> ENTIER .)
 
 
 state 37
 
-    (13) factor -> BOOLEEN .
-    MODULO          reduce using rule 13 (factor -> BOOLEEN .)
-    DIV             reduce using rule 13 (factor -> BOOLEEN .)
-    MULT            reduce using rule 13 (factor -> BOOLEEN .)
-    )               reduce using rule 13 (factor -> BOOLEEN .)
-    DIFF            reduce using rule 13 (factor -> BOOLEEN .)
-    EGAL            reduce using rule 13 (factor -> BOOLEEN .)
-    COMPARATEUR     reduce using rule 13 (factor -> BOOLEEN .)
-    SUP             reduce using rule 13 (factor -> BOOLEEN .)
-    INF             reduce using rule 13 (factor -> BOOLEEN .)
-    OU              reduce using rule 13 (factor -> BOOLEEN .)
-    ET              reduce using rule 13 (factor -> BOOLEEN .)
-    MINUS           reduce using rule 13 (factor -> BOOLEEN .)
-    PLUS            reduce using rule 13 (factor -> BOOLEEN .)
-    ;               reduce using rule 13 (factor -> BOOLEEN .)
+    (21) boucle -> TANTQUE ( . expr ) { listeInstructions }
+    (36) expr -> . expr COMPARATEUR expr
+    (37) expr -> . term
+    (38) expr -> . expr MINUS term
+    (39) expr -> . expr PLUS term
+    (40) term -> . factor
+    (41) term -> . term MODULO factor
+    (42) term -> . term DIV factor
+    (43) term -> . term MULT factor
+    (44) term -> . appel_fonction_1
+    (27) factor -> . LIRE ( )
+    (28) factor -> . MINUS expr
+    (29) factor -> . NON expr
+    (30) factor -> . factor OU expr
+    (31) factor -> . factor ET expr
+    (32) factor -> . IDENTIFIANT
+    (33) factor -> . ( expr )
+    (34) factor -> . BOOLEEN_LITERAL
+    (35) factor -> . ENTIER
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    LIRE            shift and go to state 31
+    MINUS           shift and go to state 28
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
+    expr                           shift and go to state 58
+    term                           shift and go to state 27
+    factor                         shift and go to state 29
+    appel_fonction_1               shift and go to state 30
 
 state 38
 
-    (16) factor -> ENTIER .
-    MODULO          reduce using rule 16 (factor -> ENTIER .)
-    DIV             reduce using rule 16 (factor -> ENTIER .)
-    MULT            reduce using rule 16 (factor -> ENTIER .)
-    )               reduce using rule 16 (factor -> ENTIER .)
-    DIFF            reduce using rule 16 (factor -> ENTIER .)
-    EGAL            reduce using rule 16 (factor -> ENTIER .)
-    COMPARATEUR     reduce using rule 16 (factor -> ENTIER .)
-    SUP             reduce using rule 16 (factor -> ENTIER .)
-    INF             reduce using rule 16 (factor -> ENTIER .)
-    OU              reduce using rule 16 (factor -> ENTIER .)
-    ET              reduce using rule 16 (factor -> ENTIER .)
-    MINUS           reduce using rule 16 (factor -> ENTIER .)
-    PLUS            reduce using rule 16 (factor -> ENTIER .)
-    ;               reduce using rule 16 (factor -> ENTIER .)
+    (17) condition -> SI ( . expr ) { listeInstructions } suite_sinosi
+    (36) expr -> . expr COMPARATEUR expr
+    (37) expr -> . term
+    (38) expr -> . expr MINUS term
+    (39) expr -> . expr PLUS term
+    (40) term -> . factor
+    (41) term -> . term MODULO factor
+    (42) term -> . term DIV factor
+    (43) term -> . term MULT factor
+    (44) term -> . appel_fonction_1
+    (27) factor -> . LIRE ( )
+    (28) factor -> . MINUS expr
+    (29) factor -> . NON expr
+    (30) factor -> . factor OU expr
+    (31) factor -> . factor ET expr
+    (32) factor -> . IDENTIFIANT
+    (33) factor -> . ( expr )
+    (34) factor -> . BOOLEEN_LITERAL
+    (35) factor -> . ENTIER
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    LIRE            shift and go to state 31
+    MINUS           shift and go to state 28
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
+    expr                           shift and go to state 59
+    term                           shift and go to state 27
+    factor                         shift and go to state 29
+    appel_fonction_1               shift and go to state 30
 
 state 39
 
-    (17) factor -> LIRE . ( )
-    (               shift and go to state 65
+    (14) ecrire -> ECRIRE ( . expr ) ;
+    (36) expr -> . expr COMPARATEUR expr
+    (37) expr -> . term
+    (38) expr -> . expr MINUS term
+    (39) expr -> . expr PLUS term
+    (40) term -> . factor
+    (41) term -> . term MODULO factor
+    (42) term -> . term DIV factor
+    (43) term -> . term MULT factor
+    (44) term -> . appel_fonction_1
+    (27) factor -> . LIRE ( )
+    (28) factor -> . MINUS expr
+    (29) factor -> . NON expr
+    (30) factor -> . factor OU expr
+    (31) factor -> . factor ET expr
+    (32) factor -> . IDENTIFIANT
+    (33) factor -> . ( expr )
+    (34) factor -> . BOOLEEN_LITERAL
+    (35) factor -> . ENTIER
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    LIRE            shift and go to state 31
+    MINUS           shift and go to state 28
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
+    expr                           shift and go to state 60
+    term                           shift and go to state 27
+    factor                         shift and go to state 29
+    appel_fonction_1               shift and go to state 30
 
 state 40
 
-    (26) boucle -> TANTQUE ( expr . ) { listeInstructions }
-    (32) expr -> expr . DIFF expr
-    (33) expr -> expr . EGAL expr
-    (34) expr -> expr . COMPARATEUR expr
-    (35) expr -> expr . SUP expr
-    (36) expr -> expr . INF expr
-    (37) expr -> expr . OU expr
-    (38) expr -> expr . ET expr
-    (39) expr -> expr . MINUS term
-    (40) expr -> expr . PLUS term
-    )               shift and go to state 66
-    DIFF            shift and go to state 48
-    EGAL            shift and go to state 49
-    COMPARATEUR     shift and go to state 50
-    SUP             shift and go to state 51
-    INF             shift and go to state 52
-    OU              shift and go to state 53
-    ET              shift and go to state 54
-    MINUS           shift and go to state 55
-    PLUS            shift and go to state 56
+    (26) fonction_declaration -> type IDENTIFIANT ( . ) { listeInstructions }
+    )               shift and go to state 61
 
 
 state 41
 
-    (21) affectation -> IDENTIFIANT = expr . ;
-    (32) expr -> expr . DIFF expr
-    (33) expr -> expr . EGAL expr
-    (34) expr -> expr . COMPARATEUR expr
-    (35) expr -> expr . SUP expr
-    (36) expr -> expr . INF expr
-    (37) expr -> expr . OU expr
-    (38) expr -> expr . ET expr
-    (39) expr -> expr . MINUS term
-    (40) expr -> expr . PLUS term
-    ;               shift and go to state 67
-    DIFF            shift and go to state 48
-    EGAL            shift and go to state 49
-    COMPARATEUR     shift and go to state 50
-    SUP             shift and go to state 51
-    INF             shift and go to state 52
-    OU              shift and go to state 53
-    ET              shift and go to state 54
-    MINUS           shift and go to state 55
-    PLUS            shift and go to state 56
+    (15) declaration -> type IDENTIFIANT = . expr ;
+    (36) expr -> . expr COMPARATEUR expr
+    (37) expr -> . term
+    (38) expr -> . expr MINUS term
+    (39) expr -> . expr PLUS term
+    (40) term -> . factor
+    (41) term -> . term MODULO factor
+    (42) term -> . term DIV factor
+    (43) term -> . term MULT factor
+    (44) term -> . appel_fonction_1
+    (27) factor -> . LIRE ( )
+    (28) factor -> . MINUS expr
+    (29) factor -> . NON expr
+    (30) factor -> . factor OU expr
+    (31) factor -> . factor ET expr
+    (32) factor -> . IDENTIFIANT
+    (33) factor -> . ( expr )
+    (34) factor -> . BOOLEEN_LITERAL
+    (35) factor -> . ENTIER
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    LIRE            shift and go to state 31
+    MINUS           shift and go to state 28
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
+    expr                           shift and go to state 62
+    term                           shift and go to state 27
+    factor                         shift and go to state 29
+    appel_fonction_1               shift and go to state 30
 
 state 42
 
-    (20) declaration -> type IDENTIFIANT = . expr ;
-    (27) expr -> . MINUS expr
-    (28) expr -> . NON expr
-    (29) expr -> . NON IDENTIFIANT
-    (30) expr -> . NON BOOLEEN_LITERAL
-    (31) expr -> . term
-    (32) expr -> . expr DIFF expr
-    (33) expr -> . expr EGAL expr
-    (34) expr -> . expr COMPARATEUR expr
-    (35) expr -> . expr SUP expr
-    (36) expr -> . expr INF expr
-    (37) expr -> . expr OU expr
-    (38) expr -> . expr ET expr
-    (39) expr -> . expr MINUS term
-    (40) expr -> . expr PLUS term
-    (41) term -> . factor
-    (42) term -> . factor MODULO factor
-    (43) term -> . term MODULO factor
-    (44) term -> . term DIV factor
-    (45) term -> . term MULT factor
-    (12) factor -> . BOOLEEN_LITERAL
-    (13) factor -> . BOOLEEN
-    (14) factor -> . ( expr )
-    (15) factor -> . IDENTIFIANT
-    (16) factor -> . ENTIER
-    (17) factor -> . LIRE ( )
-    MINUS           shift and go to state 31
-    NON             shift and go to state 32
-    BOOLEEN_LITERAL shift and go to state 34
-    BOOLEEN         shift and go to state 37
-    (               shift and go to state 29
-    IDENTIFIANT     shift and go to state 33
-    ENTIER          shift and go to state 38
-    LIRE            shift and go to state 39
+    (25) appel_fonction_1 -> IDENTIFIANT ( ) .
+    (24) appel_fonction_2 -> IDENTIFIANT ( ) . ;
+    IDENTIFIANT     reduce using rule 25 (appel_fonction_1 -> IDENTIFIANT ( ) .)
+    RETOURNER       reduce using rule 25 (appel_fonction_1 -> IDENTIFIANT ( ) .)
+    TANTQUE         reduce using rule 25 (appel_fonction_1 -> IDENTIFIANT ( ) .)
+    SI              reduce using rule 25 (appel_fonction_1 -> IDENTIFIANT ( ) .)
+    ECRIRE          reduce using rule 25 (appel_fonction_1 -> IDENTIFIANT ( ) .)
+    ENT             reduce using rule 25 (appel_fonction_1 -> IDENTIFIANT ( ) .)
+    BOOLEEN         reduce using rule 25 (appel_fonction_1 -> IDENTIFIANT ( ) .)
+    $end            reduce using rule 25 (appel_fonction_1 -> IDENTIFIANT ( ) .)
+    }               reduce using rule 25 (appel_fonction_1 -> IDENTIFIANT ( ) .)
+    ;               shift and go to state 63
 
-    expr                           shift and go to state 68
-    term                           shift and go to state 35
-    factor                         shift and go to state 36
 
 state 43
 
-    (11) ecrire -> ECRIRE ( expr . ) ;
-    (32) expr -> expr . DIFF expr
-    (33) expr -> expr . EGAL expr
-    (34) expr -> expr . COMPARATEUR expr
-    (35) expr -> expr . SUP expr
-    (36) expr -> expr . INF expr
-    (37) expr -> expr . OU expr
-    (38) expr -> expr . ET expr
-    (39) expr -> expr . MINUS term
-    (40) expr -> expr . PLUS term
-    )               shift and go to state 69
-    DIFF            shift and go to state 48
-    EGAL            shift and go to state 49
-    COMPARATEUR     shift and go to state 50
-    SUP             shift and go to state 51
-    INF             shift and go to state 52
-    OU              shift and go to state 53
-    ET              shift and go to state 54
-    MINUS           shift and go to state 55
-    PLUS            shift and go to state 56
+    (16) affectation -> IDENTIFIANT = expr . ;
+    (36) expr -> expr . COMPARATEUR expr
+    (38) expr -> expr . MINUS term
+    (39) expr -> expr . PLUS term
+    ;               shift and go to state 64
+    COMPARATEUR     shift and go to state 45
+    MINUS           shift and go to state 46
+    PLUS            shift and go to state 47
 
 
 state 44
 
-    (24) suite_sinosi -> SINON SI ( expr . ) { listeInstructions } suite_sinosi
-    (32) expr -> expr . DIFF expr
-    (33) expr -> expr . EGAL expr
-    (34) expr -> expr . COMPARATEUR expr
-    (35) expr -> expr . SUP expr
-    (36) expr -> expr . INF expr
-    (37) expr -> expr . OU expr
-    (38) expr -> expr . ET expr
-    (39) expr -> expr . MINUS term
-    (40) expr -> expr . PLUS term
-    )               shift and go to state 70
-    DIFF            shift and go to state 48
-    EGAL            shift and go to state 49
-    COMPARATEUR     shift and go to state 50
-    SUP             shift and go to state 51
-    INF             shift and go to state 52
-    OU              shift and go to state 53
-    ET              shift and go to state 54
-    MINUS           shift and go to state 55
-    PLUS            shift and go to state 56
+    (22) retourner -> RETOURNER expr ; .
+    IDENTIFIANT     reduce using rule 22 (retourner -> RETOURNER expr ; .)
+    RETOURNER       reduce using rule 22 (retourner -> RETOURNER expr ; .)
+    TANTQUE         reduce using rule 22 (retourner -> RETOURNER expr ; .)
+    SI              reduce using rule 22 (retourner -> RETOURNER expr ; .)
+    ECRIRE          reduce using rule 22 (retourner -> RETOURNER expr ; .)
+    ENT             reduce using rule 22 (retourner -> RETOURNER expr ; .)
+    BOOLEEN         reduce using rule 22 (retourner -> RETOURNER expr ; .)
+    $end            reduce using rule 22 (retourner -> RETOURNER expr ; .)
+    }               reduce using rule 22 (retourner -> RETOURNER expr ; .)
 
 
 state 45
 
-    (25) suite_sinosi -> SINON { listeInstructions } .
-    SINON           reduce using rule 25 (suite_sinosi -> SINON { listeInstructions } .)
-    TANTQUE         reduce using rule 25 (suite_sinosi -> SINON { listeInstructions } .)
-    SI              reduce using rule 25 (suite_sinosi -> SINON { listeInstructions } .)
-    IDENTIFIANT     reduce using rule 25 (suite_sinosi -> SINON { listeInstructions } .)
-    ECRIRE          reduce using rule 25 (suite_sinosi -> SINON { listeInstructions } .)
-    BOOLEEN         reduce using rule 25 (suite_sinosi -> SINON { listeInstructions } .)
-    ENT             reduce using rule 25 (suite_sinosi -> SINON { listeInstructions } .)
-    $end            reduce using rule 25 (suite_sinosi -> SINON { listeInstructions } .)
-    }               reduce using rule 25 (suite_sinosi -> SINON { listeInstructions } .)
+    (36) expr -> expr COMPARATEUR . expr
+    (36) expr -> . expr COMPARATEUR expr
+    (37) expr -> . term
+    (38) expr -> . expr MINUS term
+    (39) expr -> . expr PLUS term
+    (40) term -> . factor
+    (41) term -> . term MODULO factor
+    (42) term -> . term DIV factor
+    (43) term -> . term MULT factor
+    (44) term -> . appel_fonction_1
+    (27) factor -> . LIRE ( )
+    (28) factor -> . MINUS expr
+    (29) factor -> . NON expr
+    (30) factor -> . factor OU expr
+    (31) factor -> . factor ET expr
+    (32) factor -> . IDENTIFIANT
+    (33) factor -> . ( expr )
+    (34) factor -> . BOOLEEN_LITERAL
+    (35) factor -> . ENTIER
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    LIRE            shift and go to state 31
+    MINUS           shift and go to state 28
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
+    expr                           shift and go to state 65
+    term                           shift and go to state 27
+    factor                         shift and go to state 29
+    appel_fonction_1               shift and go to state 30
 
 state 46
 
-    (14) factor -> ( expr . )
-    (32) expr -> expr . DIFF expr
-    (33) expr -> expr . EGAL expr
-    (34) expr -> expr . COMPARATEUR expr
-    (35) expr -> expr . SUP expr
-    (36) expr -> expr . INF expr
-    (37) expr -> expr . OU expr
-    (38) expr -> expr . ET expr
-    (39) expr -> expr . MINUS term
-    (40) expr -> expr . PLUS term
-    )               shift and go to state 71
-    DIFF            shift and go to state 48
-    EGAL            shift and go to state 49
-    COMPARATEUR     shift and go to state 50
-    SUP             shift and go to state 51
-    INF             shift and go to state 52
-    OU              shift and go to state 53
-    ET              shift and go to state 54
-    MINUS           shift and go to state 55
-    PLUS            shift and go to state 56
+    (38) expr -> expr MINUS . term
+    (40) term -> . factor
+    (41) term -> . term MODULO factor
+    (42) term -> . term DIV factor
+    (43) term -> . term MULT factor
+    (44) term -> . appel_fonction_1
+    (27) factor -> . LIRE ( )
+    (28) factor -> . MINUS expr
+    (29) factor -> . NON expr
+    (30) factor -> . factor OU expr
+    (31) factor -> . factor ET expr
+    (32) factor -> . IDENTIFIANT
+    (33) factor -> . ( expr )
+    (34) factor -> . BOOLEEN_LITERAL
+    (35) factor -> . ENTIER
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    LIRE            shift and go to state 31
+    MINUS           shift and go to state 28
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
+    term                           shift and go to state 66
+    factor                         shift and go to state 29
+    appel_fonction_1               shift and go to state 30
 
 state 47
 
-    (22) condition -> SI ( expr ) . { listeInstructions } suite_sinosi
-    {               shift and go to state 72
+    (39) expr -> expr PLUS . term
+    (40) term -> . factor
+    (41) term -> . term MODULO factor
+    (42) term -> . term DIV factor
+    (43) term -> . term MULT factor
+    (44) term -> . appel_fonction_1
+    (27) factor -> . LIRE ( )
+    (28) factor -> . MINUS expr
+    (29) factor -> . NON expr
+    (30) factor -> . factor OU expr
+    (31) factor -> . factor ET expr
+    (32) factor -> . IDENTIFIANT
+    (33) factor -> . ( expr )
+    (34) factor -> . BOOLEEN_LITERAL
+    (35) factor -> . ENTIER
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    LIRE            shift and go to state 31
+    MINUS           shift and go to state 28
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
+    term                           shift and go to state 67
+    factor                         shift and go to state 29
+    appel_fonction_1               shift and go to state 30
 
 state 48
 
-    (32) expr -> expr DIFF . expr
-    (27) expr -> . MINUS expr
-    (28) expr -> . NON expr
-    (29) expr -> . NON IDENTIFIANT
-    (30) expr -> . NON BOOLEEN_LITERAL
-    (31) expr -> . term
-    (32) expr -> . expr DIFF expr
-    (33) expr -> . expr EGAL expr
-    (34) expr -> . expr COMPARATEUR expr
-    (35) expr -> . expr SUP expr
-    (36) expr -> . expr INF expr
-    (37) expr -> . expr OU expr
-    (38) expr -> . expr ET expr
-    (39) expr -> . expr MINUS term
-    (40) expr -> . expr PLUS term
-    (41) term -> . factor
-    (42) term -> . factor MODULO factor
-    (43) term -> . term MODULO factor
-    (44) term -> . term DIV factor
-    (45) term -> . term MULT factor
-    (12) factor -> . BOOLEEN_LITERAL
-    (13) factor -> . BOOLEEN
-    (14) factor -> . ( expr )
-    (15) factor -> . IDENTIFIANT
-    (16) factor -> . ENTIER
-    (17) factor -> . LIRE ( )
-    MINUS           shift and go to state 31
-    NON             shift and go to state 32
-    BOOLEEN_LITERAL shift and go to state 34
-    BOOLEEN         shift and go to state 37
-    (               shift and go to state 29
-    IDENTIFIANT     shift and go to state 33
-    ENTIER          shift and go to state 38
-    LIRE            shift and go to state 39
+    (41) term -> term MODULO . factor
+    (27) factor -> . LIRE ( )
+    (28) factor -> . MINUS expr
+    (29) factor -> . NON expr
+    (30) factor -> . factor OU expr
+    (31) factor -> . factor ET expr
+    (32) factor -> . IDENTIFIANT
+    (33) factor -> . ( expr )
+    (34) factor -> . BOOLEEN_LITERAL
+    (35) factor -> . ENTIER
+    LIRE            shift and go to state 31
+    MINUS           shift and go to state 28
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 69
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
-    expr                           shift and go to state 73
-    term                           shift and go to state 35
-    factor                         shift and go to state 36
+    factor                         shift and go to state 68
 
 state 49
 
-    (33) expr -> expr EGAL . expr
-    (27) expr -> . MINUS expr
-    (28) expr -> . NON expr
-    (29) expr -> . NON IDENTIFIANT
-    (30) expr -> . NON BOOLEEN_LITERAL
-    (31) expr -> . term
-    (32) expr -> . expr DIFF expr
-    (33) expr -> . expr EGAL expr
-    (34) expr -> . expr COMPARATEUR expr
-    (35) expr -> . expr SUP expr
-    (36) expr -> . expr INF expr
-    (37) expr -> . expr OU expr
-    (38) expr -> . expr ET expr
-    (39) expr -> . expr MINUS term
-    (40) expr -> . expr PLUS term
-    (41) term -> . factor
-    (42) term -> . factor MODULO factor
-    (43) term -> . term MODULO factor
-    (44) term -> . term DIV factor
-    (45) term -> . term MULT factor
-    (12) factor -> . BOOLEEN_LITERAL
-    (13) factor -> . BOOLEEN
-    (14) factor -> . ( expr )
-    (15) factor -> . IDENTIFIANT
-    (16) factor -> . ENTIER
-    (17) factor -> . LIRE ( )
-    MINUS           shift and go to state 31
-    NON             shift and go to state 32
-    BOOLEEN_LITERAL shift and go to state 34
-    BOOLEEN         shift and go to state 37
-    (               shift and go to state 29
-    IDENTIFIANT     shift and go to state 33
-    ENTIER          shift and go to state 38
-    LIRE            shift and go to state 39
+    (42) term -> term DIV . factor
+    (27) factor -> . LIRE ( )
+    (28) factor -> . MINUS expr
+    (29) factor -> . NON expr
+    (30) factor -> . factor OU expr
+    (31) factor -> . factor ET expr
+    (32) factor -> . IDENTIFIANT
+    (33) factor -> . ( expr )
+    (34) factor -> . BOOLEEN_LITERAL
+    (35) factor -> . ENTIER
+    LIRE            shift and go to state 31
+    MINUS           shift and go to state 28
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 69
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
-    expr                           shift and go to state 74
-    term                           shift and go to state 35
-    factor                         shift and go to state 36
+    factor                         shift and go to state 70
 
 state 50
 
-    (34) expr -> expr COMPARATEUR . expr
-    (27) expr -> . MINUS expr
-    (28) expr -> . NON expr
-    (29) expr -> . NON IDENTIFIANT
-    (30) expr -> . NON BOOLEEN_LITERAL
-    (31) expr -> . term
-    (32) expr -> . expr DIFF expr
-    (33) expr -> . expr EGAL expr
-    (34) expr -> . expr COMPARATEUR expr
-    (35) expr -> . expr SUP expr
-    (36) expr -> . expr INF expr
-    (37) expr -> . expr OU expr
-    (38) expr -> . expr ET expr
-    (39) expr -> . expr MINUS term
-    (40) expr -> . expr PLUS term
-    (41) term -> . factor
-    (42) term -> . factor MODULO factor
-    (43) term -> . term MODULO factor
-    (44) term -> . term DIV factor
-    (45) term -> . term MULT factor
-    (12) factor -> . BOOLEEN_LITERAL
-    (13) factor -> . BOOLEEN
-    (14) factor -> . ( expr )
-    (15) factor -> . IDENTIFIANT
-    (16) factor -> . ENTIER
-    (17) factor -> . LIRE ( )
-    MINUS           shift and go to state 31
-    NON             shift and go to state 32
-    BOOLEEN_LITERAL shift and go to state 34
-    BOOLEEN         shift and go to state 37
-    (               shift and go to state 29
-    IDENTIFIANT     shift and go to state 33
-    ENTIER          shift and go to state 38
-    LIRE            shift and go to state 39
+    (43) term -> term MULT . factor
+    (27) factor -> . LIRE ( )
+    (28) factor -> . MINUS expr
+    (29) factor -> . NON expr
+    (30) factor -> . factor OU expr
+    (31) factor -> . factor ET expr
+    (32) factor -> . IDENTIFIANT
+    (33) factor -> . ( expr )
+    (34) factor -> . BOOLEEN_LITERAL
+    (35) factor -> . ENTIER
+    LIRE            shift and go to state 31
+    MINUS           shift and go to state 28
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 69
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
-    expr                           shift and go to state 75
-    term                           shift and go to state 35
-    factor                         shift and go to state 36
+    factor                         shift and go to state 71
 
 state 51
 
-    (35) expr -> expr SUP . expr
-    (27) expr -> . MINUS expr
-    (28) expr -> . NON expr
-    (29) expr -> . NON IDENTIFIANT
-    (30) expr -> . NON BOOLEEN_LITERAL
-    (31) expr -> . term
-    (32) expr -> . expr DIFF expr
-    (33) expr -> . expr EGAL expr
-    (34) expr -> . expr COMPARATEUR expr
-    (35) expr -> . expr SUP expr
-    (36) expr -> . expr INF expr
-    (37) expr -> . expr OU expr
-    (38) expr -> . expr ET expr
-    (39) expr -> . expr MINUS term
-    (40) expr -> . expr PLUS term
-    (41) term -> . factor
-    (42) term -> . factor MODULO factor
-    (43) term -> . term MODULO factor
-    (44) term -> . term DIV factor
-    (45) term -> . term MULT factor
-    (12) factor -> . BOOLEEN_LITERAL
-    (13) factor -> . BOOLEEN
-    (14) factor -> . ( expr )
-    (15) factor -> . IDENTIFIANT
-    (16) factor -> . ENTIER
-    (17) factor -> . LIRE ( )
-    MINUS           shift and go to state 31
-    NON             shift and go to state 32
-    BOOLEEN_LITERAL shift and go to state 34
-    BOOLEEN         shift and go to state 37
-    (               shift and go to state 29
-    IDENTIFIANT     shift and go to state 33
-    ENTIER          shift and go to state 38
-    LIRE            shift and go to state 39
+    (28) factor -> MINUS expr .
+    (36) expr -> expr . COMPARATEUR expr
+    (38) expr -> expr . MINUS term
+    (39) expr -> expr . PLUS term
+    OU              reduce using rule 28 (factor -> MINUS expr .)
+    ET              reduce using rule 28 (factor -> MINUS expr .)
+    MODULO          reduce using rule 28 (factor -> MINUS expr .)
+    DIV             reduce using rule 28 (factor -> MINUS expr .)
+    MULT            reduce using rule 28 (factor -> MINUS expr .)
+    ;               reduce using rule 28 (factor -> MINUS expr .)
+    )               reduce using rule 28 (factor -> MINUS expr .)
+    COMPARATEUR     shift and go to state 45
+    MINUS           shift and go to state 46
+    PLUS            shift and go to state 47
 
-    expr                           shift and go to state 76
-    term                           shift and go to state 35
-    factor                         shift and go to state 36
 
 state 52
 
-    (36) expr -> expr INF . expr
-    (27) expr -> . MINUS expr
-    (28) expr -> . NON expr
-    (29) expr -> . NON IDENTIFIANT
-    (30) expr -> . NON BOOLEEN_LITERAL
-    (31) expr -> . term
-    (32) expr -> . expr DIFF expr
-    (33) expr -> . expr EGAL expr
-    (34) expr -> . expr COMPARATEUR expr
-    (35) expr -> . expr SUP expr
-    (36) expr -> . expr INF expr
-    (37) expr -> . expr OU expr
-    (38) expr -> . expr ET expr
-    (39) expr -> . expr MINUS term
-    (40) expr -> . expr PLUS term
-    (41) term -> . factor
-    (42) term -> . factor MODULO factor
-    (43) term -> . term MODULO factor
-    (44) term -> . term DIV factor
-    (45) term -> . term MULT factor
-    (12) factor -> . BOOLEEN_LITERAL
-    (13) factor -> . BOOLEEN
-    (14) factor -> . ( expr )
-    (15) factor -> . IDENTIFIANT
-    (16) factor -> . ENTIER
-    (17) factor -> . LIRE ( )
-    MINUS           shift and go to state 31
-    NON             shift and go to state 32
-    BOOLEEN_LITERAL shift and go to state 34
-    BOOLEEN         shift and go to state 37
-    (               shift and go to state 29
-    IDENTIFIANT     shift and go to state 33
-    ENTIER          shift and go to state 38
-    LIRE            shift and go to state 39
+    (30) factor -> factor OU . expr
+    (36) expr -> . expr COMPARATEUR expr
+    (37) expr -> . term
+    (38) expr -> . expr MINUS term
+    (39) expr -> . expr PLUS term
+    (40) term -> . factor
+    (41) term -> . term MODULO factor
+    (42) term -> . term DIV factor
+    (43) term -> . term MULT factor
+    (44) term -> . appel_fonction_1
+    (27) factor -> . LIRE ( )
+    (28) factor -> . MINUS expr
+    (29) factor -> . NON expr
+    (30) factor -> . factor OU expr
+    (31) factor -> . factor ET expr
+    (32) factor -> . IDENTIFIANT
+    (33) factor -> . ( expr )
+    (34) factor -> . BOOLEEN_LITERAL
+    (35) factor -> . ENTIER
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    LIRE            shift and go to state 31
+    MINUS           shift and go to state 28
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
-    expr                           shift and go to state 77
-    term                           shift and go to state 35
-    factor                         shift and go to state 36
+    factor                         shift and go to state 29
+    expr                           shift and go to state 72
+    term                           shift and go to state 27
+    appel_fonction_1               shift and go to state 30
 
 state 53
 
-    (37) expr -> expr OU . expr
-    (27) expr -> . MINUS expr
-    (28) expr -> . NON expr
-    (29) expr -> . NON IDENTIFIANT
-    (30) expr -> . NON BOOLEEN_LITERAL
-    (31) expr -> . term
-    (32) expr -> . expr DIFF expr
-    (33) expr -> . expr EGAL expr
-    (34) expr -> . expr COMPARATEUR expr
-    (35) expr -> . expr SUP expr
-    (36) expr -> . expr INF expr
-    (37) expr -> . expr OU expr
-    (38) expr -> . expr ET expr
-    (39) expr -> . expr MINUS term
-    (40) expr -> . expr PLUS term
-    (41) term -> . factor
-    (42) term -> . factor MODULO factor
-    (43) term -> . term MODULO factor
-    (44) term -> . term DIV factor
-    (45) term -> . term MULT factor
-    (12) factor -> . BOOLEEN_LITERAL
-    (13) factor -> . BOOLEEN
-    (14) factor -> . ( expr )
-    (15) factor -> . IDENTIFIANT
-    (16) factor -> . ENTIER
-    (17) factor -> . LIRE ( )
-    MINUS           shift and go to state 31
-    NON             shift and go to state 32
-    BOOLEEN_LITERAL shift and go to state 34
-    BOOLEEN         shift and go to state 37
-    (               shift and go to state 29
-    IDENTIFIANT     shift and go to state 33
-    ENTIER          shift and go to state 38
-    LIRE            shift and go to state 39
+    (31) factor -> factor ET . expr
+    (36) expr -> . expr COMPARATEUR expr
+    (37) expr -> . term
+    (38) expr -> . expr MINUS term
+    (39) expr -> . expr PLUS term
+    (40) term -> . factor
+    (41) term -> . term MODULO factor
+    (42) term -> . term DIV factor
+    (43) term -> . term MULT factor
+    (44) term -> . appel_fonction_1
+    (27) factor -> . LIRE ( )
+    (28) factor -> . MINUS expr
+    (29) factor -> . NON expr
+    (30) factor -> . factor OU expr
+    (31) factor -> . factor ET expr
+    (32) factor -> . IDENTIFIANT
+    (33) factor -> . ( expr )
+    (34) factor -> . BOOLEEN_LITERAL
+    (35) factor -> . ENTIER
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    LIRE            shift and go to state 31
+    MINUS           shift and go to state 28
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
-    expr                           shift and go to state 78
-    term                           shift and go to state 35
-    factor                         shift and go to state 36
+    factor                         shift and go to state 29
+    expr                           shift and go to state 73
+    term                           shift and go to state 27
+    appel_fonction_1               shift and go to state 30
 
 state 54
 
-    (38) expr -> expr ET . expr
-    (27) expr -> . MINUS expr
-    (28) expr -> . NON expr
-    (29) expr -> . NON IDENTIFIANT
-    (30) expr -> . NON BOOLEEN_LITERAL
-    (31) expr -> . term
-    (32) expr -> . expr DIFF expr
-    (33) expr -> . expr EGAL expr
-    (34) expr -> . expr COMPARATEUR expr
-    (35) expr -> . expr SUP expr
-    (36) expr -> . expr INF expr
-    (37) expr -> . expr OU expr
-    (38) expr -> . expr ET expr
-    (39) expr -> . expr MINUS term
-    (40) expr -> . expr PLUS term
-    (41) term -> . factor
-    (42) term -> . factor MODULO factor
-    (43) term -> . term MODULO factor
-    (44) term -> . term DIV factor
-    (45) term -> . term MULT factor
-    (12) factor -> . BOOLEEN_LITERAL
-    (13) factor -> . BOOLEEN
-    (14) factor -> . ( expr )
-    (15) factor -> . IDENTIFIANT
-    (16) factor -> . ENTIER
-    (17) factor -> . LIRE ( )
-    MINUS           shift and go to state 31
-    NON             shift and go to state 32
-    BOOLEEN_LITERAL shift and go to state 34
-    BOOLEEN         shift and go to state 37
-    (               shift and go to state 29
-    IDENTIFIANT     shift and go to state 33
-    ENTIER          shift and go to state 38
-    LIRE            shift and go to state 39
+    (27) factor -> LIRE ( . )
+    )               shift and go to state 74
 
-    expr                           shift and go to state 79
-    term                           shift and go to state 35
-    factor                         shift and go to state 36
 
 state 55
 
-    (39) expr -> expr MINUS . term
-    (41) term -> . factor
-    (42) term -> . factor MODULO factor
-    (43) term -> . term MODULO factor
-    (44) term -> . term DIV factor
-    (45) term -> . term MULT factor
-    (12) factor -> . BOOLEEN_LITERAL
-    (13) factor -> . BOOLEEN
-    (14) factor -> . ( expr )
-    (15) factor -> . IDENTIFIANT
-    (16) factor -> . ENTIER
-    (17) factor -> . LIRE ( )
-    BOOLEEN_LITERAL shift and go to state 34
-    BOOLEEN         shift and go to state 37
-    (               shift and go to state 29
-    IDENTIFIANT     shift and go to state 33
-    ENTIER          shift and go to state 38
-    LIRE            shift and go to state 39
+    (33) factor -> ( expr . )
+    (36) expr -> expr . COMPARATEUR expr
+    (38) expr -> expr . MINUS term
+    (39) expr -> expr . PLUS term
+    )               shift and go to state 75
+    COMPARATEUR     shift and go to state 45
+    MINUS           shift and go to state 46
+    PLUS            shift and go to state 47
 
-    term                           shift and go to state 80
-    factor                         shift and go to state 36
 
 state 56
 
-    (40) expr -> expr PLUS . term
-    (41) term -> . factor
-    (42) term -> . factor MODULO factor
-    (43) term -> . term MODULO factor
-    (44) term -> . term DIV factor
-    (45) term -> . term MULT factor
-    (12) factor -> . BOOLEEN_LITERAL
-    (13) factor -> . BOOLEEN
-    (14) factor -> . ( expr )
-    (15) factor -> . IDENTIFIANT
-    (16) factor -> . ENTIER
-    (17) factor -> . LIRE ( )
-    BOOLEEN_LITERAL shift and go to state 34
-    BOOLEEN         shift and go to state 37
-    (               shift and go to state 29
-    IDENTIFIANT     shift and go to state 33
-    ENTIER          shift and go to state 38
-    LIRE            shift and go to state 39
+    (29) factor -> NON expr .
+    (36) expr -> expr . COMPARATEUR expr
+    (38) expr -> expr . MINUS term
+    (39) expr -> expr . PLUS term
+    OU              reduce using rule 29 (factor -> NON expr .)
+    ET              reduce using rule 29 (factor -> NON expr .)
+    MODULO          reduce using rule 29 (factor -> NON expr .)
+    DIV             reduce using rule 29 (factor -> NON expr .)
+    MULT            reduce using rule 29 (factor -> NON expr .)
+    ;               reduce using rule 29 (factor -> NON expr .)
+    )               reduce using rule 29 (factor -> NON expr .)
+    COMPARATEUR     shift and go to state 45
+    MINUS           shift and go to state 46
+    PLUS            shift and go to state 47
 
-    term                           shift and go to state 81
-    factor                         shift and go to state 36
 
 state 57
 
-    (27) expr -> MINUS expr .
-    (32) expr -> expr . DIFF expr
-    (33) expr -> expr . EGAL expr
-    (34) expr -> expr . COMPARATEUR expr
-    (35) expr -> expr . SUP expr
-    (36) expr -> expr . INF expr
-    (37) expr -> expr . OU expr
-    (38) expr -> expr . ET expr
-    (39) expr -> expr . MINUS term
-    (40) expr -> expr . PLUS term
-    )               reduce using rule 27 (expr -> MINUS expr .)
-    ;               reduce using rule 27 (expr -> MINUS expr .)
-    DIFF            shift and go to state 48
-    EGAL            shift and go to state 49
-    COMPARATEUR     shift and go to state 50
-    SUP             shift and go to state 51
-    INF             shift and go to state 52
-    OU              shift and go to state 53
-    ET              shift and go to state 54
-    MINUS           shift and go to state 55
-    PLUS            shift and go to state 56
+    (25) appel_fonction_1 -> IDENTIFIANT ( . )
+    )               shift and go to state 76
 
 
 state 58
 
-    (28) expr -> NON expr .
-    (32) expr -> expr . DIFF expr
-    (33) expr -> expr . EGAL expr
-    (34) expr -> expr . COMPARATEUR expr
-    (35) expr -> expr . SUP expr
-    (36) expr -> expr . INF expr
-    (37) expr -> expr . OU expr
-    (38) expr -> expr . ET expr
-    (39) expr -> expr . MINUS term
-    (40) expr -> expr . PLUS term
-    )               reduce using rule 28 (expr -> NON expr .)
-    ;               reduce using rule 28 (expr -> NON expr .)
-    DIFF            shift and go to state 48
-    EGAL            shift and go to state 49
-    COMPARATEUR     shift and go to state 50
-    SUP             shift and go to state 51
-    INF             shift and go to state 52
-    OU              shift and go to state 53
-    ET              shift and go to state 54
-    MINUS           shift and go to state 55
-    PLUS            shift and go to state 56
+    (21) boucle -> TANTQUE ( expr . ) { listeInstructions }
+    (36) expr -> expr . COMPARATEUR expr
+    (38) expr -> expr . MINUS term
+    (39) expr -> expr . PLUS term
+    )               shift and go to state 77
+    COMPARATEUR     shift and go to state 45
+    MINUS           shift and go to state 46
+    PLUS            shift and go to state 47
 
 
 state 59
 
-    (29) expr -> NON IDENTIFIANT .
-    (15) factor -> IDENTIFIANT .
-  ! reduce/reduce conflict for DIFF resolved using rule 15 (factor -> IDENTIFIANT .)
-  ! reduce/reduce conflict for EGAL resolved using rule 15 (factor -> IDENTIFIANT .)
-  ! reduce/reduce conflict for COMPARATEUR resolved using rule 15 (factor -> IDENTIFIANT .)
-  ! reduce/reduce conflict for SUP resolved using rule 15 (factor -> IDENTIFIANT .)
-  ! reduce/reduce conflict for INF resolved using rule 15 (factor -> IDENTIFIANT .)
-  ! reduce/reduce conflict for OU resolved using rule 15 (factor -> IDENTIFIANT .)
-  ! reduce/reduce conflict for ET resolved using rule 15 (factor -> IDENTIFIANT .)
-  ! reduce/reduce conflict for MINUS resolved using rule 15 (factor -> IDENTIFIANT .)
-  ! reduce/reduce conflict for PLUS resolved using rule 15 (factor -> IDENTIFIANT .)
-  ! reduce/reduce conflict for ) resolved using rule 15 (factor -> IDENTIFIANT .)
-  ! reduce/reduce conflict for ; resolved using rule 15 (factor -> IDENTIFIANT .)
-    MODULO          reduce using rule 15 (factor -> IDENTIFIANT .)
-    DIV             reduce using rule 15 (factor -> IDENTIFIANT .)
-    MULT            reduce using rule 15 (factor -> IDENTIFIANT .)
-    DIFF            reduce using rule 15 (factor -> IDENTIFIANT .)
-    EGAL            reduce using rule 15 (factor -> IDENTIFIANT .)
-    COMPARATEUR     reduce using rule 15 (factor -> IDENTIFIANT .)
-    SUP             reduce using rule 15 (factor -> IDENTIFIANT .)
-    INF             reduce using rule 15 (factor -> IDENTIFIANT .)
-    OU              reduce using rule 15 (factor -> IDENTIFIANT .)
-    ET              reduce using rule 15 (factor -> IDENTIFIANT .)
-    MINUS           reduce using rule 15 (factor -> IDENTIFIANT .)
-    PLUS            reduce using rule 15 (factor -> IDENTIFIANT .)
-    )               reduce using rule 15 (factor -> IDENTIFIANT .)
-    ;               reduce using rule 15 (factor -> IDENTIFIANT .)
+    (17) condition -> SI ( expr . ) { listeInstructions } suite_sinosi
+    (36) expr -> expr . COMPARATEUR expr
+    (38) expr -> expr . MINUS term
+    (39) expr -> expr . PLUS term
+    )               shift and go to state 78
+    COMPARATEUR     shift and go to state 45
+    MINUS           shift and go to state 46
+    PLUS            shift and go to state 47
 
 
 state 60
 
-    (30) expr -> NON BOOLEEN_LITERAL .
-    (12) factor -> BOOLEEN_LITERAL .
-  ! reduce/reduce conflict for DIFF resolved using rule 12 (factor -> BOOLEEN_LITERAL .)
-  ! reduce/reduce conflict for EGAL resolved using rule 12 (factor -> BOOLEEN_LITERAL .)
-  ! reduce/reduce conflict for COMPARATEUR resolved using rule 12 (factor -> BOOLEEN_LITERAL .)
-  ! reduce/reduce conflict for SUP resolved using rule 12 (factor -> BOOLEEN_LITERAL .)
-  ! reduce/reduce conflict for INF resolved using rule 12 (factor -> BOOLEEN_LITERAL .)
-  ! reduce/reduce conflict for OU resolved using rule 12 (factor -> BOOLEEN_LITERAL .)
-  ! reduce/reduce conflict for ET resolved using rule 12 (factor -> BOOLEEN_LITERAL .)
-  ! reduce/reduce conflict for MINUS resolved using rule 12 (factor -> BOOLEEN_LITERAL .)
-  ! reduce/reduce conflict for PLUS resolved using rule 12 (factor -> BOOLEEN_LITERAL .)
-  ! reduce/reduce conflict for ) resolved using rule 12 (factor -> BOOLEEN_LITERAL .)
-  ! reduce/reduce conflict for ; resolved using rule 12 (factor -> BOOLEEN_LITERAL .)
-    MODULO          reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    DIV             reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    MULT            reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    DIFF            reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    EGAL            reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    COMPARATEUR     reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    SUP             reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    INF             reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    OU              reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    ET              reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    MINUS           reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    PLUS            reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    )               reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
-    ;               reduce using rule 12 (factor -> BOOLEEN_LITERAL .)
+    (14) ecrire -> ECRIRE ( expr . ) ;
+    (36) expr -> expr . COMPARATEUR expr
+    (38) expr -> expr . MINUS term
+    (39) expr -> expr . PLUS term
+    )               shift and go to state 79
+    COMPARATEUR     shift and go to state 45
+    MINUS           shift and go to state 46
+    PLUS            shift and go to state 47
 
 
 state 61
 
-    (43) term -> term MODULO . factor
-    (12) factor -> . BOOLEEN_LITERAL
-    (13) factor -> . BOOLEEN
-    (14) factor -> . ( expr )
-    (15) factor -> . IDENTIFIANT
-    (16) factor -> . ENTIER
-    (17) factor -> . LIRE ( )
-    BOOLEEN_LITERAL shift and go to state 34
-    BOOLEEN         shift and go to state 37
-    (               shift and go to state 29
-    IDENTIFIANT     shift and go to state 33
-    ENTIER          shift and go to state 38
-    LIRE            shift and go to state 39
+    (26) fonction_declaration -> type IDENTIFIANT ( ) . { listeInstructions }
+    {               shift and go to state 80
 
-    factor                         shift and go to state 82
 
 state 62
 
-    (44) term -> term DIV . factor
-    (12) factor -> . BOOLEEN_LITERAL
-    (13) factor -> . BOOLEEN
-    (14) factor -> . ( expr )
-    (15) factor -> . IDENTIFIANT
-    (16) factor -> . ENTIER
-    (17) factor -> . LIRE ( )
-    BOOLEEN_LITERAL shift and go to state 34
-    BOOLEEN         shift and go to state 37
-    (               shift and go to state 29
-    IDENTIFIANT     shift and go to state 33
-    ENTIER          shift and go to state 38
-    LIRE            shift and go to state 39
+    (15) declaration -> type IDENTIFIANT = expr . ;
+    (36) expr -> expr . COMPARATEUR expr
+    (38) expr -> expr . MINUS term
+    (39) expr -> expr . PLUS term
+    ;               shift and go to state 81
+    COMPARATEUR     shift and go to state 45
+    MINUS           shift and go to state 46
+    PLUS            shift and go to state 47
 
-    factor                         shift and go to state 83
 
 state 63
 
-    (45) term -> term MULT . factor
-    (12) factor -> . BOOLEEN_LITERAL
-    (13) factor -> . BOOLEEN
-    (14) factor -> . ( expr )
-    (15) factor -> . IDENTIFIANT
-    (16) factor -> . ENTIER
-    (17) factor -> . LIRE ( )
-    BOOLEEN_LITERAL shift and go to state 34
-    BOOLEEN         shift and go to state 37
-    (               shift and go to state 29
-    IDENTIFIANT     shift and go to state 33
-    ENTIER          shift and go to state 38
-    LIRE            shift and go to state 39
+    (24) appel_fonction_2 -> IDENTIFIANT ( ) ; .
+    IDENTIFIANT     reduce using rule 24 (appel_fonction_2 -> IDENTIFIANT ( ) ; .)
+    RETOURNER       reduce using rule 24 (appel_fonction_2 -> IDENTIFIANT ( ) ; .)
+    TANTQUE         reduce using rule 24 (appel_fonction_2 -> IDENTIFIANT ( ) ; .)
+    SI              reduce using rule 24 (appel_fonction_2 -> IDENTIFIANT ( ) ; .)
+    ECRIRE          reduce using rule 24 (appel_fonction_2 -> IDENTIFIANT ( ) ; .)
+    ENT             reduce using rule 24 (appel_fonction_2 -> IDENTIFIANT ( ) ; .)
+    BOOLEEN         reduce using rule 24 (appel_fonction_2 -> IDENTIFIANT ( ) ; .)
+    $end            reduce using rule 24 (appel_fonction_2 -> IDENTIFIANT ( ) ; .)
+    }               reduce using rule 24 (appel_fonction_2 -> IDENTIFIANT ( ) ; .)
 
-    factor                         shift and go to state 84
 
 state 64
 
-    (42) term -> factor MODULO . factor
-    (12) factor -> . BOOLEEN_LITERAL
-    (13) factor -> . BOOLEEN
-    (14) factor -> . ( expr )
-    (15) factor -> . IDENTIFIANT
-    (16) factor -> . ENTIER
-    (17) factor -> . LIRE ( )
-    BOOLEEN_LITERAL shift and go to state 34
-    BOOLEEN         shift and go to state 37
-    (               shift and go to state 29
-    IDENTIFIANT     shift and go to state 33
-    ENTIER          shift and go to state 38
-    LIRE            shift and go to state 39
+    (16) affectation -> IDENTIFIANT = expr ; .
+    IDENTIFIANT     reduce using rule 16 (affectation -> IDENTIFIANT = expr ; .)
+    RETOURNER       reduce using rule 16 (affectation -> IDENTIFIANT = expr ; .)
+    TANTQUE         reduce using rule 16 (affectation -> IDENTIFIANT = expr ; .)
+    SI              reduce using rule 16 (affectation -> IDENTIFIANT = expr ; .)
+    ECRIRE          reduce using rule 16 (affectation -> IDENTIFIANT = expr ; .)
+    ENT             reduce using rule 16 (affectation -> IDENTIFIANT = expr ; .)
+    BOOLEEN         reduce using rule 16 (affectation -> IDENTIFIANT = expr ; .)
+    $end            reduce using rule 16 (affectation -> IDENTIFIANT = expr ; .)
+    }               reduce using rule 16 (affectation -> IDENTIFIANT = expr ; .)
 
-    factor                         shift and go to state 85
 
 state 65
 
-    (17) factor -> LIRE ( . )
-    )               shift and go to state 86
+    (36) expr -> expr COMPARATEUR expr .
+    (36) expr -> expr . COMPARATEUR expr
+    (38) expr -> expr . MINUS term
+    (39) expr -> expr . PLUS term
+    ;               reduce using rule 36 (expr -> expr COMPARATEUR expr .)
+    COMPARATEUR     reduce using rule 36 (expr -> expr COMPARATEUR expr .)
+    MINUS           reduce using rule 36 (expr -> expr COMPARATEUR expr .)
+    PLUS            reduce using rule 36 (expr -> expr COMPARATEUR expr .)
+    OU              reduce using rule 36 (expr -> expr COMPARATEUR expr .)
+    ET              reduce using rule 36 (expr -> expr COMPARATEUR expr .)
+    MODULO          reduce using rule 36 (expr -> expr COMPARATEUR expr .)
+    DIV             reduce using rule 36 (expr -> expr COMPARATEUR expr .)
+    MULT            reduce using rule 36 (expr -> expr COMPARATEUR expr .)
+    )               reduce using rule 36 (expr -> expr COMPARATEUR expr .)
 
 
 state 66
 
-    (26) boucle -> TANTQUE ( expr ) . { listeInstructions }
-    {               shift and go to state 87
+    (38) expr -> expr MINUS term .
+    (41) term -> term . MODULO factor
+    (42) term -> term . DIV factor
+    (43) term -> term . MULT factor
+    ;               reduce using rule 38 (expr -> expr MINUS term .)
+    COMPARATEUR     reduce using rule 38 (expr -> expr MINUS term .)
+    MINUS           reduce using rule 38 (expr -> expr MINUS term .)
+    PLUS            reduce using rule 38 (expr -> expr MINUS term .)
+    OU              reduce using rule 38 (expr -> expr MINUS term .)
+    ET              reduce using rule 38 (expr -> expr MINUS term .)
+    MODULO          reduce using rule 38 (expr -> expr MINUS term .)
+    DIV             reduce using rule 38 (expr -> expr MINUS term .)
+    MULT            reduce using rule 38 (expr -> expr MINUS term .)
+    )               reduce using rule 38 (expr -> expr MINUS term .)
 
 
 state 67
 
-    (21) affectation -> IDENTIFIANT = expr ; .
-    SINON           reduce using rule 21 (affectation -> IDENTIFIANT = expr ; .)
-    TANTQUE         reduce using rule 21 (affectation -> IDENTIFIANT = expr ; .)
-    SI              reduce using rule 21 (affectation -> IDENTIFIANT = expr ; .)
-    IDENTIFIANT     reduce using rule 21 (affectation -> IDENTIFIANT = expr ; .)
-    ECRIRE          reduce using rule 21 (affectation -> IDENTIFIANT = expr ; .)
-    BOOLEEN         reduce using rule 21 (affectation -> IDENTIFIANT = expr ; .)
-    ENT             reduce using rule 21 (affectation -> IDENTIFIANT = expr ; .)
-    $end            reduce using rule 21 (affectation -> IDENTIFIANT = expr ; .)
-    }               reduce using rule 21 (affectation -> IDENTIFIANT = expr ; .)
+    (39) expr -> expr PLUS term .
+    (41) term -> term . MODULO factor
+    (42) term -> term . DIV factor
+    (43) term -> term . MULT factor
+    ;               reduce using rule 39 (expr -> expr PLUS term .)
+    COMPARATEUR     reduce using rule 39 (expr -> expr PLUS term .)
+    MINUS           reduce using rule 39 (expr -> expr PLUS term .)
+    PLUS            reduce using rule 39 (expr -> expr PLUS term .)
+    OU              reduce using rule 39 (expr -> expr PLUS term .)
+    ET              reduce using rule 39 (expr -> expr PLUS term .)
+    MODULO          reduce using rule 39 (expr -> expr PLUS term .)
+    DIV             reduce using rule 39 (expr -> expr PLUS term .)
+    MULT            reduce using rule 39 (expr -> expr PLUS term .)
+    )               reduce using rule 39 (expr -> expr PLUS term .)
 
 
 state 68
 
-    (20) declaration -> type IDENTIFIANT = expr . ;
-    (32) expr -> expr . DIFF expr
-    (33) expr -> expr . EGAL expr
-    (34) expr -> expr . COMPARATEUR expr
-    (35) expr -> expr . SUP expr
-    (36) expr -> expr . INF expr
-    (37) expr -> expr . OU expr
-    (38) expr -> expr . ET expr
-    (39) expr -> expr . MINUS term
-    (40) expr -> expr . PLUS term
-    ;               shift and go to state 88
-    DIFF            shift and go to state 48
-    EGAL            shift and go to state 49
-    COMPARATEUR     shift and go to state 50
-    SUP             shift and go to state 51
-    INF             shift and go to state 52
-    OU              shift and go to state 53
-    ET              shift and go to state 54
-    MINUS           shift and go to state 55
-    PLUS            shift and go to state 56
+    (41) term -> term MODULO factor .
+    (30) factor -> factor . OU expr
+    (31) factor -> factor . ET expr
+    MODULO          reduce using rule 41 (term -> term MODULO factor .)
+    DIV             reduce using rule 41 (term -> term MODULO factor .)
+    MULT            reduce using rule 41 (term -> term MODULO factor .)
+    ;               reduce using rule 41 (term -> term MODULO factor .)
+    COMPARATEUR     reduce using rule 41 (term -> term MODULO factor .)
+    MINUS           reduce using rule 41 (term -> term MODULO factor .)
+    PLUS            reduce using rule 41 (term -> term MODULO factor .)
+    )               reduce using rule 41 (term -> term MODULO factor .)
+    OU              shift and go to state 52
+    ET              shift and go to state 53
 
 
 state 69
 
-    (11) ecrire -> ECRIRE ( expr ) . ;
-    ;               shift and go to state 89
+    (32) factor -> IDENTIFIANT .
+    COMPARATEUR     reduce using rule 32 (factor -> IDENTIFIANT .)
+    MINUS           reduce using rule 32 (factor -> IDENTIFIANT .)
+    PLUS            reduce using rule 32 (factor -> IDENTIFIANT .)
+    OU              reduce using rule 32 (factor -> IDENTIFIANT .)
+    ET              reduce using rule 32 (factor -> IDENTIFIANT .)
+    MODULO          reduce using rule 32 (factor -> IDENTIFIANT .)
+    DIV             reduce using rule 32 (factor -> IDENTIFIANT .)
+    MULT            reduce using rule 32 (factor -> IDENTIFIANT .)
+    ;               reduce using rule 32 (factor -> IDENTIFIANT .)
+    )               reduce using rule 32 (factor -> IDENTIFIANT .)
 
 
 state 70
 
-    (24) suite_sinosi -> SINON SI ( expr ) . { listeInstructions } suite_sinosi
-    {               shift and go to state 90
+    (42) term -> term DIV factor .
+    (30) factor -> factor . OU expr
+    (31) factor -> factor . ET expr
+    MODULO          reduce using rule 42 (term -> term DIV factor .)
+    DIV             reduce using rule 42 (term -> term DIV factor .)
+    MULT            reduce using rule 42 (term -> term DIV factor .)
+    ;               reduce using rule 42 (term -> term DIV factor .)
+    COMPARATEUR     reduce using rule 42 (term -> term DIV factor .)
+    MINUS           reduce using rule 42 (term -> term DIV factor .)
+    PLUS            reduce using rule 42 (term -> term DIV factor .)
+    )               reduce using rule 42 (term -> term DIV factor .)
+    OU              shift and go to state 52
+    ET              shift and go to state 53
 
 
 state 71
 
-    (14) factor -> ( expr ) .
-    MODULO          reduce using rule 14 (factor -> ( expr ) .)
-    DIV             reduce using rule 14 (factor -> ( expr ) .)
-    MULT            reduce using rule 14 (factor -> ( expr ) .)
-    )               reduce using rule 14 (factor -> ( expr ) .)
-    DIFF            reduce using rule 14 (factor -> ( expr ) .)
-    EGAL            reduce using rule 14 (factor -> ( expr ) .)
-    COMPARATEUR     reduce using rule 14 (factor -> ( expr ) .)
-    SUP             reduce using rule 14 (factor -> ( expr ) .)
-    INF             reduce using rule 14 (factor -> ( expr ) .)
-    OU              reduce using rule 14 (factor -> ( expr ) .)
-    ET              reduce using rule 14 (factor -> ( expr ) .)
-    MINUS           reduce using rule 14 (factor -> ( expr ) .)
-    PLUS            reduce using rule 14 (factor -> ( expr ) .)
-    ;               reduce using rule 14 (factor -> ( expr ) .)
+    (43) term -> term MULT factor .
+    (30) factor -> factor . OU expr
+    (31) factor -> factor . ET expr
+    MODULO          reduce using rule 43 (term -> term MULT factor .)
+    DIV             reduce using rule 43 (term -> term MULT factor .)
+    MULT            reduce using rule 43 (term -> term MULT factor .)
+    ;               reduce using rule 43 (term -> term MULT factor .)
+    COMPARATEUR     reduce using rule 43 (term -> term MULT factor .)
+    MINUS           reduce using rule 43 (term -> term MULT factor .)
+    PLUS            reduce using rule 43 (term -> term MULT factor .)
+    )               reduce using rule 43 (term -> term MULT factor .)
+    OU              shift and go to state 52
+    ET              shift and go to state 53
 
 
 state 72
 
-    (22) condition -> SI ( expr ) { . listeInstructions } suite_sinosi
-    (3) listeInstructions -> . listeInstructions instruction
-    (4) listeInstructions -> . instruction
-    (5) instruction -> . suite_sinosi
-    (6) instruction -> . boucle
-    (7) instruction -> . condition
-    (8) instruction -> . affectation
-    (9) instruction -> . declaration
-    (10) instruction -> . ecrire
-    (23) suite_sinosi -> .
-    (24) suite_sinosi -> . SINON SI ( expr ) { listeInstructions } suite_sinosi
-    (25) suite_sinosi -> . SINON { listeInstructions }
-    (26) boucle -> . TANTQUE ( expr ) { listeInstructions }
-    (22) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
-    (21) affectation -> . IDENTIFIANT = expr ;
-    (20) declaration -> . type IDENTIFIANT = expr ;
-    (11) ecrire -> . ECRIRE ( expr ) ;
-    (18) type -> . BOOLEEN
-    (19) type -> . ENT
-  ! shift/reduce conflict for SINON resolved as shift
-  ! shift/reduce conflict for TANTQUE resolved as shift
-  ! shift/reduce conflict for SI resolved as shift
-  ! shift/reduce conflict for IDENTIFIANT resolved as shift
-  ! shift/reduce conflict for ECRIRE resolved as shift
-  ! shift/reduce conflict for BOOLEEN resolved as shift
-  ! shift/reduce conflict for ENT resolved as shift
-    }               reduce using rule 23 (suite_sinosi -> .)
-    SINON           shift and go to state 11
-    TANTQUE         shift and go to state 13
-    SI              shift and go to state 12
-    IDENTIFIANT     shift and go to state 14
-    ECRIRE          shift and go to state 16
-    BOOLEEN         shift and go to state 17
-    ENT             shift and go to state 18
+    (30) factor -> factor OU expr .
+    (36) expr -> expr . COMPARATEUR expr
+    (38) expr -> expr . MINUS term
+    (39) expr -> expr . PLUS term
+    OU              reduce using rule 30 (factor -> factor OU expr .)
+    ET              reduce using rule 30 (factor -> factor OU expr .)
+    MODULO          reduce using rule 30 (factor -> factor OU expr .)
+    DIV             reduce using rule 30 (factor -> factor OU expr .)
+    MULT            reduce using rule 30 (factor -> factor OU expr .)
+    ;               reduce using rule 30 (factor -> factor OU expr .)
+    MINUS           reduce using rule 30 (factor -> factor OU expr .)
+    PLUS            reduce using rule 30 (factor -> factor OU expr .)
+    )               reduce using rule 30 (factor -> factor OU expr .)
+    COMPARATEUR     shift and go to state 45
 
-    listeInstructions              shift and go to state 91
-    suite_sinosi                   shift and go to state 5
-    instruction                    shift and go to state 4
-    boucle                         shift and go to state 6
-    condition                      shift and go to state 7
-    affectation                    shift and go to state 8
-    declaration                    shift and go to state 9
-    ecrire                         shift and go to state 10
-    type                           shift and go to state 15
 
 state 73
 
-    (32) expr -> expr DIFF expr .
-    (32) expr -> expr . DIFF expr
-    (33) expr -> expr . EGAL expr
-    (34) expr -> expr . COMPARATEUR expr
-    (35) expr -> expr . SUP expr
-    (36) expr -> expr . INF expr
-    (37) expr -> expr . OU expr
-    (38) expr -> expr . ET expr
-    (39) expr -> expr . MINUS term
-    (40) expr -> expr . PLUS term
-    )               reduce using rule 32 (expr -> expr DIFF expr .)
-    DIFF            reduce using rule 32 (expr -> expr DIFF expr .)
-    EGAL            reduce using rule 32 (expr -> expr DIFF expr .)
-    COMPARATEUR     reduce using rule 32 (expr -> expr DIFF expr .)
-    SUP             reduce using rule 32 (expr -> expr DIFF expr .)
-    INF             reduce using rule 32 (expr -> expr DIFF expr .)
-    OU              reduce using rule 32 (expr -> expr DIFF expr .)
-    ET              reduce using rule 32 (expr -> expr DIFF expr .)
-    MINUS           reduce using rule 32 (expr -> expr DIFF expr .)
-    PLUS            reduce using rule 32 (expr -> expr DIFF expr .)
-    ;               reduce using rule 32 (expr -> expr DIFF expr .)
+    (31) factor -> factor ET expr .
+    (36) expr -> expr . COMPARATEUR expr
+    (38) expr -> expr . MINUS term
+    (39) expr -> expr . PLUS term
+    OU              reduce using rule 31 (factor -> factor ET expr .)
+    ET              reduce using rule 31 (factor -> factor ET expr .)
+    MODULO          reduce using rule 31 (factor -> factor ET expr .)
+    DIV             reduce using rule 31 (factor -> factor ET expr .)
+    MULT            reduce using rule 31 (factor -> factor ET expr .)
+    ;               reduce using rule 31 (factor -> factor ET expr .)
+    MINUS           reduce using rule 31 (factor -> factor ET expr .)
+    PLUS            reduce using rule 31 (factor -> factor ET expr .)
+    )               reduce using rule 31 (factor -> factor ET expr .)
+    COMPARATEUR     shift and go to state 45
 
 
 state 74
 
-    (33) expr -> expr EGAL expr .
-    (32) expr -> expr . DIFF expr
-    (33) expr -> expr . EGAL expr
-    (34) expr -> expr . COMPARATEUR expr
-    (35) expr -> expr . SUP expr
-    (36) expr -> expr . INF expr
-    (37) expr -> expr . OU expr
-    (38) expr -> expr . ET expr
-    (39) expr -> expr . MINUS term
-    (40) expr -> expr . PLUS term
-    )               reduce using rule 33 (expr -> expr EGAL expr .)
-    DIFF            reduce using rule 33 (expr -> expr EGAL expr .)
-    EGAL            reduce using rule 33 (expr -> expr EGAL expr .)
-    COMPARATEUR     reduce using rule 33 (expr -> expr EGAL expr .)
-    SUP             reduce using rule 33 (expr -> expr EGAL expr .)
-    INF             reduce using rule 33 (expr -> expr EGAL expr .)
-    OU              reduce using rule 33 (expr -> expr EGAL expr .)
-    ET              reduce using rule 33 (expr -> expr EGAL expr .)
-    MINUS           reduce using rule 33 (expr -> expr EGAL expr .)
-    PLUS            reduce using rule 33 (expr -> expr EGAL expr .)
-    ;               reduce using rule 33 (expr -> expr EGAL expr .)
+    (27) factor -> LIRE ( ) .
+    OU              reduce using rule 27 (factor -> LIRE ( ) .)
+    ET              reduce using rule 27 (factor -> LIRE ( ) .)
+    MODULO          reduce using rule 27 (factor -> LIRE ( ) .)
+    DIV             reduce using rule 27 (factor -> LIRE ( ) .)
+    MULT            reduce using rule 27 (factor -> LIRE ( ) .)
+    ;               reduce using rule 27 (factor -> LIRE ( ) .)
+    COMPARATEUR     reduce using rule 27 (factor -> LIRE ( ) .)
+    MINUS           reduce using rule 27 (factor -> LIRE ( ) .)
+    PLUS            reduce using rule 27 (factor -> LIRE ( ) .)
+    )               reduce using rule 27 (factor -> LIRE ( ) .)
 
 
 state 75
 
-    (34) expr -> expr COMPARATEUR expr .
-    (32) expr -> expr . DIFF expr
-    (33) expr -> expr . EGAL expr
-    (34) expr -> expr . COMPARATEUR expr
-    (35) expr -> expr . SUP expr
-    (36) expr -> expr . INF expr
-    (37) expr -> expr . OU expr
-    (38) expr -> expr . ET expr
-    (39) expr -> expr . MINUS term
-    (40) expr -> expr . PLUS term
-    )               reduce using rule 34 (expr -> expr COMPARATEUR expr .)
-    DIFF            reduce using rule 34 (expr -> expr COMPARATEUR expr .)
-    EGAL            reduce using rule 34 (expr -> expr COMPARATEUR expr .)
-    COMPARATEUR     reduce using rule 34 (expr -> expr COMPARATEUR expr .)
-    SUP             reduce using rule 34 (expr -> expr COMPARATEUR expr .)
-    INF             reduce using rule 34 (expr -> expr COMPARATEUR expr .)
-    OU              reduce using rule 34 (expr -> expr COMPARATEUR expr .)
-    ET              reduce using rule 34 (expr -> expr COMPARATEUR expr .)
-    MINUS           reduce using rule 34 (expr -> expr COMPARATEUR expr .)
-    PLUS            reduce using rule 34 (expr -> expr COMPARATEUR expr .)
-    ;               reduce using rule 34 (expr -> expr COMPARATEUR expr .)
+    (33) factor -> ( expr ) .
+    OU              reduce using rule 33 (factor -> ( expr ) .)
+    ET              reduce using rule 33 (factor -> ( expr ) .)
+    MODULO          reduce using rule 33 (factor -> ( expr ) .)
+    DIV             reduce using rule 33 (factor -> ( expr ) .)
+    MULT            reduce using rule 33 (factor -> ( expr ) .)
+    ;               reduce using rule 33 (factor -> ( expr ) .)
+    COMPARATEUR     reduce using rule 33 (factor -> ( expr ) .)
+    MINUS           reduce using rule 33 (factor -> ( expr ) .)
+    PLUS            reduce using rule 33 (factor -> ( expr ) .)
+    )               reduce using rule 33 (factor -> ( expr ) .)
 
 
 state 76
 
-    (35) expr -> expr SUP expr .
-    (32) expr -> expr . DIFF expr
-    (33) expr -> expr . EGAL expr
-    (34) expr -> expr . COMPARATEUR expr
-    (35) expr -> expr . SUP expr
-    (36) expr -> expr . INF expr
-    (37) expr -> expr . OU expr
-    (38) expr -> expr . ET expr
-    (39) expr -> expr . MINUS term
-    (40) expr -> expr . PLUS term
-    )               reduce using rule 35 (expr -> expr SUP expr .)
-    DIFF            reduce using rule 35 (expr -> expr SUP expr .)
-    EGAL            reduce using rule 35 (expr -> expr SUP expr .)
-    COMPARATEUR     reduce using rule 35 (expr -> expr SUP expr .)
-    SUP             reduce using rule 35 (expr -> expr SUP expr .)
-    INF             reduce using rule 35 (expr -> expr SUP expr .)
-    OU              reduce using rule 35 (expr -> expr SUP expr .)
-    ET              reduce using rule 35 (expr -> expr SUP expr .)
-    MINUS           reduce using rule 35 (expr -> expr SUP expr .)
-    PLUS            reduce using rule 35 (expr -> expr SUP expr .)
-    ;               reduce using rule 35 (expr -> expr SUP expr .)
+    (25) appel_fonction_1 -> IDENTIFIANT ( ) .
+    MODULO          reduce using rule 25 (appel_fonction_1 -> IDENTIFIANT ( ) .)
+    DIV             reduce using rule 25 (appel_fonction_1 -> IDENTIFIANT ( ) .)
+    MULT            reduce using rule 25 (appel_fonction_1 -> IDENTIFIANT ( ) .)
+    ;               reduce using rule 25 (appel_fonction_1 -> IDENTIFIANT ( ) .)
+    COMPARATEUR     reduce using rule 25 (appel_fonction_1 -> IDENTIFIANT ( ) .)
+    MINUS           reduce using rule 25 (appel_fonction_1 -> IDENTIFIANT ( ) .)
+    PLUS            reduce using rule 25 (appel_fonction_1 -> IDENTIFIANT ( ) .)
+    OU              reduce using rule 25 (appel_fonction_1 -> IDENTIFIANT ( ) .)
+    ET              reduce using rule 25 (appel_fonction_1 -> IDENTIFIANT ( ) .)
+    )               reduce using rule 25 (appel_fonction_1 -> IDENTIFIANT ( ) .)
 
 
 state 77
 
-    (36) expr -> expr INF expr .
-    (32) expr -> expr . DIFF expr
-    (33) expr -> expr . EGAL expr
-    (34) expr -> expr . COMPARATEUR expr
-    (35) expr -> expr . SUP expr
-    (36) expr -> expr . INF expr
-    (37) expr -> expr . OU expr
-    (38) expr -> expr . ET expr
-    (39) expr -> expr . MINUS term
-    (40) expr -> expr . PLUS term
-    )               reduce using rule 36 (expr -> expr INF expr .)
-    DIFF            reduce using rule 36 (expr -> expr INF expr .)
-    EGAL            reduce using rule 36 (expr -> expr INF expr .)
-    COMPARATEUR     reduce using rule 36 (expr -> expr INF expr .)
-    SUP             reduce using rule 36 (expr -> expr INF expr .)
-    INF             reduce using rule 36 (expr -> expr INF expr .)
-    OU              reduce using rule 36 (expr -> expr INF expr .)
-    ET              reduce using rule 36 (expr -> expr INF expr .)
-    MINUS           reduce using rule 36 (expr -> expr INF expr .)
-    PLUS            reduce using rule 36 (expr -> expr INF expr .)
-    ;               reduce using rule 36 (expr -> expr INF expr .)
+    (21) boucle -> TANTQUE ( expr ) . { listeInstructions }
+    {               shift and go to state 82
 
 
 state 78
 
-    (37) expr -> expr OU expr .
-    (32) expr -> expr . DIFF expr
-    (33) expr -> expr . EGAL expr
-    (34) expr -> expr . COMPARATEUR expr
-    (35) expr -> expr . SUP expr
-    (36) expr -> expr . INF expr
-    (37) expr -> expr . OU expr
-    (38) expr -> expr . ET expr
-    (39) expr -> expr . MINUS term
-    (40) expr -> expr . PLUS term
-    )               reduce using rule 37 (expr -> expr OU expr .)
-    OU              reduce using rule 37 (expr -> expr OU expr .)
-    ET              reduce using rule 37 (expr -> expr OU expr .)
-    MINUS           reduce using rule 37 (expr -> expr OU expr .)
-    PLUS            reduce using rule 37 (expr -> expr OU expr .)
-    ;               reduce using rule 37 (expr -> expr OU expr .)
-    DIFF            shift and go to state 48
-    EGAL            shift and go to state 49
-    COMPARATEUR     shift and go to state 50
-    SUP             shift and go to state 51
-    INF             shift and go to state 52
+    (17) condition -> SI ( expr ) . { listeInstructions } suite_sinosi
+    {               shift and go to state 83
 
 
 state 79
 
-    (38) expr -> expr ET expr .
-    (32) expr -> expr . DIFF expr
-    (33) expr -> expr . EGAL expr
-    (34) expr -> expr . COMPARATEUR expr
-    (35) expr -> expr . SUP expr
-    (36) expr -> expr . INF expr
-    (37) expr -> expr . OU expr
-    (38) expr -> expr . ET expr
-    (39) expr -> expr . MINUS term
-    (40) expr -> expr . PLUS term
-    )               reduce using rule 38 (expr -> expr ET expr .)
-    ET              reduce using rule 38 (expr -> expr ET expr .)
-    MINUS           reduce using rule 38 (expr -> expr ET expr .)
-    PLUS            reduce using rule 38 (expr -> expr ET expr .)
-    ;               reduce using rule 38 (expr -> expr ET expr .)
-    DIFF            shift and go to state 48
-    EGAL            shift and go to state 49
-    COMPARATEUR     shift and go to state 50
-    SUP             shift and go to state 51
-    INF             shift and go to state 52
-    OU              shift and go to state 53
+    (14) ecrire -> ECRIRE ( expr ) . ;
+    ;               shift and go to state 84
 
 
 state 80
 
-    (39) expr -> expr MINUS term .
-    (43) term -> term . MODULO factor
-    (44) term -> term . DIV factor
-    (45) term -> term . MULT factor
-    )               reduce using rule 39 (expr -> expr MINUS term .)
-    DIFF            reduce using rule 39 (expr -> expr MINUS term .)
-    EGAL            reduce using rule 39 (expr -> expr MINUS term .)
-    COMPARATEUR     reduce using rule 39 (expr -> expr MINUS term .)
-    SUP             reduce using rule 39 (expr -> expr MINUS term .)
-    INF             reduce using rule 39 (expr -> expr MINUS term .)
-    OU              reduce using rule 39 (expr -> expr MINUS term .)
-    ET              reduce using rule 39 (expr -> expr MINUS term .)
-    MINUS           reduce using rule 39 (expr -> expr MINUS term .)
-    PLUS            reduce using rule 39 (expr -> expr MINUS term .)
-    ;               reduce using rule 39 (expr -> expr MINUS term .)
-    MODULO          shift and go to state 61
-    DIV             shift and go to state 62
-    MULT            shift and go to state 63
+    (26) fonction_declaration -> type IDENTIFIANT ( ) { . listeInstructions }
+    (3) listeInstructions -> . instruction
+    (4) listeInstructions -> . listeInstructions instruction
+    (5) instruction -> . fonction_declaration
+    (6) instruction -> . appel_fonction_1
+    (7) instruction -> . appel_fonction_2
+    (8) instruction -> . retourner
+    (9) instruction -> . boucle
+    (10) instruction -> . condition
+    (11) instruction -> . affectation
+    (12) instruction -> . declaration
+    (13) instruction -> . ecrire
+    (26) fonction_declaration -> . type IDENTIFIANT ( ) { listeInstructions }
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    (24) appel_fonction_2 -> . IDENTIFIANT ( ) ;
+    (22) retourner -> . RETOURNER expr ;
+    (23) retourner -> . retourner
+    (21) boucle -> . TANTQUE ( expr ) { listeInstructions }
+    (17) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
+    (16) affectation -> . IDENTIFIANT = expr ;
+    (15) declaration -> . type IDENTIFIANT = expr ;
+    (14) ecrire -> . ECRIRE ( expr ) ;
+    (45) type -> . ENT
+    (46) type -> . BOOLEEN
+    IDENTIFIANT     shift and go to state 15
+    RETOURNER       shift and go to state 16
+    TANTQUE         shift and go to state 17
+    SI              shift and go to state 18
+    ECRIRE          shift and go to state 19
+    ENT             shift and go to state 20
+    BOOLEEN         shift and go to state 21
 
+    type                           shift and go to state 14
+    listeInstructions              shift and go to state 85
+    instruction                    shift and go to state 4
+    fonction_declaration           shift and go to state 5
+    appel_fonction_1               shift and go to state 6
+    appel_fonction_2               shift and go to state 7
+    retourner                      shift and go to state 8
+    boucle                         shift and go to state 9
+    condition                      shift and go to state 10
+    affectation                    shift and go to state 11
+    declaration                    shift and go to state 12
+    ecrire                         shift and go to state 13
 
 state 81
 
-    (40) expr -> expr PLUS term .
-    (43) term -> term . MODULO factor
-    (44) term -> term . DIV factor
-    (45) term -> term . MULT factor
-    )               reduce using rule 40 (expr -> expr PLUS term .)
-    DIFF            reduce using rule 40 (expr -> expr PLUS term .)
-    EGAL            reduce using rule 40 (expr -> expr PLUS term .)
-    COMPARATEUR     reduce using rule 40 (expr -> expr PLUS term .)
-    SUP             reduce using rule 40 (expr -> expr PLUS term .)
-    INF             reduce using rule 40 (expr -> expr PLUS term .)
-    OU              reduce using rule 40 (expr -> expr PLUS term .)
-    ET              reduce using rule 40 (expr -> expr PLUS term .)
-    MINUS           reduce using rule 40 (expr -> expr PLUS term .)
-    PLUS            reduce using rule 40 (expr -> expr PLUS term .)
-    ;               reduce using rule 40 (expr -> expr PLUS term .)
-    MODULO          shift and go to state 61
-    DIV             shift and go to state 62
-    MULT            shift and go to state 63
+    (15) declaration -> type IDENTIFIANT = expr ; .
+    IDENTIFIANT     reduce using rule 15 (declaration -> type IDENTIFIANT = expr ; .)
+    RETOURNER       reduce using rule 15 (declaration -> type IDENTIFIANT = expr ; .)
+    TANTQUE         reduce using rule 15 (declaration -> type IDENTIFIANT = expr ; .)
+    SI              reduce using rule 15 (declaration -> type IDENTIFIANT = expr ; .)
+    ECRIRE          reduce using rule 15 (declaration -> type IDENTIFIANT = expr ; .)
+    ENT             reduce using rule 15 (declaration -> type IDENTIFIANT = expr ; .)
+    BOOLEEN         reduce using rule 15 (declaration -> type IDENTIFIANT = expr ; .)
+    $end            reduce using rule 15 (declaration -> type IDENTIFIANT = expr ; .)
+    }               reduce using rule 15 (declaration -> type IDENTIFIANT = expr ; .)
 
 
 state 82
 
-    (43) term -> term MODULO factor .
-    MODULO          reduce using rule 43 (term -> term MODULO factor .)
-    DIV             reduce using rule 43 (term -> term MODULO factor .)
-    MULT            reduce using rule 43 (term -> term MODULO factor .)
-    )               reduce using rule 43 (term -> term MODULO factor .)
-    DIFF            reduce using rule 43 (term -> term MODULO factor .)
-    EGAL            reduce using rule 43 (term -> term MODULO factor .)
-    COMPARATEUR     reduce using rule 43 (term -> term MODULO factor .)
-    SUP             reduce using rule 43 (term -> term MODULO factor .)
-    INF             reduce using rule 43 (term -> term MODULO factor .)
-    OU              reduce using rule 43 (term -> term MODULO factor .)
-    ET              reduce using rule 43 (term -> term MODULO factor .)
-    MINUS           reduce using rule 43 (term -> term MODULO factor .)
-    PLUS            reduce using rule 43 (term -> term MODULO factor .)
-    ;               reduce using rule 43 (term -> term MODULO factor .)
+    (21) boucle -> TANTQUE ( expr ) { . listeInstructions }
+    (3) listeInstructions -> . instruction
+    (4) listeInstructions -> . listeInstructions instruction
+    (5) instruction -> . fonction_declaration
+    (6) instruction -> . appel_fonction_1
+    (7) instruction -> . appel_fonction_2
+    (8) instruction -> . retourner
+    (9) instruction -> . boucle
+    (10) instruction -> . condition
+    (11) instruction -> . affectation
+    (12) instruction -> . declaration
+    (13) instruction -> . ecrire
+    (26) fonction_declaration -> . type IDENTIFIANT ( ) { listeInstructions }
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    (24) appel_fonction_2 -> . IDENTIFIANT ( ) ;
+    (22) retourner -> . RETOURNER expr ;
+    (23) retourner -> . retourner
+    (21) boucle -> . TANTQUE ( expr ) { listeInstructions }
+    (17) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
+    (16) affectation -> . IDENTIFIANT = expr ;
+    (15) declaration -> . type IDENTIFIANT = expr ;
+    (14) ecrire -> . ECRIRE ( expr ) ;
+    (45) type -> . ENT
+    (46) type -> . BOOLEEN
+    IDENTIFIANT     shift and go to state 15
+    RETOURNER       shift and go to state 16
+    TANTQUE         shift and go to state 17
+    SI              shift and go to state 18
+    ECRIRE          shift and go to state 19
+    ENT             shift and go to state 20
+    BOOLEEN         shift and go to state 21
 
+    listeInstructions              shift and go to state 86
+    instruction                    shift and go to state 4
+    fonction_declaration           shift and go to state 5
+    appel_fonction_1               shift and go to state 6
+    appel_fonction_2               shift and go to state 7
+    retourner                      shift and go to state 8
+    boucle                         shift and go to state 9
+    condition                      shift and go to state 10
+    affectation                    shift and go to state 11
+    declaration                    shift and go to state 12
+    ecrire                         shift and go to state 13
+    type                           shift and go to state 14
 
 state 83
 
-    (44) term -> term DIV factor .
-    MODULO          reduce using rule 44 (term -> term DIV factor .)
-    DIV             reduce using rule 44 (term -> term DIV factor .)
-    MULT            reduce using rule 44 (term -> term DIV factor .)
-    )               reduce using rule 44 (term -> term DIV factor .)
-    DIFF            reduce using rule 44 (term -> term DIV factor .)
-    EGAL            reduce using rule 44 (term -> term DIV factor .)
-    COMPARATEUR     reduce using rule 44 (term -> term DIV factor .)
-    SUP             reduce using rule 44 (term -> term DIV factor .)
-    INF             reduce using rule 44 (term -> term DIV factor .)
-    OU              reduce using rule 44 (term -> term DIV factor .)
-    ET              reduce using rule 44 (term -> term DIV factor .)
-    MINUS           reduce using rule 44 (term -> term DIV factor .)
-    PLUS            reduce using rule 44 (term -> term DIV factor .)
-    ;               reduce using rule 44 (term -> term DIV factor .)
+    (17) condition -> SI ( expr ) { . listeInstructions } suite_sinosi
+    (3) listeInstructions -> . instruction
+    (4) listeInstructions -> . listeInstructions instruction
+    (5) instruction -> . fonction_declaration
+    (6) instruction -> . appel_fonction_1
+    (7) instruction -> . appel_fonction_2
+    (8) instruction -> . retourner
+    (9) instruction -> . boucle
+    (10) instruction -> . condition
+    (11) instruction -> . affectation
+    (12) instruction -> . declaration
+    (13) instruction -> . ecrire
+    (26) fonction_declaration -> . type IDENTIFIANT ( ) { listeInstructions }
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    (24) appel_fonction_2 -> . IDENTIFIANT ( ) ;
+    (22) retourner -> . RETOURNER expr ;
+    (23) retourner -> . retourner
+    (21) boucle -> . TANTQUE ( expr ) { listeInstructions }
+    (17) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
+    (16) affectation -> . IDENTIFIANT = expr ;
+    (15) declaration -> . type IDENTIFIANT = expr ;
+    (14) ecrire -> . ECRIRE ( expr ) ;
+    (45) type -> . ENT
+    (46) type -> . BOOLEEN
+    IDENTIFIANT     shift and go to state 15
+    RETOURNER       shift and go to state 16
+    TANTQUE         shift and go to state 17
+    SI              shift and go to state 18
+    ECRIRE          shift and go to state 19
+    ENT             shift and go to state 20
+    BOOLEEN         shift and go to state 21
 
+    listeInstructions              shift and go to state 87
+    instruction                    shift and go to state 4
+    fonction_declaration           shift and go to state 5
+    appel_fonction_1               shift and go to state 6
+    appel_fonction_2               shift and go to state 7
+    retourner                      shift and go to state 8
+    boucle                         shift and go to state 9
+    condition                      shift and go to state 10
+    affectation                    shift and go to state 11
+    declaration                    shift and go to state 12
+    ecrire                         shift and go to state 13
+    type                           shift and go to state 14
 
 state 84
 
-    (45) term -> term MULT factor .
-    MODULO          reduce using rule 45 (term -> term MULT factor .)
-    DIV             reduce using rule 45 (term -> term MULT factor .)
-    MULT            reduce using rule 45 (term -> term MULT factor .)
-    )               reduce using rule 45 (term -> term MULT factor .)
-    DIFF            reduce using rule 45 (term -> term MULT factor .)
-    EGAL            reduce using rule 45 (term -> term MULT factor .)
-    COMPARATEUR     reduce using rule 45 (term -> term MULT factor .)
-    SUP             reduce using rule 45 (term -> term MULT factor .)
-    INF             reduce using rule 45 (term -> term MULT factor .)
-    OU              reduce using rule 45 (term -> term MULT factor .)
-    ET              reduce using rule 45 (term -> term MULT factor .)
-    MINUS           reduce using rule 45 (term -> term MULT factor .)
-    PLUS            reduce using rule 45 (term -> term MULT factor .)
-    ;               reduce using rule 45 (term -> term MULT factor .)
+    (14) ecrire -> ECRIRE ( expr ) ; .
+    IDENTIFIANT     reduce using rule 14 (ecrire -> ECRIRE ( expr ) ; .)
+    RETOURNER       reduce using rule 14 (ecrire -> ECRIRE ( expr ) ; .)
+    TANTQUE         reduce using rule 14 (ecrire -> ECRIRE ( expr ) ; .)
+    SI              reduce using rule 14 (ecrire -> ECRIRE ( expr ) ; .)
+    ECRIRE          reduce using rule 14 (ecrire -> ECRIRE ( expr ) ; .)
+    ENT             reduce using rule 14 (ecrire -> ECRIRE ( expr ) ; .)
+    BOOLEEN         reduce using rule 14 (ecrire -> ECRIRE ( expr ) ; .)
+    $end            reduce using rule 14 (ecrire -> ECRIRE ( expr ) ; .)
+    }               reduce using rule 14 (ecrire -> ECRIRE ( expr ) ; .)
 
 
 state 85
 
-    (42) term -> factor MODULO factor .
-    MODULO          reduce using rule 42 (term -> factor MODULO factor .)
-    DIV             reduce using rule 42 (term -> factor MODULO factor .)
-    MULT            reduce using rule 42 (term -> factor MODULO factor .)
-    )               reduce using rule 42 (term -> factor MODULO factor .)
-    DIFF            reduce using rule 42 (term -> factor MODULO factor .)
-    EGAL            reduce using rule 42 (term -> factor MODULO factor .)
-    COMPARATEUR     reduce using rule 42 (term -> factor MODULO factor .)
-    SUP             reduce using rule 42 (term -> factor MODULO factor .)
-    INF             reduce using rule 42 (term -> factor MODULO factor .)
-    OU              reduce using rule 42 (term -> factor MODULO factor .)
-    ET              reduce using rule 42 (term -> factor MODULO factor .)
-    MINUS           reduce using rule 42 (term -> factor MODULO factor .)
-    PLUS            reduce using rule 42 (term -> factor MODULO factor .)
-    ;               reduce using rule 42 (term -> factor MODULO factor .)
+    (26) fonction_declaration -> type IDENTIFIANT ( ) { listeInstructions . }
+    (4) listeInstructions -> listeInstructions . instruction
+    (5) instruction -> . fonction_declaration
+    (6) instruction -> . appel_fonction_1
+    (7) instruction -> . appel_fonction_2
+    (8) instruction -> . retourner
+    (9) instruction -> . boucle
+    (10) instruction -> . condition
+    (11) instruction -> . affectation
+    (12) instruction -> . declaration
+    (13) instruction -> . ecrire
+    (26) fonction_declaration -> . type IDENTIFIANT ( ) { listeInstructions }
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    (24) appel_fonction_2 -> . IDENTIFIANT ( ) ;
+    (22) retourner -> . RETOURNER expr ;
+    (23) retourner -> . retourner
+    (21) boucle -> . TANTQUE ( expr ) { listeInstructions }
+    (17) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
+    (16) affectation -> . IDENTIFIANT = expr ;
+    (15) declaration -> . type IDENTIFIANT = expr ;
+    (14) ecrire -> . ECRIRE ( expr ) ;
+    (45) type -> . ENT
+    (46) type -> . BOOLEEN
+    }               shift and go to state 88
+    IDENTIFIANT     shift and go to state 15
+    RETOURNER       shift and go to state 16
+    TANTQUE         shift and go to state 17
+    SI              shift and go to state 18
+    ECRIRE          shift and go to state 19
+    ENT             shift and go to state 20
+    BOOLEEN         shift and go to state 21
 
+    type                           shift and go to state 14
+    instruction                    shift and go to state 22
+    fonction_declaration           shift and go to state 5
+    appel_fonction_1               shift and go to state 6
+    appel_fonction_2               shift and go to state 7
+    retourner                      shift and go to state 8
+    boucle                         shift and go to state 9
+    condition                      shift and go to state 10
+    affectation                    shift and go to state 11
+    declaration                    shift and go to state 12
+    ecrire                         shift and go to state 13
 
 state 86
 
-    (17) factor -> LIRE ( ) .
-    MODULO          reduce using rule 17 (factor -> LIRE ( ) .)
-    DIV             reduce using rule 17 (factor -> LIRE ( ) .)
-    MULT            reduce using rule 17 (factor -> LIRE ( ) .)
-    )               reduce using rule 17 (factor -> LIRE ( ) .)
-    DIFF            reduce using rule 17 (factor -> LIRE ( ) .)
-    EGAL            reduce using rule 17 (factor -> LIRE ( ) .)
-    COMPARATEUR     reduce using rule 17 (factor -> LIRE ( ) .)
-    SUP             reduce using rule 17 (factor -> LIRE ( ) .)
-    INF             reduce using rule 17 (factor -> LIRE ( ) .)
-    OU              reduce using rule 17 (factor -> LIRE ( ) .)
-    ET              reduce using rule 17 (factor -> LIRE ( ) .)
-    MINUS           reduce using rule 17 (factor -> LIRE ( ) .)
-    PLUS            reduce using rule 17 (factor -> LIRE ( ) .)
-    ;               reduce using rule 17 (factor -> LIRE ( ) .)
+    (21) boucle -> TANTQUE ( expr ) { listeInstructions . }
+    (4) listeInstructions -> listeInstructions . instruction
+    (5) instruction -> . fonction_declaration
+    (6) instruction -> . appel_fonction_1
+    (7) instruction -> . appel_fonction_2
+    (8) instruction -> . retourner
+    (9) instruction -> . boucle
+    (10) instruction -> . condition
+    (11) instruction -> . affectation
+    (12) instruction -> . declaration
+    (13) instruction -> . ecrire
+    (26) fonction_declaration -> . type IDENTIFIANT ( ) { listeInstructions }
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    (24) appel_fonction_2 -> . IDENTIFIANT ( ) ;
+    (22) retourner -> . RETOURNER expr ;
+    (23) retourner -> . retourner
+    (21) boucle -> . TANTQUE ( expr ) { listeInstructions }
+    (17) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
+    (16) affectation -> . IDENTIFIANT = expr ;
+    (15) declaration -> . type IDENTIFIANT = expr ;
+    (14) ecrire -> . ECRIRE ( expr ) ;
+    (45) type -> . ENT
+    (46) type -> . BOOLEEN
+    }               shift and go to state 89
+    IDENTIFIANT     shift and go to state 15
+    RETOURNER       shift and go to state 16
+    TANTQUE         shift and go to state 17
+    SI              shift and go to state 18
+    ECRIRE          shift and go to state 19
+    ENT             shift and go to state 20
+    BOOLEEN         shift and go to state 21
 
+    instruction                    shift and go to state 22
+    fonction_declaration           shift and go to state 5
+    appel_fonction_1               shift and go to state 6
+    appel_fonction_2               shift and go to state 7
+    retourner                      shift and go to state 8
+    boucle                         shift and go to state 9
+    condition                      shift and go to state 10
+    affectation                    shift and go to state 11
+    declaration                    shift and go to state 12
+    ecrire                         shift and go to state 13
+    type                           shift and go to state 14
 
 state 87
 
-    (26) boucle -> TANTQUE ( expr ) { . listeInstructions }
-    (3) listeInstructions -> . listeInstructions instruction
-    (4) listeInstructions -> . instruction
-    (5) instruction -> . suite_sinosi
-    (6) instruction -> . boucle
-    (7) instruction -> . condition
-    (8) instruction -> . affectation
-    (9) instruction -> . declaration
-    (10) instruction -> . ecrire
-    (23) suite_sinosi -> .
-    (24) suite_sinosi -> . SINON SI ( expr ) { listeInstructions } suite_sinosi
-    (25) suite_sinosi -> . SINON { listeInstructions }
-    (26) boucle -> . TANTQUE ( expr ) { listeInstructions }
-    (22) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
-    (21) affectation -> . IDENTIFIANT = expr ;
-    (20) declaration -> . type IDENTIFIANT = expr ;
-    (11) ecrire -> . ECRIRE ( expr ) ;
-    (18) type -> . BOOLEEN
-    (19) type -> . ENT
-  ! shift/reduce conflict for SINON resolved as shift
-  ! shift/reduce conflict for TANTQUE resolved as shift
-  ! shift/reduce conflict for SI resolved as shift
-  ! shift/reduce conflict for IDENTIFIANT resolved as shift
-  ! shift/reduce conflict for ECRIRE resolved as shift
-  ! shift/reduce conflict for BOOLEEN resolved as shift
-  ! shift/reduce conflict for ENT resolved as shift
-    }               reduce using rule 23 (suite_sinosi -> .)
-    SINON           shift and go to state 11
-    TANTQUE         shift and go to state 13
-    SI              shift and go to state 12
-    IDENTIFIANT     shift and go to state 14
-    ECRIRE          shift and go to state 16
-    BOOLEEN         shift and go to state 17
-    ENT             shift and go to state 18
+    (17) condition -> SI ( expr ) { listeInstructions . } suite_sinosi
+    (4) listeInstructions -> listeInstructions . instruction
+    (5) instruction -> . fonction_declaration
+    (6) instruction -> . appel_fonction_1
+    (7) instruction -> . appel_fonction_2
+    (8) instruction -> . retourner
+    (9) instruction -> . boucle
+    (10) instruction -> . condition
+    (11) instruction -> . affectation
+    (12) instruction -> . declaration
+    (13) instruction -> . ecrire
+    (26) fonction_declaration -> . type IDENTIFIANT ( ) { listeInstructions }
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    (24) appel_fonction_2 -> . IDENTIFIANT ( ) ;
+    (22) retourner -> . RETOURNER expr ;
+    (23) retourner -> . retourner
+    (21) boucle -> . TANTQUE ( expr ) { listeInstructions }
+    (17) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
+    (16) affectation -> . IDENTIFIANT = expr ;
+    (15) declaration -> . type IDENTIFIANT = expr ;
+    (14) ecrire -> . ECRIRE ( expr ) ;
+    (45) type -> . ENT
+    (46) type -> . BOOLEEN
+    }               shift and go to state 90
+    IDENTIFIANT     shift and go to state 15
+    RETOURNER       shift and go to state 16
+    TANTQUE         shift and go to state 17
+    SI              shift and go to state 18
+    ECRIRE          shift and go to state 19
+    ENT             shift and go to state 20
+    BOOLEEN         shift and go to state 21
 
-    listeInstructions              shift and go to state 92
-    instruction                    shift and go to state 4
-    suite_sinosi                   shift and go to state 5
-    boucle                         shift and go to state 6
-    condition                      shift and go to state 7
-    affectation                    shift and go to state 8
-    declaration                    shift and go to state 9
-    ecrire                         shift and go to state 10
-    type                           shift and go to state 15
+    instruction                    shift and go to state 22
+    fonction_declaration           shift and go to state 5
+    appel_fonction_1               shift and go to state 6
+    appel_fonction_2               shift and go to state 7
+    retourner                      shift and go to state 8
+    boucle                         shift and go to state 9
+    condition                      shift and go to state 10
+    affectation                    shift and go to state 11
+    declaration                    shift and go to state 12
+    ecrire                         shift and go to state 13
+    type                           shift and go to state 14
 
 state 88
 
-    (20) declaration -> type IDENTIFIANT = expr ; .
-    SINON           reduce using rule 20 (declaration -> type IDENTIFIANT = expr ; .)
-    TANTQUE         reduce using rule 20 (declaration -> type IDENTIFIANT = expr ; .)
-    SI              reduce using rule 20 (declaration -> type IDENTIFIANT = expr ; .)
-    IDENTIFIANT     reduce using rule 20 (declaration -> type IDENTIFIANT = expr ; .)
-    ECRIRE          reduce using rule 20 (declaration -> type IDENTIFIANT = expr ; .)
-    BOOLEEN         reduce using rule 20 (declaration -> type IDENTIFIANT = expr ; .)
-    ENT             reduce using rule 20 (declaration -> type IDENTIFIANT = expr ; .)
-    $end            reduce using rule 20 (declaration -> type IDENTIFIANT = expr ; .)
-    }               reduce using rule 20 (declaration -> type IDENTIFIANT = expr ; .)
+    (26) fonction_declaration -> type IDENTIFIANT ( ) { listeInstructions } .
+    IDENTIFIANT     reduce using rule 26 (fonction_declaration -> type IDENTIFIANT ( ) { listeInstructions } .)
+    RETOURNER       reduce using rule 26 (fonction_declaration -> type IDENTIFIANT ( ) { listeInstructions } .)
+    TANTQUE         reduce using rule 26 (fonction_declaration -> type IDENTIFIANT ( ) { listeInstructions } .)
+    SI              reduce using rule 26 (fonction_declaration -> type IDENTIFIANT ( ) { listeInstructions } .)
+    ECRIRE          reduce using rule 26 (fonction_declaration -> type IDENTIFIANT ( ) { listeInstructions } .)
+    ENT             reduce using rule 26 (fonction_declaration -> type IDENTIFIANT ( ) { listeInstructions } .)
+    BOOLEEN         reduce using rule 26 (fonction_declaration -> type IDENTIFIANT ( ) { listeInstructions } .)
+    $end            reduce using rule 26 (fonction_declaration -> type IDENTIFIANT ( ) { listeInstructions } .)
+    }               reduce using rule 26 (fonction_declaration -> type IDENTIFIANT ( ) { listeInstructions } .)
 
 
 state 89
 
-    (11) ecrire -> ECRIRE ( expr ) ; .
-    SINON           reduce using rule 11 (ecrire -> ECRIRE ( expr ) ; .)
-    TANTQUE         reduce using rule 11 (ecrire -> ECRIRE ( expr ) ; .)
-    SI              reduce using rule 11 (ecrire -> ECRIRE ( expr ) ; .)
-    IDENTIFIANT     reduce using rule 11 (ecrire -> ECRIRE ( expr ) ; .)
-    ECRIRE          reduce using rule 11 (ecrire -> ECRIRE ( expr ) ; .)
-    BOOLEEN         reduce using rule 11 (ecrire -> ECRIRE ( expr ) ; .)
-    ENT             reduce using rule 11 (ecrire -> ECRIRE ( expr ) ; .)
-    $end            reduce using rule 11 (ecrire -> ECRIRE ( expr ) ; .)
-    }               reduce using rule 11 (ecrire -> ECRIRE ( expr ) ; .)
+    (21) boucle -> TANTQUE ( expr ) { listeInstructions } .
+    IDENTIFIANT     reduce using rule 21 (boucle -> TANTQUE ( expr ) { listeInstructions } .)
+    RETOURNER       reduce using rule 21 (boucle -> TANTQUE ( expr ) { listeInstructions } .)
+    TANTQUE         reduce using rule 21 (boucle -> TANTQUE ( expr ) { listeInstructions } .)
+    SI              reduce using rule 21 (boucle -> TANTQUE ( expr ) { listeInstructions } .)
+    ECRIRE          reduce using rule 21 (boucle -> TANTQUE ( expr ) { listeInstructions } .)
+    ENT             reduce using rule 21 (boucle -> TANTQUE ( expr ) { listeInstructions } .)
+    BOOLEEN         reduce using rule 21 (boucle -> TANTQUE ( expr ) { listeInstructions } .)
+    $end            reduce using rule 21 (boucle -> TANTQUE ( expr ) { listeInstructions } .)
+    }               reduce using rule 21 (boucle -> TANTQUE ( expr ) { listeInstructions } .)
 
 
 state 90
 
-    (24) suite_sinosi -> SINON SI ( expr ) { . listeInstructions } suite_sinosi
-    (3) listeInstructions -> . listeInstructions instruction
-    (4) listeInstructions -> . instruction
-    (5) instruction -> . suite_sinosi
-    (6) instruction -> . boucle
-    (7) instruction -> . condition
-    (8) instruction -> . affectation
-    (9) instruction -> . declaration
-    (10) instruction -> . ecrire
-    (23) suite_sinosi -> .
-    (24) suite_sinosi -> . SINON SI ( expr ) { listeInstructions } suite_sinosi
-    (25) suite_sinosi -> . SINON { listeInstructions }
-    (26) boucle -> . TANTQUE ( expr ) { listeInstructions }
-    (22) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
-    (21) affectation -> . IDENTIFIANT = expr ;
-    (20) declaration -> . type IDENTIFIANT = expr ;
-    (11) ecrire -> . ECRIRE ( expr ) ;
-    (18) type -> . BOOLEEN
-    (19) type -> . ENT
-  ! shift/reduce conflict for SINON resolved as shift
-  ! shift/reduce conflict for TANTQUE resolved as shift
-  ! shift/reduce conflict for SI resolved as shift
-  ! shift/reduce conflict for IDENTIFIANT resolved as shift
-  ! shift/reduce conflict for ECRIRE resolved as shift
-  ! shift/reduce conflict for BOOLEEN resolved as shift
-  ! shift/reduce conflict for ENT resolved as shift
-    }               reduce using rule 23 (suite_sinosi -> .)
-    SINON           shift and go to state 11
-    TANTQUE         shift and go to state 13
-    SI              shift and go to state 12
-    IDENTIFIANT     shift and go to state 14
-    ECRIRE          shift and go to state 16
-    BOOLEEN         shift and go to state 17
-    ENT             shift and go to state 18
+    (17) condition -> SI ( expr ) { listeInstructions } . suite_sinosi
+    (18) suite_sinosi -> .
+    (19) suite_sinosi -> . SINON SI ( expr ) { listeInstructions } suite_sinosi
+    (20) suite_sinosi -> . SINON { listeInstructions }
+    IDENTIFIANT     reduce using rule 18 (suite_sinosi -> .)
+    RETOURNER       reduce using rule 18 (suite_sinosi -> .)
+    TANTQUE         reduce using rule 18 (suite_sinosi -> .)
+    SI              reduce using rule 18 (suite_sinosi -> .)
+    ECRIRE          reduce using rule 18 (suite_sinosi -> .)
+    ENT             reduce using rule 18 (suite_sinosi -> .)
+    BOOLEEN         reduce using rule 18 (suite_sinosi -> .)
+    $end            reduce using rule 18 (suite_sinosi -> .)
+    }               reduce using rule 18 (suite_sinosi -> .)
+    SINON           shift and go to state 92
 
-    listeInstructions              shift and go to state 93
-    suite_sinosi                   shift and go to state 5
-    instruction                    shift and go to state 4
-    boucle                         shift and go to state 6
-    condition                      shift and go to state 7
-    affectation                    shift and go to state 8
-    declaration                    shift and go to state 9
-    ecrire                         shift and go to state 10
-    type                           shift and go to state 15
+    suite_sinosi                   shift and go to state 91
 
 state 91
 
-    (22) condition -> SI ( expr ) { listeInstructions . } suite_sinosi
-    (3) listeInstructions -> listeInstructions . instruction
-    (5) instruction -> . suite_sinosi
-    (6) instruction -> . boucle
-    (7) instruction -> . condition
-    (8) instruction -> . affectation
-    (9) instruction -> . declaration
-    (10) instruction -> . ecrire
-    (23) suite_sinosi -> .
-    (24) suite_sinosi -> . SINON SI ( expr ) { listeInstructions } suite_sinosi
-    (25) suite_sinosi -> . SINON { listeInstructions }
-    (26) boucle -> . TANTQUE ( expr ) { listeInstructions }
-    (22) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
-    (21) affectation -> . IDENTIFIANT = expr ;
-    (20) declaration -> . type IDENTIFIANT = expr ;
-    (11) ecrire -> . ECRIRE ( expr ) ;
-    (18) type -> . BOOLEEN
-    (19) type -> . ENT
-  ! shift/reduce conflict for } resolved as shift
-  ! shift/reduce conflict for SINON resolved as shift
-  ! shift/reduce conflict for TANTQUE resolved as shift
-  ! shift/reduce conflict for SI resolved as shift
-  ! shift/reduce conflict for IDENTIFIANT resolved as shift
-  ! shift/reduce conflict for ECRIRE resolved as shift
-  ! shift/reduce conflict for BOOLEEN resolved as shift
-  ! shift/reduce conflict for ENT resolved as shift
-    }               shift and go to state 94
-    SINON           shift and go to state 11
-    TANTQUE         shift and go to state 13
-    SI              shift and go to state 12
-    IDENTIFIANT     shift and go to state 14
-    ECRIRE          shift and go to state 16
-    BOOLEEN         shift and go to state 17
-    ENT             shift and go to state 18
+    (17) condition -> SI ( expr ) { listeInstructions } suite_sinosi .
+    IDENTIFIANT     reduce using rule 17 (condition -> SI ( expr ) { listeInstructions } suite_sinosi .)
+    RETOURNER       reduce using rule 17 (condition -> SI ( expr ) { listeInstructions } suite_sinosi .)
+    TANTQUE         reduce using rule 17 (condition -> SI ( expr ) { listeInstructions } suite_sinosi .)
+    SI              reduce using rule 17 (condition -> SI ( expr ) { listeInstructions } suite_sinosi .)
+    ECRIRE          reduce using rule 17 (condition -> SI ( expr ) { listeInstructions } suite_sinosi .)
+    ENT             reduce using rule 17 (condition -> SI ( expr ) { listeInstructions } suite_sinosi .)
+    BOOLEEN         reduce using rule 17 (condition -> SI ( expr ) { listeInstructions } suite_sinosi .)
+    $end            reduce using rule 17 (condition -> SI ( expr ) { listeInstructions } suite_sinosi .)
+    }               reduce using rule 17 (condition -> SI ( expr ) { listeInstructions } suite_sinosi .)
 
-    suite_sinosi                   shift and go to state 5
-    instruction                    shift and go to state 19
-    boucle                         shift and go to state 6
-    condition                      shift and go to state 7
-    affectation                    shift and go to state 8
-    declaration                    shift and go to state 9
-    ecrire                         shift and go to state 10
-    type                           shift and go to state 15
 
 state 92
 
-    (26) boucle -> TANTQUE ( expr ) { listeInstructions . }
-    (3) listeInstructions -> listeInstructions . instruction
-    (5) instruction -> . suite_sinosi
-    (6) instruction -> . boucle
-    (7) instruction -> . condition
-    (8) instruction -> . affectation
-    (9) instruction -> . declaration
-    (10) instruction -> . ecrire
-    (23) suite_sinosi -> .
-    (24) suite_sinosi -> . SINON SI ( expr ) { listeInstructions } suite_sinosi
-    (25) suite_sinosi -> . SINON { listeInstructions }
-    (26) boucle -> . TANTQUE ( expr ) { listeInstructions }
-    (22) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
-    (21) affectation -> . IDENTIFIANT = expr ;
-    (20) declaration -> . type IDENTIFIANT = expr ;
-    (11) ecrire -> . ECRIRE ( expr ) ;
-    (18) type -> . BOOLEEN
-    (19) type -> . ENT
-  ! shift/reduce conflict for } resolved as shift
-  ! shift/reduce conflict for SINON resolved as shift
-  ! shift/reduce conflict for TANTQUE resolved as shift
-  ! shift/reduce conflict for SI resolved as shift
-  ! shift/reduce conflict for IDENTIFIANT resolved as shift
-  ! shift/reduce conflict for ECRIRE resolved as shift
-  ! shift/reduce conflict for BOOLEEN resolved as shift
-  ! shift/reduce conflict for ENT resolved as shift
-    }               shift and go to state 95
-    SINON           shift and go to state 11
-    TANTQUE         shift and go to state 13
-    SI              shift and go to state 12
-    IDENTIFIANT     shift and go to state 14
-    ECRIRE          shift and go to state 16
-    BOOLEEN         shift and go to state 17
-    ENT             shift and go to state 18
+    (19) suite_sinosi -> SINON . SI ( expr ) { listeInstructions } suite_sinosi
+    (20) suite_sinosi -> SINON . { listeInstructions }
+    SI              shift and go to state 93
+    {               shift and go to state 94
 
-    instruction                    shift and go to state 19
-    suite_sinosi                   shift and go to state 5
-    boucle                         shift and go to state 6
-    condition                      shift and go to state 7
-    affectation                    shift and go to state 8
-    declaration                    shift and go to state 9
-    ecrire                         shift and go to state 10
-    type                           shift and go to state 15
 
 state 93
 
-    (24) suite_sinosi -> SINON SI ( expr ) { listeInstructions . } suite_sinosi
-    (3) listeInstructions -> listeInstructions . instruction
-    (5) instruction -> . suite_sinosi
-    (6) instruction -> . boucle
-    (7) instruction -> . condition
-    (8) instruction -> . affectation
-    (9) instruction -> . declaration
-    (10) instruction -> . ecrire
-    (23) suite_sinosi -> .
-    (24) suite_sinosi -> . SINON SI ( expr ) { listeInstructions } suite_sinosi
-    (25) suite_sinosi -> . SINON { listeInstructions }
-    (26) boucle -> . TANTQUE ( expr ) { listeInstructions }
-    (22) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
-    (21) affectation -> . IDENTIFIANT = expr ;
-    (20) declaration -> . type IDENTIFIANT = expr ;
-    (11) ecrire -> . ECRIRE ( expr ) ;
-    (18) type -> . BOOLEEN
-    (19) type -> . ENT
-  ! shift/reduce conflict for } resolved as shift
-  ! shift/reduce conflict for SINON resolved as shift
-  ! shift/reduce conflict for TANTQUE resolved as shift
-  ! shift/reduce conflict for SI resolved as shift
-  ! shift/reduce conflict for IDENTIFIANT resolved as shift
-  ! shift/reduce conflict for ECRIRE resolved as shift
-  ! shift/reduce conflict for BOOLEEN resolved as shift
-  ! shift/reduce conflict for ENT resolved as shift
-    }               shift and go to state 96
-    SINON           shift and go to state 11
-    TANTQUE         shift and go to state 13
-    SI              shift and go to state 12
-    IDENTIFIANT     shift and go to state 14
-    ECRIRE          shift and go to state 16
-    BOOLEEN         shift and go to state 17
-    ENT             shift and go to state 18
+    (19) suite_sinosi -> SINON SI . ( expr ) { listeInstructions } suite_sinosi
+    (               shift and go to state 95
 
-    suite_sinosi                   shift and go to state 5
-    instruction                    shift and go to state 19
-    boucle                         shift and go to state 6
-    condition                      shift and go to state 7
-    affectation                    shift and go to state 8
-    declaration                    shift and go to state 9
-    ecrire                         shift and go to state 10
-    type                           shift and go to state 15
 
 state 94
 
-    (22) condition -> SI ( expr ) { listeInstructions } . suite_sinosi
-    (23) suite_sinosi -> .
-    (24) suite_sinosi -> . SINON SI ( expr ) { listeInstructions } suite_sinosi
-    (25) suite_sinosi -> . SINON { listeInstructions }
-  ! shift/reduce conflict for SINON resolved as shift
-    TANTQUE         reduce using rule 23 (suite_sinosi -> .)
-    SI              reduce using rule 23 (suite_sinosi -> .)
-    IDENTIFIANT     reduce using rule 23 (suite_sinosi -> .)
-    ECRIRE          reduce using rule 23 (suite_sinosi -> .)
-    BOOLEEN         reduce using rule 23 (suite_sinosi -> .)
-    ENT             reduce using rule 23 (suite_sinosi -> .)
-    $end            reduce using rule 23 (suite_sinosi -> .)
-    }               reduce using rule 23 (suite_sinosi -> .)
-    SINON           shift and go to state 11
+    (20) suite_sinosi -> SINON { . listeInstructions }
+    (3) listeInstructions -> . instruction
+    (4) listeInstructions -> . listeInstructions instruction
+    (5) instruction -> . fonction_declaration
+    (6) instruction -> . appel_fonction_1
+    (7) instruction -> . appel_fonction_2
+    (8) instruction -> . retourner
+    (9) instruction -> . boucle
+    (10) instruction -> . condition
+    (11) instruction -> . affectation
+    (12) instruction -> . declaration
+    (13) instruction -> . ecrire
+    (26) fonction_declaration -> . type IDENTIFIANT ( ) { listeInstructions }
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    (24) appel_fonction_2 -> . IDENTIFIANT ( ) ;
+    (22) retourner -> . RETOURNER expr ;
+    (23) retourner -> . retourner
+    (21) boucle -> . TANTQUE ( expr ) { listeInstructions }
+    (17) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
+    (16) affectation -> . IDENTIFIANT = expr ;
+    (15) declaration -> . type IDENTIFIANT = expr ;
+    (14) ecrire -> . ECRIRE ( expr ) ;
+    (45) type -> . ENT
+    (46) type -> . BOOLEEN
+    IDENTIFIANT     shift and go to state 15
+    RETOURNER       shift and go to state 16
+    TANTQUE         shift and go to state 17
+    SI              shift and go to state 18
+    ECRIRE          shift and go to state 19
+    ENT             shift and go to state 20
+    BOOLEEN         shift and go to state 21
 
-    suite_sinosi                   shift and go to state 97
+    listeInstructions              shift and go to state 96
+    instruction                    shift and go to state 4
+    fonction_declaration           shift and go to state 5
+    appel_fonction_1               shift and go to state 6
+    appel_fonction_2               shift and go to state 7
+    retourner                      shift and go to state 8
+    boucle                         shift and go to state 9
+    condition                      shift and go to state 10
+    affectation                    shift and go to state 11
+    declaration                    shift and go to state 12
+    ecrire                         shift and go to state 13
+    type                           shift and go to state 14
 
 state 95
 
-    (26) boucle -> TANTQUE ( expr ) { listeInstructions } .
-    SINON           reduce using rule 26 (boucle -> TANTQUE ( expr ) { listeInstructions } .)
-    TANTQUE         reduce using rule 26 (boucle -> TANTQUE ( expr ) { listeInstructions } .)
-    SI              reduce using rule 26 (boucle -> TANTQUE ( expr ) { listeInstructions } .)
-    IDENTIFIANT     reduce using rule 26 (boucle -> TANTQUE ( expr ) { listeInstructions } .)
-    ECRIRE          reduce using rule 26 (boucle -> TANTQUE ( expr ) { listeInstructions } .)
-    BOOLEEN         reduce using rule 26 (boucle -> TANTQUE ( expr ) { listeInstructions } .)
-    ENT             reduce using rule 26 (boucle -> TANTQUE ( expr ) { listeInstructions } .)
-    $end            reduce using rule 26 (boucle -> TANTQUE ( expr ) { listeInstructions } .)
-    }               reduce using rule 26 (boucle -> TANTQUE ( expr ) { listeInstructions } .)
+    (19) suite_sinosi -> SINON SI ( . expr ) { listeInstructions } suite_sinosi
+    (36) expr -> . expr COMPARATEUR expr
+    (37) expr -> . term
+    (38) expr -> . expr MINUS term
+    (39) expr -> . expr PLUS term
+    (40) term -> . factor
+    (41) term -> . term MODULO factor
+    (42) term -> . term DIV factor
+    (43) term -> . term MULT factor
+    (44) term -> . appel_fonction_1
+    (27) factor -> . LIRE ( )
+    (28) factor -> . MINUS expr
+    (29) factor -> . NON expr
+    (30) factor -> . factor OU expr
+    (31) factor -> . factor ET expr
+    (32) factor -> . IDENTIFIANT
+    (33) factor -> . ( expr )
+    (34) factor -> . BOOLEEN_LITERAL
+    (35) factor -> . ENTIER
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    LIRE            shift and go to state 31
+    MINUS           shift and go to state 28
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
+    expr                           shift and go to state 97
+    term                           shift and go to state 27
+    factor                         shift and go to state 29
+    appel_fonction_1               shift and go to state 30
 
 state 96
 
-    (24) suite_sinosi -> SINON SI ( expr ) { listeInstructions } . suite_sinosi
-    (23) suite_sinosi -> .
-    (24) suite_sinosi -> . SINON SI ( expr ) { listeInstructions } suite_sinosi
-    (25) suite_sinosi -> . SINON { listeInstructions }
-  ! shift/reduce conflict for SINON resolved as shift
-    TANTQUE         reduce using rule 23 (suite_sinosi -> .)
-    SI              reduce using rule 23 (suite_sinosi -> .)
-    IDENTIFIANT     reduce using rule 23 (suite_sinosi -> .)
-    ECRIRE          reduce using rule 23 (suite_sinosi -> .)
-    BOOLEEN         reduce using rule 23 (suite_sinosi -> .)
-    ENT             reduce using rule 23 (suite_sinosi -> .)
-    $end            reduce using rule 23 (suite_sinosi -> .)
-    }               reduce using rule 23 (suite_sinosi -> .)
-    SINON           shift and go to state 11
+    (20) suite_sinosi -> SINON { listeInstructions . }
+    (4) listeInstructions -> listeInstructions . instruction
+    (5) instruction -> . fonction_declaration
+    (6) instruction -> . appel_fonction_1
+    (7) instruction -> . appel_fonction_2
+    (8) instruction -> . retourner
+    (9) instruction -> . boucle
+    (10) instruction -> . condition
+    (11) instruction -> . affectation
+    (12) instruction -> . declaration
+    (13) instruction -> . ecrire
+    (26) fonction_declaration -> . type IDENTIFIANT ( ) { listeInstructions }
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    (24) appel_fonction_2 -> . IDENTIFIANT ( ) ;
+    (22) retourner -> . RETOURNER expr ;
+    (23) retourner -> . retourner
+    (21) boucle -> . TANTQUE ( expr ) { listeInstructions }
+    (17) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
+    (16) affectation -> . IDENTIFIANT = expr ;
+    (15) declaration -> . type IDENTIFIANT = expr ;
+    (14) ecrire -> . ECRIRE ( expr ) ;
+    (45) type -> . ENT
+    (46) type -> . BOOLEEN
+    }               shift and go to state 98
+    IDENTIFIANT     shift and go to state 15
+    RETOURNER       shift and go to state 16
+    TANTQUE         shift and go to state 17
+    SI              shift and go to state 18
+    ECRIRE          shift and go to state 19
+    ENT             shift and go to state 20
+    BOOLEEN         shift and go to state 21
 
-    suite_sinosi                   shift and go to state 98
+    instruction                    shift and go to state 22
+    fonction_declaration           shift and go to state 5
+    appel_fonction_1               shift and go to state 6
+    appel_fonction_2               shift and go to state 7
+    retourner                      shift and go to state 8
+    boucle                         shift and go to state 9
+    condition                      shift and go to state 10
+    affectation                    shift and go to state 11
+    declaration                    shift and go to state 12
+    ecrire                         shift and go to state 13
+    type                           shift and go to state 14
 
 state 97
 
-    (22) condition -> SI ( expr ) { listeInstructions } suite_sinosi .
-    SINON           reduce using rule 22 (condition -> SI ( expr ) { listeInstructions } suite_sinosi .)
-    TANTQUE         reduce using rule 22 (condition -> SI ( expr ) { listeInstructions } suite_sinosi .)
-    SI              reduce using rule 22 (condition -> SI ( expr ) { listeInstructions } suite_sinosi .)
-    IDENTIFIANT     reduce using rule 22 (condition -> SI ( expr ) { listeInstructions } suite_sinosi .)
-    ECRIRE          reduce using rule 22 (condition -> SI ( expr ) { listeInstructions } suite_sinosi .)
-    BOOLEEN         reduce using rule 22 (condition -> SI ( expr ) { listeInstructions } suite_sinosi .)
-    ENT             reduce using rule 22 (condition -> SI ( expr ) { listeInstructions } suite_sinosi .)
-    $end            reduce using rule 22 (condition -> SI ( expr ) { listeInstructions } suite_sinosi .)
-    }               reduce using rule 22 (condition -> SI ( expr ) { listeInstructions } suite_sinosi .)
+    (19) suite_sinosi -> SINON SI ( expr . ) { listeInstructions } suite_sinosi
+    (36) expr -> expr . COMPARATEUR expr
+    (38) expr -> expr . MINUS term
+    (39) expr -> expr . PLUS term
+    )               shift and go to state 99
+    COMPARATEUR     shift and go to state 45
+    MINUS           shift and go to state 46
+    PLUS            shift and go to state 47
 
 
 state 98
 
-    (24) suite_sinosi -> SINON SI ( expr ) { listeInstructions } suite_sinosi .
-    SINON           reduce using rule 24 (suite_sinosi -> SINON SI ( expr ) { listeInstructions } suite_sinosi .)
-    TANTQUE         reduce using rule 24 (suite_sinosi -> SINON SI ( expr ) { listeInstructions } suite_sinosi .)
-    SI              reduce using rule 24 (suite_sinosi -> SINON SI ( expr ) { listeInstructions } suite_sinosi .)
-    IDENTIFIANT     reduce using rule 24 (suite_sinosi -> SINON SI ( expr ) { listeInstructions } suite_sinosi .)
-    ECRIRE          reduce using rule 24 (suite_sinosi -> SINON SI ( expr ) { listeInstructions } suite_sinosi .)
-    BOOLEEN         reduce using rule 24 (suite_sinosi -> SINON SI ( expr ) { listeInstructions } suite_sinosi .)
-    ENT             reduce using rule 24 (suite_sinosi -> SINON SI ( expr ) { listeInstructions } suite_sinosi .)
-    $end            reduce using rule 24 (suite_sinosi -> SINON SI ( expr ) { listeInstructions } suite_sinosi .)
-    }               reduce using rule 24 (suite_sinosi -> SINON SI ( expr ) { listeInstructions } suite_sinosi .)
+    (20) suite_sinosi -> SINON { listeInstructions } .
+    IDENTIFIANT     reduce using rule 20 (suite_sinosi -> SINON { listeInstructions } .)
+    RETOURNER       reduce using rule 20 (suite_sinosi -> SINON { listeInstructions } .)
+    TANTQUE         reduce using rule 20 (suite_sinosi -> SINON { listeInstructions } .)
+    SI              reduce using rule 20 (suite_sinosi -> SINON { listeInstructions } .)
+    ECRIRE          reduce using rule 20 (suite_sinosi -> SINON { listeInstructions } .)
+    ENT             reduce using rule 20 (suite_sinosi -> SINON { listeInstructions } .)
+    BOOLEEN         reduce using rule 20 (suite_sinosi -> SINON { listeInstructions } .)
+    $end            reduce using rule 20 (suite_sinosi -> SINON { listeInstructions } .)
+    }               reduce using rule 20 (suite_sinosi -> SINON { listeInstructions } .)
+
+
+state 99
+
+    (19) suite_sinosi -> SINON SI ( expr ) . { listeInstructions } suite_sinosi
+    {               shift and go to state 100
+
+
+state 100
+
+    (19) suite_sinosi -> SINON SI ( expr ) { . listeInstructions } suite_sinosi
+    (3) listeInstructions -> . instruction
+    (4) listeInstructions -> . listeInstructions instruction
+    (5) instruction -> . fonction_declaration
+    (6) instruction -> . appel_fonction_1
+    (7) instruction -> . appel_fonction_2
+    (8) instruction -> . retourner
+    (9) instruction -> . boucle
+    (10) instruction -> . condition
+    (11) instruction -> . affectation
+    (12) instruction -> . declaration
+    (13) instruction -> . ecrire
+    (26) fonction_declaration -> . type IDENTIFIANT ( ) { listeInstructions }
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    (24) appel_fonction_2 -> . IDENTIFIANT ( ) ;
+    (22) retourner -> . RETOURNER expr ;
+    (23) retourner -> . retourner
+    (21) boucle -> . TANTQUE ( expr ) { listeInstructions }
+    (17) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
+    (16) affectation -> . IDENTIFIANT = expr ;
+    (15) declaration -> . type IDENTIFIANT = expr ;
+    (14) ecrire -> . ECRIRE ( expr ) ;
+    (45) type -> . ENT
+    (46) type -> . BOOLEEN
+    IDENTIFIANT     shift and go to state 15
+    RETOURNER       shift and go to state 16
+    TANTQUE         shift and go to state 17
+    SI              shift and go to state 18
+    ECRIRE          shift and go to state 19
+    ENT             shift and go to state 20
+    BOOLEEN         shift and go to state 21
+
+    listeInstructions              shift and go to state 101
+    instruction                    shift and go to state 4
+    fonction_declaration           shift and go to state 5
+    appel_fonction_1               shift and go to state 6
+    appel_fonction_2               shift and go to state 7
+    retourner                      shift and go to state 8
+    boucle                         shift and go to state 9
+    condition                      shift and go to state 10
+    affectation                    shift and go to state 11
+    declaration                    shift and go to state 12
+    ecrire                         shift and go to state 13
+    type                           shift and go to state 14
+
+state 101
+
+    (19) suite_sinosi -> SINON SI ( expr ) { listeInstructions . } suite_sinosi
+    (4) listeInstructions -> listeInstructions . instruction
+    (5) instruction -> . fonction_declaration
+    (6) instruction -> . appel_fonction_1
+    (7) instruction -> . appel_fonction_2
+    (8) instruction -> . retourner
+    (9) instruction -> . boucle
+    (10) instruction -> . condition
+    (11) instruction -> . affectation
+    (12) instruction -> . declaration
+    (13) instruction -> . ecrire
+    (26) fonction_declaration -> . type IDENTIFIANT ( ) { listeInstructions }
+    (25) appel_fonction_1 -> . IDENTIFIANT ( )
+    (24) appel_fonction_2 -> . IDENTIFIANT ( ) ;
+    (22) retourner -> . RETOURNER expr ;
+    (23) retourner -> . retourner
+    (21) boucle -> . TANTQUE ( expr ) { listeInstructions }
+    (17) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
+    (16) affectation -> . IDENTIFIANT = expr ;
+    (15) declaration -> . type IDENTIFIANT = expr ;
+    (14) ecrire -> . ECRIRE ( expr ) ;
+    (45) type -> . ENT
+    (46) type -> . BOOLEEN
+    }               shift and go to state 102
+    IDENTIFIANT     shift and go to state 15
+    RETOURNER       shift and go to state 16
+    TANTQUE         shift and go to state 17
+    SI              shift and go to state 18
+    ECRIRE          shift and go to state 19
+    ENT             shift and go to state 20
+    BOOLEEN         shift and go to state 21
+
+    instruction                    shift and go to state 22
+    fonction_declaration           shift and go to state 5
+    appel_fonction_1               shift and go to state 6
+    appel_fonction_2               shift and go to state 7
+    retourner                      shift and go to state 8
+    boucle                         shift and go to state 9
+    condition                      shift and go to state 10
+    affectation                    shift and go to state 11
+    declaration                    shift and go to state 12
+    ecrire                         shift and go to state 13
+    type                           shift and go to state 14
+
+state 102
+
+    (19) suite_sinosi -> SINON SI ( expr ) { listeInstructions } . suite_sinosi
+    (18) suite_sinosi -> .
+    (19) suite_sinosi -> . SINON SI ( expr ) { listeInstructions } suite_sinosi
+    (20) suite_sinosi -> . SINON { listeInstructions }
+    IDENTIFIANT     reduce using rule 18 (suite_sinosi -> .)
+    RETOURNER       reduce using rule 18 (suite_sinosi -> .)
+    TANTQUE         reduce using rule 18 (suite_sinosi -> .)
+    SI              reduce using rule 18 (suite_sinosi -> .)
+    ECRIRE          reduce using rule 18 (suite_sinosi -> .)
+    ENT             reduce using rule 18 (suite_sinosi -> .)
+    BOOLEEN         reduce using rule 18 (suite_sinosi -> .)
+    $end            reduce using rule 18 (suite_sinosi -> .)
+    }               reduce using rule 18 (suite_sinosi -> .)
+    SINON           shift and go to state 92
+
+    suite_sinosi                   shift and go to state 103
+
+state 103
+
+    (19) suite_sinosi -> SINON SI ( expr ) { listeInstructions } suite_sinosi .
+    IDENTIFIANT     reduce using rule 19 (suite_sinosi -> SINON SI ( expr ) { listeInstructions } suite_sinosi .)
+    RETOURNER       reduce using rule 19 (suite_sinosi -> SINON SI ( expr ) { listeInstructions } suite_sinosi .)
+    TANTQUE         reduce using rule 19 (suite_sinosi -> SINON SI ( expr ) { listeInstructions } suite_sinosi .)
+    SI              reduce using rule 19 (suite_sinosi -> SINON SI ( expr ) { listeInstructions } suite_sinosi .)
+    ECRIRE          reduce using rule 19 (suite_sinosi -> SINON SI ( expr ) { listeInstructions } suite_sinosi .)
+    ENT             reduce using rule 19 (suite_sinosi -> SINON SI ( expr ) { listeInstructions } suite_sinosi .)
+    BOOLEEN         reduce using rule 19 (suite_sinosi -> SINON SI ( expr ) { listeInstructions } suite_sinosi .)
+    $end            reduce using rule 19 (suite_sinosi -> SINON SI ( expr ) { listeInstructions } suite_sinosi .)
+    }               reduce using rule 19 (suite_sinosi -> SINON SI ( expr ) { listeInstructions } suite_sinosi .)
 
 
 Conflicts:
 
-shift/reduce conflict for SINON in state 0 resolved as shift
-shift/reduce conflict for TANTQUE in state 0 resolved as shift
-shift/reduce conflict for SI in state 0 resolved as shift
-shift/reduce conflict for IDENTIFIANT in state 0 resolved as shift
-shift/reduce conflict for ECRIRE in state 0 resolved as shift
-shift/reduce conflict for BOOLEEN in state 0 resolved as shift
-shift/reduce conflict for ENT in state 0 resolved as shift
-shift/reduce conflict for SINON in state 3 resolved as shift
-shift/reduce conflict for TANTQUE in state 3 resolved as shift
-shift/reduce conflict for SI in state 3 resolved as shift
-shift/reduce conflict for IDENTIFIANT in state 3 resolved as shift
-shift/reduce conflict for ECRIRE in state 3 resolved as shift
-shift/reduce conflict for BOOLEEN in state 3 resolved as shift
-shift/reduce conflict for ENT in state 3 resolved as shift
-shift/reduce conflict for SINON in state 21 resolved as shift
-shift/reduce conflict for TANTQUE in state 21 resolved as shift
-shift/reduce conflict for SI in state 21 resolved as shift
-shift/reduce conflict for IDENTIFIANT in state 21 resolved as shift
-shift/reduce conflict for ECRIRE in state 21 resolved as shift
-shift/reduce conflict for BOOLEEN in state 21 resolved as shift
-shift/reduce conflict for ENT in state 21 resolved as shift
-shift/reduce conflict for } in state 28 resolved as shift
-shift/reduce conflict for SINON in state 28 resolved as shift
-shift/reduce conflict for TANTQUE in state 28 resolved as shift
-shift/reduce conflict for SI in state 28 resolved as shift
-shift/reduce conflict for IDENTIFIANT in state 28 resolved as shift
-shift/reduce conflict for ECRIRE in state 28 resolved as shift
-shift/reduce conflict for BOOLEEN in state 28 resolved as shift
-shift/reduce conflict for ENT in state 28 resolved as shift
-shift/reduce conflict for MODULO in state 36 resolved as shift
-shift/reduce conflict for SINON in state 72 resolved as shift
-shift/reduce conflict for TANTQUE in state 72 resolved as shift
-shift/reduce conflict for SI in state 72 resolved as shift
-shift/reduce conflict for IDENTIFIANT in state 72 resolved as shift
-shift/reduce conflict for ECRIRE in state 72 resolved as shift
-shift/reduce conflict for BOOLEEN in state 72 resolved as shift
-shift/reduce conflict for ENT in state 72 resolved as shift
-shift/reduce conflict for SINON in state 87 resolved as shift
-shift/reduce conflict for TANTQUE in state 87 resolved as shift
-shift/reduce conflict for SI in state 87 resolved as shift
-shift/reduce conflict for IDENTIFIANT in state 87 resolved as shift
-shift/reduce conflict for ECRIRE in state 87 resolved as shift
-shift/reduce conflict for BOOLEEN in state 87 resolved as shift
-shift/reduce conflict for ENT in state 87 resolved as shift
-shift/reduce conflict for SINON in state 90 resolved as shift
-shift/reduce conflict for TANTQUE in state 90 resolved as shift
-shift/reduce conflict for SI in state 90 resolved as shift
-shift/reduce conflict for IDENTIFIANT in state 90 resolved as shift
-shift/reduce conflict for ECRIRE in state 90 resolved as shift
-shift/reduce conflict for BOOLEEN in state 90 resolved as shift
-shift/reduce conflict for ENT in state 90 resolved as shift
-shift/reduce conflict for } in state 91 resolved as shift
-shift/reduce conflict for SINON in state 91 resolved as shift
-shift/reduce conflict for TANTQUE in state 91 resolved as shift
-shift/reduce conflict for SI in state 91 resolved as shift
-shift/reduce conflict for IDENTIFIANT in state 91 resolved as shift
-shift/reduce conflict for ECRIRE in state 91 resolved as shift
-shift/reduce conflict for BOOLEEN in state 91 resolved as shift
-shift/reduce conflict for ENT in state 91 resolved as shift
-shift/reduce conflict for } in state 92 resolved as shift
-shift/reduce conflict for SINON in state 92 resolved as shift
-shift/reduce conflict for TANTQUE in state 92 resolved as shift
-shift/reduce conflict for SI in state 92 resolved as shift
-shift/reduce conflict for IDENTIFIANT in state 92 resolved as shift
-shift/reduce conflict for ECRIRE in state 92 resolved as shift
-shift/reduce conflict for BOOLEEN in state 92 resolved as shift
-shift/reduce conflict for ENT in state 92 resolved as shift
-shift/reduce conflict for } in state 93 resolved as shift
-shift/reduce conflict for SINON in state 93 resolved as shift
-shift/reduce conflict for TANTQUE in state 93 resolved as shift
-shift/reduce conflict for SI in state 93 resolved as shift
-shift/reduce conflict for IDENTIFIANT in state 93 resolved as shift
-shift/reduce conflict for ECRIRE in state 93 resolved as shift
-shift/reduce conflict for BOOLEEN in state 93 resolved as shift
-shift/reduce conflict for ENT in state 93 resolved as shift
-shift/reduce conflict for SINON in state 94 resolved as shift
-shift/reduce conflict for SINON in state 96 resolved as shift
-reduce/reduce conflict in state 3 resolved using rule prog -> listeInstructions
-rejected rule (suite_sinosi -> <empty>) in state 3
-reduce/reduce conflict in state 59 resolved using rule factor -> IDENTIFIANT
-rejected rule (expr -> NON IDENTIFIANT) in state 59
-reduce/reduce conflict in state 60 resolved using rule factor -> BOOLEEN_LITERAL
-rejected rule (expr -> NON BOOLEEN_LITERAL) in state 60
-Rule (expr -> NON IDENTIFIANT) is never reduced
-Rule (expr -> NON BOOLEEN_LITERAL) is never reduced
+shift/reduce conflict for MODULO in state 27 resolved as shift
+shift/reduce conflict for DIV in state 27 resolved as shift
+shift/reduce conflict for MULT in state 27 resolved as shift
+shift/reduce conflict for OU in state 29 resolved as shift
+shift/reduce conflict for ET in state 29 resolved as shift
+reduce/reduce conflict in state 8 resolved using rule instruction -> retourner
+rejected rule (retourner -> retourner) in state 8
+Rule (retourner -> retourner) is never reduced

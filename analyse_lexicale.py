@@ -9,14 +9,7 @@ class FloLexer(Lexer):
         ENTIER,
         ENT,
         ECRIRE,
-        INF,
-        SUP,
-        INF_EGAL,
-        SUP_EGAL,
-        EGAL,
-        DIFF,
         TANTQUE,
-        BOOLEEN,
         SI,
         ALORS,
         SINON,
@@ -31,11 +24,9 @@ class FloLexer(Lexer):
         BOOLEEN,
         COMPARATEUR,
         MODULO,
-        LIRE
+        LIRE,
+        RETOURNER
     }
-
-    literals = {'+', '-', '*', '/', '(', ')', '{', '}',
-                '[', ']', ',', ';', '=', '<', '>', '&', '!', ':', '%'}
 
     ENT = r'entier'
     BOOLEEN = r'booleen'
@@ -45,6 +36,18 @@ class FloLexer(Lexer):
     SI = r'si'
     ALORS = r'alors'
     TANTQUE = r'tantque'
+    RETOURNER = r'retourner'
+
+    literals = {'+', '-', '*', '/', '(', ')', ';', '{', '}',
+                '[', ']', ',',  '=', '<', '>', '&', '!', ':', '%'}
+
+    @_(r'Vrai|Faux|booleen')
+    def BOOLEEN_LITERAL(self, t):
+        # Convertir la valeur en un vrai booléen
+        if (t.value == 'booleen'):
+            return t
+        t.value = (t.value == 'Vrai')
+        return t
 
     ET = r'et'
     OU = r'ou'
@@ -71,10 +74,6 @@ class FloLexer(Lexer):
     # SUP_EGAL = r'>='
     # EGAL = r'=='
     # DIFF = r'!='
-    @_(r'Vrai|Faux')
-    def BOOLEEN_LITERAL(self, t):
-        t.value = (t.value == 'Vrai')  # Convertir la valeur en un vrai booléen
-        return t
 
     @_(r'0|[1-9][0-9]*')
     def ENTIER(self, t):

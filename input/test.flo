@@ -1,4 +1,3 @@
-entier f(){
- retourner 3;
+booleen f(entier e1, entier e2){
+	retourner e1 > e2;
 }
-ecrire(f());

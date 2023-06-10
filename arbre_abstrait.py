@@ -23,9 +23,9 @@ class ListeInstructions(list):
 
     def afficher(self, indent=0):
         afficher("<listeInstructions>", indent)
-        # Inverser l'ordre des instructions
         for instruction in self:
-            instruction.afficher(indent+1)
+            if instruction is not None:
+                instruction.afficher(indent+1)
         afficher("</listeInstructions>", indent)
 
 
@@ -152,3 +152,39 @@ class TantQue:
         self.expression.afficher(indent + 1)
         self.liste_instructions.afficher(indent + 1)
         afficher("</tantque>", indent)
+
+# dans l'arbre abstrait
+
+
+class Fonction:
+    def __init__(self, identifiant, type, liste_instructions):
+        self.identifiant = identifiant
+        self.type = type
+        self.liste_instructions = liste_instructions
+
+    def afficher(self, indent=0):
+        afficher("<fonction>", indent)
+        afficher(f"[Identifiant: {self.identifiant}]", indent + 1)
+        afficher(f"[Type: {self.type}]", indent + 1)
+        self.liste_instructions.afficher(indent + 1)
+        afficher("</fonction>", indent)
+
+
+class AppelFonction:
+    def __init__(self, identifiant):
+        self.identifiant = identifiant
+
+    def afficher(self, indent=0):
+        afficher("<appelFonction>", indent)
+        afficher(f"[Identifiant: {self.identifiant}]", indent + 1)
+        afficher("</appelFonction>", indent)
+
+
+class Retourner:
+    def __init__(self, expression):
+        self.expression = expression
+
+    def afficher(self, indent=0):
+        afficher("<retourner>", indent)
+        self.expression.afficher(indent + 1)
+        afficher("</retourner>", indent)
