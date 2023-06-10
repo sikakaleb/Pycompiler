@@ -1,0 +1,10 @@
+ecrire(12/13*13);
+ecrire(12*13/13);
+ecrire(47%20);
+#Ce qui suit n'est pas évalué cette année
+#ecrire(-12/13*13);
+#ecrire(-12*13/13);
+#Quand on fait l'instruction "idiv ebx" en nasm on fait l'opération eax = (edx:eax) / ebx.
+#Sauf que le nombre edx:eax est écrit en complément à 2. (https://staffwww.fullcoll.edu/aclifton/cs241/lecture-arithmetic-functions.html)
+#Donc il faut mettre 0 dans edx si eax est positif et tous les bits de edx à 1 sinon. 
+#c'est ce que fait l'instruction cdq.
