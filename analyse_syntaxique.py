@@ -66,7 +66,7 @@ class FloParser(Parser):
     def structure_conditionnelle(self, p):
         return arbre_abstrait.Condition(p.expr, p.listeInstructions0, p.listeInstructions1)
 
-    @_('TANTQUE expr "{" listeInstructions "}"')
+    @_('TANTQUE "(" expr ")" "{" listeInstructions "}"')
     def boucle(self, p):
         return arbre_abstrait.TantQue(p.expr, p.listeInstructions)
 

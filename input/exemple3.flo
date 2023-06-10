@@ -3,4 +3,4 @@ si a alors {
 } sinon {
     ecrire(20);
 }
-entier y = (28+8)*(87*9);
+#entier y = (28+8)*(87*9);
