@@ -155,6 +155,44 @@ class FloParser(Parser):
     def expr(self, p):
         return arbre_abstrait.Operation('*', p.expr, arbre_abstrait.Entier(-1))
 
+    @_('type IDENTIFIANT "(" params ")" "{" listeInstructions "}"')
+    def fonction_declaration(self, p):
+        return arbre_abstrait.FonctionDeclaration(p.IDENTIFIANT, p.type, p.params, p.listeInstructions)
+
+    @_('params "," param')
+    def params(self, p):
+        p.params.append(p.param)
+        return p.params
+
+    @_('param')
+    def params(self, p):
+        return [p.param]
+
+    @_('type IDENTIFIANT')
+    def param(self, p):
+        return (p.type, p.IDENTIFIANT)
+
+    @_('RETOURNER expr ";"')
+    def retourner(self, p):
+        return arbre_abstrait.Retourner(p.expr)
+
+    @_('IDENTIFIANT "(" args ")"')
+    def fonction_appel(self, p):
+        return arbre_abstrait.FonctionAppel(p.IDENTIFIANT, p.args)
+
+    @_('args "," expr')
+    def args(self, p):
+        p.args.append(p.expr)
+        return p.args
+
+    @_('expr')
+    def args(self, p):
+        return [p.expr]
+
+    @_('')
+    def args(self, p):
+        return []
+
 
 if __name__ == '__main__':
     lexer = FloLexer()

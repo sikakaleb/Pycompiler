@@ -1,5 +1,4 @@
-si (a > b) {
-    ecrire(a);
-} sinon {
-    ecrire(c);
+entier f(){
+ retourner 3;
 }
+ecrire(f());
