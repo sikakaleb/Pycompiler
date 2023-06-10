@@ -53,13 +53,21 @@ class FloParser(Parser):
     def factor(self, p):
         return arbre_abstrait.Lire()
 
-    @_('ENT IDENTIFIANT "=" expr ";"')
-    def declaration(self, p):
-        return arbre_abstrait.Declaration(p.IDENTIFIANT, p.expr, "ENTIER")
+    @_('ENT', 'BOOLEEN')
+    def type(self, p):
+        return p[0]
 
-    @_('BOOLEEN IDENTIFIANT "=" expr ";"')
+    @_('type IDENTIFIANT "=" expr ";"')
     def declaration(self, p):
-        return arbre_abstrait.Declaration(p.IDENTIFIANT, p.expr, "BOOLEEN")
+        return arbre_abstrait.Declaration(p.IDENTIFIANT, p.expr, p.type)
+
+    # @_('ENT IDENTIFIANT "=" expr ";"')
+    # def declaration(self, p):
+    #    return arbre_abstrait.Declaration(p.IDENTIFIANT, p.expr, "ENTIER")
+
+    # @_('BOOLEEN IDENTIFIANT "=" expr ";"')
+    # def declaration(self, p):
+    #    return arbre_abstrait.Declaration(p.IDENTIFIANT, p.expr, "BOOLEEN")
 
     @_('IDENTIFIANT "=" expr ";"')
     def affectation(self, p):
