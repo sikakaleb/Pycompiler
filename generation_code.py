@@ -129,7 +129,7 @@ Affiche le code nasm correspondant à une suite d'instructions
 def gen_fonctions(fonctions):
     for fonction in fonctions:
         if fonction.type == "entier" or fonction.type == "booleen":
-            table_des_symboles.ajouter_fonction(fonction.identifiant, fonction.type)
+            table_des_symboles.ajouter_fonction(fonction.identifiant, fonction.type,[parm.type for parm in fonction.param_list])
         else:
             print("your fonction don't return entier or booleen  ")
             exit(0)
@@ -180,7 +180,7 @@ Affiche le code nasm correspondant au fait d'envoyer la valeur entière d'une ex
 
 
 def gen_appel_fct(instruction):
-    if table_des_symboles.verifier_exist(instruction.identifiant):
+    if table_des_symboles.verifier_exist(instruction.identifiant,[type(arg) for arg in instruction.args]):
         nasm_instruction("call", "_" + instruction.identifiant, "", "", "appel de la fonction")
         if table_des_symboles.return_type(instruction.identifiant)== "entier":
             return arbre_abstrait.Entier
