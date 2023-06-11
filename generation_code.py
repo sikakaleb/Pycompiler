@@ -7,7 +7,7 @@ from table_des_symboles import TableSymboles
 # Permet de donner des noms différents à toutes les étiquettes (en les appelant e0, e1,e2,...)
 num_etiquette_courante = -1
 table_des_symboles = TableSymboles()
-fonction_en_cours=""
+fonction_en_cours = ""
 
 
 def nom_nouvelle_etiquette():
@@ -113,8 +113,10 @@ def gen_programme(programme):
     printifm('v$a:	resd	1')
     printifm('section\t.text')
     printifm('global _start')
+    gen_fonctions(programme.listeFonctions)
     printifm('_start:')
     gen_listeInstructions(programme.listeInstructions)
+    # gen_listeInstructions(programme.listeInstructions)
     nasm_instruction("mov", "eax", "1", "", "1 est le code de SYS_EXIT")
     nasm_instruction("int", "0x80", "", "", "exit")
 
@@ -128,14 +130,17 @@ def gen_fonctions(fonctions):
     for fonction in fonctions:
         if fonction.type == "entier" or fonction.type == "booleen":
             table_des_symboles.ajouter_fonction(fonction.identifiant, fonction.type)
-            gen_def_fonction(fonction)
         else:
             print("your fonction don't return entier or booleen  ")
             exit(0)
+    for fonction in fonctions:
+        gen_def_fonction(fonction)
 
 
 def gen_def_fonction(fonction):
-    nasm_instruction("_" + fonction.identifiant)
+    global fonction_en_cours
+    printifm("_" + fonction.identifiant + ":")
+    fonction_en_cours = fonction.identifiant
     gen_listeInstructions(fonction.liste_instructions)
 
 
@@ -176,21 +181,27 @@ Affiche le code nasm correspondant au fait d'envoyer la valeur entière d'une ex
 
 def gen_appel_fct(instruction):
     if table_des_symboles.verifier_exist(instruction.identifiant):
-        fonction_en_cours=instruction.identifiant
         nasm_instruction("call", "_" + instruction.identifiant, "", "", "appel de la fonction")
+        if table_des_symboles.return_type(instruction.identifiant)== "entier":
+            return arbre_abstrait.Entier
+        else:
+            return arbre_abstrait.Booleen
 
 
 def gen_retourner(retourner):
-    retour_fct= gen_expression(retourner.expression)
-    if fonction_en_cours!="" and((table_des_symboles[fonction_en_cours]=="entier" and retour_fct==arbre_abstrait.Entier)or (table_des_symboles[fonction_en_cours]=="booleen" and retour_fct==arbre_abstrait.Booleen)):
+    global fonction_en_cours
+    retour_fct = gen_expression(retourner.expression)
+    if fonction_en_cours != "" and (
+            (table_des_symboles.verifier_type_retour(fonction_en_cours,
+                                                     "entier") and retour_fct == arbre_abstrait.Entier) or (
+                    table_des_symboles.verifier_type_retour(fonction_en_cours,
+                                                            "booleen") and retour_fct == arbre_abstrait.Booleen)):
         nasm_instruction("pop", "eax", "", "", "met le résultat dans eax")
         nasm_instruction("ret", "", "", "", "revenir à l’appel de la fonction")
-        fonction_en_cours=""
+        fonction_en_cours = ""
     else:
-        print("Nous ne sommes pas dans une fonction ou type non concordant ")
+        print("Nous ne sommes pas dans une fonction ou type non concordant ", retour_fct)
         exit(0)
-
-
 
 
 def gen_si(si):
@@ -278,6 +289,11 @@ def gen_expression(expression):
         elif str(expression.valeur) == "False":
             nasm_instruction("push", "0", "", "", "")
             return arbre_abstrait.Booleen
+    elif type(expression) == arbre_abstrait.AppelFonction:
+        retour=gen_appel_fct(expression)
+        nasm_instruction("push", "eax", "", "", "")
+        return retour
+
 
     else:
         print("type d'expression inconnu", type(expression))
@@ -295,10 +311,11 @@ def gen_operation(operation):
 
     # on calcule et empile la valeur de exp1
     type_exp1 = gen_expression(operation.exp1)
+    #print(type_exp1)
     # on calcule et empile la valeur de exp2
-    type_exp2 = gen_expression(operation.exp2)
-
-    nasm_instruction("pop", "ebx", "", "",
+    if(op!="non"):
+        type_exp2 = gen_expression(operation.exp2)
+        nasm_instruction("pop", "ebx", "", "",
                      "dépile la seconde operande dans ebx")
     nasm_instruction("pop", "eax", "", "",
                      "dépile la permière operande dans eax")
@@ -345,7 +362,7 @@ def gen_operation(operation):
             exit(0)
     elif op == 'non':
         if type_exp1 == arbre_abstrait.Booleen:
-            nasm_instruction(code[op], "eax", "", "",
+            nasm_instruction(code[op], "eax", "1", "",
                              "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
             type_op = arbre_abstrait.Booleen
         else:
@@ -390,6 +407,5 @@ if __name__ == "__main__":
             gen_programme(arbre)
         except EOFError:
             exit()
-
 
 # le ecrire(vrai) vrai est reconnu comme un identifiant à qméliorer

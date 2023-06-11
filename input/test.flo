@@ -1,11 +1,11 @@
-ecrire(2+3+4+5);
-ecrire(2+3+4*5);
-ecrire(2+3*4+5);
-ecrire(2+3*4*5);
-ecrire(2*3+4+5);
-ecrire(2*3+4*5);
-ecrire(2*3*4+5);
-ecrire(2*3*4*5);
+#ecrire(2+3+4+5);
+#ecrire(2+3+4*5);
+#ecrire(2+3*4+5);
+#ecrire(2+3*4*5);
+#ecrire(2*3+4+5);
+#ecrire(2*3+4*5);
+#ecrire(2*3*4+5);
+#ecrire(2*3*4*5);
 #ecrire( 2/3);
 #ecrire(vrai);
 #ecrire(faux);
@@ -17,4 +17,7 @@ ecrire(2*3*4*5);
 #ecrire(vrai ou faux);
 #ecrire(vrai et faux);
 #ecrire(non vrai);
-
+entier f () {
+retourner Vrai ;
+}
+ecrire (f() ) ;
