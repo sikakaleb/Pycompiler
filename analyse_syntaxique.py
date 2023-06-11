@@ -39,13 +39,13 @@ class FloParser(Parser):
         l.append(p.instruction)
         return l
 
-    @_('ecrire', 'declaration', 'affectation', 'condition', 'boucle', 'retourner', 'appel_fonction_2', 'appel_fonction_1')
+    @_('ecrire', 'declaration', 'affectation', 'condition', 'boucle', 'retourner', 'appel_fonction_instr', 'appel_fonction_instr_without_parm')
     def instruction(self, p):
         return p[0]
 
-    @_("fonction_declaration")
+    @_("fonction_declaration_without_parm", "fonction_declaration")
     def instruction(self, p):
-        return p.fonction_declaration
+        return p[0]
 
     @_('ECRIRE "(" expr ")" ";"')
     def ecrire(self, p):
@@ -87,17 +87,82 @@ class FloParser(Parser):
     def retourner(self, p):
         return arbre_abstrait.Retourner(p.expr)
 
+    @_('IDENTIFIANT "(" arg_list ")" ";" ')
+    def appel_fonction_instr(self, p):
+        return arbre_abstrait.AppelFonction(p.IDENTIFIANT, p.arg_list)
+
+    @_("IDENTIFIANT '(' arg_list ')'")
+    def appel_fonction_expr(self, p):
+        return arbre_abstrait.AppelFonction(p.IDENTIFIANT, p.arg_list)
+
     @_('IDENTIFIANT "(" ")" ";"')
-    def appel_fonction_2(self, p):
-        return arbre_abstrait.AppelFonction(p.IDENTIFIANT)
+    def appel_fonction_instr_without_parm(self, p):
+        return arbre_abstrait.AppelFonction(p.IDENTIFIANT, [])
 
     @_('IDENTIFIANT "(" ")" ')
-    def appel_fonction_1(self, p):
-        return arbre_abstrait.AppelFonction(p.IDENTIFIANT)
+    def appel_fonction_expr_without_parm(self, p):
+        return arbre_abstrait.AppelFonction(p.IDENTIFIANT, [])
+
+    @_('type IDENTIFIANT "(" param_list ")" "{" listeInstructions "}"')
+    def fonction_declaration(self, p):
+        return arbre_abstrait.Fonction(p.IDENTIFIANT, p.type, p.param_list, p.listeInstructions)
 
     @_("type IDENTIFIANT '(' ')' '{' listeInstructions '}'")
-    def fonction_declaration(self, p):
-        return arbre_abstrait.Fonction(p.IDENTIFIANT, p.type, p.listeInstructions)
+    def fonction_declaration_without_parm(self, p):
+        return arbre_abstrait.Fonction(p.IDENTIFIANT, p.type, [], p.listeInstructions)
+
+    @_("param")
+    def param_list(self, p):
+        return [p.param]
+
+    @_("param_list ',' param")
+    def param_list(self, p):
+        p.param_list.append(p.param)
+        return p.param_list
+
+    @_("type IDENTIFIANT")
+    def param(self, p):
+        return arbre_abstrait.Parametre(p.type, p.IDENTIFIANT)
+
+    @_('term')
+    def expr(self, p):
+        return p.term
+
+    @_('expr MODULO term')
+    def expr(self, p):
+        return arbre_abstrait.Operation(p[1], p[0], p[2])
+
+    @_('expr COMPARATEUR expr',)
+    def expr(self, p):
+        return arbre_abstrait.Operation(p[1], p[0], p[2])
+
+    @_('appel_fonction_expr')
+    def term(self, p):
+        return p.appel_fonction
+
+    @_('appel_fonction_expr_without_parm')
+    def term(self, p):
+        return p.appel_fonction_expr_without_parm
+
+    @_('expr DIV term')
+    def expr(self, p):
+        return arbre_abstrait.Operation(p.DIV, p.expr, p.term)
+
+    @_('term MULT factor')
+    def term(self, p):
+        return arbre_abstrait.Operation(p.MULT, p.term, p.factor)
+
+    @_('factor')
+    def term(self, p):
+        return p.factor
+
+    @_('term PLUS factor')
+    def term(self, p):
+        return arbre_abstrait.Operation(p.PLUS, p.term, p.factor)
+
+    @_('term MINUS factor')
+    def term(self, p):
+        return arbre_abstrait.Operation(p.MINUS, p.term, p.factor)
 
     @_('ENTIER')
     def factor(self, p):
@@ -107,7 +172,7 @@ class FloParser(Parser):
     def factor(self, p):
         return arbre_abstrait.Booleen(p.BOOLEEN_LITERAL)
 
-    @_(' "(" expr ")" ')
+    @_("'(' expr ')'")
     def factor(self, p):
         return p.expr
 
@@ -115,41 +180,9 @@ class FloParser(Parser):
     def factor(self, p):
         return arbre_abstrait.Identifiant(p.IDENTIFIANT)
 
-    @_('expr PLUS term')
+    @_('expr ET expr')
     def expr(self, p):
-        return arbre_abstrait.Operation(p.PLUS, p.expr, p.term)
-
-    @_('expr MINUS term')
-    def expr(self, p):
-        return arbre_abstrait.Operation(p.MINUS, p.expr, p.term)
-
-    @_('term')
-    def expr(self, p):
-        return p.term
-
-    @_('appel_fonction_1')
-    def term(self, p):
-        return p.appel_fonction_1
-
-    @_('term MULT factor')
-    def term(self, p):
-        return arbre_abstrait.Operation(p.MULT, p.term, p.factor)
-
-    @_('term DIV factor')
-    def term(self, p):
-        return arbre_abstrait.Operation(p.DIV, p.term, p.factor)
-
-    @_('term MODULO factor')
-    def term(self, p):
-        return arbre_abstrait.Operation(p[1], p[0], p[2])
-
-    @_('factor')
-    def term(self, p):
-        return p.factor
-
-    @_('factor ET expr')
-    def factor(self, p):
-        return arbre_abstrait.Operation(p.ET, p.factor, p.expr)
+        return arbre_abstrait.Operation(p.ET, p[0], p[2])
 
     @_('factor OU expr')
     def factor(self, p):
@@ -159,13 +192,9 @@ class FloParser(Parser):
     def factor(self, p):
         return arbre_abstrait.Operation("non", p.expr, None)
 
-    @_('MINUS expr %prec UMINUS')
+    @_("MINUS factor %prec UMINUS")
     def factor(self, p):
-        return arbre_abstrait.Operation('*', p.expr, arbre_abstrait.Entier(-1))
-
-    @_('expr COMPARATEUR expr',)
-    def expr(self, p):
-        return arbre_abstrait.Operation(p[1], p[0], p[2])
+        return arbre_abstrait.Operation('*', arbre_abstrait.Entier(-1), p.factor)
 
     @_('LIRE "(" ")"')
     def factor(self, p):
@@ -178,8 +207,18 @@ class FloParser(Parser):
     @_('ENT')
     def type(self, p):
         return p.ENT
-# Ajoutez des règles similaires pour les autres mots clés
 
+    @_("expr")
+    def arg_list(self, p):
+        return [p.expr]
+
+    @_("arg_list ',' expr")
+    def arg_list(self, p):
+        p.arg_list.append(p.expr)
+        return p.arg_list
+
+
+# Ajoutez des règles similaires pour les autres mots clés
 
 if __name__ == '__main__':
     lexer = FloLexer()

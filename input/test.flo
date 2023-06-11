@@ -1,3 +1,1 @@
-booleen f(entier e1, entier e2){
-	retourner e1 > e2;
-}
+ecrire(28 * 10/(120 + 20) < 2*3+57-24 et non (75 == 47) et 1 < 2); #1

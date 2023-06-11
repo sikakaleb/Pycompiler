@@ -157,26 +157,38 @@ class TantQue:
 
 
 class Fonction:
-    def __init__(self, identifiant, type, liste_instructions):
+    def __init__(self, identifiant, type, param_list, liste_instructions):
         self.identifiant = identifiant
         self.type = type
+        self.param_list = param_list
         self.liste_instructions = liste_instructions
 
     def afficher(self, indent=0):
         afficher("<fonction>", indent)
         afficher(f"[Identifiant: {self.identifiant}]", indent + 1)
         afficher(f"[Type: {self.type}]", indent + 1)
+        if self.param_list:
+            afficher("<parametres>", indent + 1)
+            for param in self.param_list:
+                param.afficher(indent + 2)
+            afficher("</parametres>", indent + 1)
         self.liste_instructions.afficher(indent + 1)
         afficher("</fonction>", indent)
 
 
 class AppelFonction:
-    def __init__(self, identifiant):
+    def __init__(self, identifiant, args):
         self.identifiant = identifiant
+        self.args = args
 
     def afficher(self, indent=0):
         afficher("<appelFonction>", indent)
         afficher(f"[Identifiant: {self.identifiant}]", indent + 1)
+        if self.args:
+            afficher("<arguments>", indent + 1)
+            for arg in self.args:
+                arg.afficher(indent + 2)
+            afficher("</arguments>", indent + 1)
         afficher("</appelFonction>", indent)
 
 
@@ -188,3 +200,15 @@ class Retourner:
         afficher("<retourner>", indent)
         self.expression.afficher(indent + 1)
         afficher("</retourner>", indent)
+
+
+class Parametre:
+    def __init__(self, type, identifiant):
+        self.type = type
+        self.identifiant = identifiant
+
+    def afficher(self, indent=0):
+        afficher("<parametre>", indent)
+        afficher(f"[Identifiant: {self.identifiant}]", indent + 1)
+        afficher(f"[Type: {self.type}]", indent + 1)
+        afficher("</parametre>", indent)
