@@ -8,12 +8,16 @@ def afficher(s, indent=0):
 
 
 class Programme:
-    def __init__(self, listeInstructions):
+    def __init__(self, listeFonctions=None, listeInstructions=None):
+        self.listeFonctions = listeFonctions
         self.listeInstructions = listeInstructions
 
     def afficher(self, indent=0):
         afficher("<programme>", indent)
-        self.listeInstructions.afficher(indent+1)
+        if self.listeFonctions:
+            self.listeFonctions.afficher(indent + 1)
+        if self.listeInstructions:
+            self.listeInstructions.afficher(indent + 1)
         afficher("</programme>", indent)
 
 
@@ -27,6 +31,17 @@ class ListeInstructions(list):
             if instruction is not None:
                 instruction.afficher(indent+1)
         afficher("</listeInstructions>", indent)
+
+
+class ListeFonctions(list):
+    def __init__(self):
+        pass
+
+    def afficher(self, indent=0):
+        afficher("<listeFonctions>", indent)
+        for fonction in self:
+            fonction.afficher(indent + 1)
+        afficher("</listeFonctions>", indent)
 
 
 class Ecrire:

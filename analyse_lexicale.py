@@ -28,7 +28,6 @@ class FloLexer(Lexer):
         RETOURNER
     }
 
-    ENT = r'entier'
     BOOLEEN = r'booleen'
     ECRIRE = r'ecrire'
     LIRE = r'lire'
@@ -80,7 +79,8 @@ class FloLexer(Lexer):
         t.value = int(t.value)
         return t
 
-    IDENTIFIANT = r'[a-zA-Z][a-zA-Z0-9_]*'
+    IDENTIFIANT = r'(?!entier\b|booleen\b)[a-zA-Z][a-zA-Z0-9_]*'
+    ENT = r'entier'
 
     @_(r'\n+')
     def ignore_newline(self, t):

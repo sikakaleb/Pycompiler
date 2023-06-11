@@ -3,5 +3,4 @@ entier f(entier e){
 	ecrire(e);
 	retourner 5;
 }
-
 f(5);

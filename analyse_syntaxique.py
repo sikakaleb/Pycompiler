@@ -25,17 +25,46 @@ class FloParser(Parser):
     @_('listeInstructions')
     def prog(self, p):
         return arbre_abstrait.Programme(p.listeInstructions)
+    
+    @_('listeFonctions')
+    def prog(self, p):
+        return arbre_abstrait.Programme(p.listeFonctions)
+    
+
+    @_('listeFonctions listeInstructions')
+    def prog(self, p):
+        return arbre_abstrait.Programme(p.listeFonctions, p.listeInstructions)
+    
+    @_('fonction_declaration_without_parm')
+    def listeFonctions(self, p):
+        l = arbre_abstrait.ListeFonctions()
+        l.append(p.fonction_declaration_without_parm)
+        return l
+
+    @_('fonction_declaration')
+    def listeFonctions(self, p):
+        l = arbre_abstrait.ListeFonctions()
+        l.append(p.fonction_declaration)
+        return l
+
+    @_('listeFonctions fonction_declaration')
+    def listeFonctions(self, p):
+        p.listeFonctions.append(p.fonction_declaration)
+        return p.listeFonctions
+
+    @_('listeFonctions fonction_declaration_without_parm')
+    def listeFonctions(self, p):
+        p.listeFonctions.append(p.fonction_declaration_without_parm)
+        return p.listeFonctions
 
     @_('listeInstructions instruction')
     def listeInstructions(self, p):
-        # p.listeInstructions.instructions.insert(0,p.instruction)
         p.listeInstructions.append(p.instruction)
         return p.listeInstructions
 
     @_('instruction')
     def listeInstructions(self, p):
         l = arbre_abstrait.ListeInstructions()
-        # l.instructions.insert(0,p.instruction)
         l.append(p.instruction)
         return l
 
@@ -43,9 +72,9 @@ class FloParser(Parser):
     def instruction(self, p):
         return p[0]
 
-    @_("fonction_declaration_without_parm", "fonction_declaration")
-    def instruction(self, p):
-        return p[0]
+    # @_("fonction_declaration_without_parm", "fonction_declaration")
+    # def instruction(self, p):
+    #    return p[0]
 
     @_('ECRIRE "(" expr ")" ";"')
     def ecrire(self, p):
@@ -148,9 +177,9 @@ class FloParser(Parser):
     def factor(self, p):
         return p.appel_fonction_expr_without_parm
 
-    @_('expr DIV term')
+    @_('term DIV factor')
     def expr(self, p):
-        return arbre_abstrait.Operation(p.DIV, p.expr, p.term)
+        return arbre_abstrait.Operation(p.DIV, p.term, p.factor)
 
     @_('term MULT factor')
     def term(self, p):
