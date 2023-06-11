@@ -25,16 +25,15 @@ class FloParser(Parser):
     @_('listeInstructions')
     def prog(self, p):
         return arbre_abstrait.Programme(p.listeInstructions)
-    
+
     @_('listeFonctions')
     def prog(self, p):
         return arbre_abstrait.Programme(p.listeFonctions)
-    
 
     @_('listeFonctions listeInstructions')
     def prog(self, p):
         return arbre_abstrait.Programme(p.listeFonctions, p.listeInstructions)
-    
+
     @_('fonction_declaration_without_parm')
     def listeFonctions(self, p):
         l = arbre_abstrait.ListeFonctions()
@@ -157,7 +156,15 @@ class FloParser(Parser):
     def param(self, p):
         return arbre_abstrait.Parametre(p.type, p.IDENTIFIANT)
 
-    @_('term')
+    @_('term PLUS expr')
+    def expr(self, p):
+        return arbre_abstrait.Operation(p.PLUS, p.term, p.expr)
+
+    @_('term MINUS expr')
+    def expr(self, p):
+        return arbre_abstrait.Operation(p.MINUS, p.term, p.expr)
+
+    @_("term")
     def expr(self, p):
         return p.term
 
@@ -169,6 +176,18 @@ class FloParser(Parser):
     def expr(self, p):
         return arbre_abstrait.Operation(p[1], p[0], p[2])
 
+    @_("term MULT factor")
+    def term(self, p):
+        return arbre_abstrait.Operation(p.MULT, p.term, p.factor)
+
+    @_("term DIV factor")
+    def term(self, p):
+        return arbre_abstrait.Operation(p.DIV, p.term, p.factor)
+
+    @_("factor")
+    def term(self, p):
+        return p.factor
+
     @_('appel_fonction_expr')
     def factor(self, p):
         return p.appel_fonction_expr
@@ -176,26 +195,6 @@ class FloParser(Parser):
     @_('appel_fonction_expr_without_parm')
     def factor(self, p):
         return p.appel_fonction_expr_without_parm
-
-    @_('term DIV factor')
-    def expr(self, p):
-        return arbre_abstrait.Operation(p.DIV, p.term, p.factor)
-
-    @_('term MULT factor')
-    def term(self, p):
-        return arbre_abstrait.Operation(p.MULT, p.term, p.factor)
-
-    @_('factor')
-    def term(self, p):
-        return p.factor
-
-    @_('term PLUS factor')
-    def term(self, p):
-        return arbre_abstrait.Operation(p.PLUS, p.term, p.factor)
-
-    @_('term MINUS factor')
-    def term(self, p):
-        return arbre_abstrait.Operation(p.MINUS, p.term, p.factor)
 
     @_('ENTIER')
     def factor(self, p):

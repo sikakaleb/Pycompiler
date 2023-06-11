@@ -90,7 +90,25 @@ class FloLexer(Lexer):
         print(f"Ligne {self.lineno}: Caractère inattendu '{t.value[0]}'")
         self.index += 1
 
+def index_tokens(lexer, text):
+    index = 0
+    for token in lexer.tokenize(text):
+        # Récupérer la valeur du token sous forme de chaîne
+        value = str(token.value)
+        
+        # Trouver la position de début de ce token dans le texte
+        start = text.find(value, index)
+        
+        # Mettre à jour les attributs 'index' et 'end' du token
+        token.index = start
+        token.end = start + len(value)
+        
+        # Mettre à jour l'index pour la prochaine recherche
+        index = token.end
+        
+        yield token
 
+# Modifiez la section de code où vous appelez 'lexer.tokenize'
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print("usage: python3 analyse_lexicale.py NOM_FICHIER_SOURCE.flo")
@@ -98,5 +116,5 @@ if __name__ == '__main__':
         with open(sys.argv[1], "r") as f:
             data = f.read()
             lexer = FloLexer()
-            for tok in lexer.tokenize(data):
+            for tok in index_tokens(lexer, data):
                 print(tok)
