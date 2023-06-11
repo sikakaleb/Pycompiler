@@ -1,7 +1,8 @@
-entier g(){
- retourner h();
-}
-entier h(){
- retourner 7;
-}
-ecrire(g());
+ecrire(2+3+4+5);
+ecrire(2+3+4*5);
+ecrire(2+3*4+5);
+ecrire(2+3*4*5);
+ecrire(2*3+4+5);
+ecrire(2*3+4*5);
+ecrire(2*3*4+5);
+ecrire(2*3*4*5);
