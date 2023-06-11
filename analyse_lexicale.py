@@ -28,6 +28,7 @@ class FloLexer(Lexer):
         RETOURNER
     }
 
+
     BOOLEEN = r'booleen'
     ECRIRE = r'ecrire'
     LIRE = r'lire'

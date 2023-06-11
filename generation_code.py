@@ -2,14 +2,18 @@ import sys
 from analyse_lexicale import FloLexer
 from analyse_syntaxique import FloParser
 import arbre_abstrait
+from table_des_symboles import TableSymboles
 
 # Permet de donner des noms différents à toutes les étiquettes (en les appelant e0, e1,e2,...)
 num_etiquette_courante = -1
+table_des_symboles = TableSymboles()
+fonction_en_cours=""
 
-def nom_nouvelle_etiquette ( ) :
+
+def nom_nouvelle_etiquette():
     global num_etiquette_courante
-    num_etiquette_courante +=1
-    return " e "+ str ( num_etiquette_courante )
+    num_etiquette_courante += 1
+    return " e " + str(num_etiquette_courante)
 
 
 afficher_table = False
@@ -96,9 +100,6 @@ def nasm_instruction(opcode, op1="", op2="", op3="", comment=""):
 Retourne le nom d'une nouvelle étiquette
 """
 
-
-
-
 """
 Affiche le code nasm correspondant à tout un programme
 """
@@ -123,6 +124,21 @@ Affiche le code nasm correspondant à une suite d'instructions
 """
 
 
+def gen_fonctions(fonctions):
+    for fonction in fonctions:
+        if fonction.type == "entier" or fonction.type == "booleen":
+            table_des_symboles.ajouter_fonction(fonction.identifiant, fonction.type)
+            gen_def_fonction(fonction)
+        else:
+            print("your fonction don't return entier or booleen  ")
+            exit(0)
+
+
+def gen_def_fonction(fonction):
+    nasm_instruction("_" + fonction.identifiant)
+    gen_listeInstructions(fonction.liste_instructions)
+
+
 def gen_listeInstructions(listeInstructions):
     for instruction in listeInstructions:
         gen_instruction(instruction)
@@ -138,6 +154,16 @@ def gen_instruction(instruction):
         gen_ecrire(instruction)
     elif type(instruction) == arbre_abstrait.Lire:
         gen_lire(instruction)
+    elif type(instruction) == arbre_abstrait.TantQue:
+        gen_tantque(instruction)
+    elif type(instruction) == arbre_abstrait.Condition:
+        gen_si(instruction)
+    elif type(instruction) == arbre_abstrait.Retourner:
+        gen_retourner(instruction)
+    elif type(instruction) == arbre_abstrait.AppelFonction:
+        gen_appel_fct(instruction)
+
+
     else:
         print("type instruction inconnu ", type(instruction))
         exit(0)
@@ -146,6 +172,68 @@ def gen_instruction(instruction):
 """
 Affiche le code nasm correspondant au fait d'envoyer la valeur entière d'une expression sur la sortie standard
 """
+
+
+def gen_appel_fct(instruction):
+    if table_des_symboles.verifier_exist(instruction.identifiant):
+        fonction_en_cours=instruction.identifiant
+        nasm_instruction("call", "_" + instruction.identifiant, "", "", "appel de la fonction")
+
+
+def gen_retourner(retourner):
+    retour_fct= gen_expression(retourner.expression)
+    if fonction_en_cours!="" and((table_des_symboles[fonction_en_cours]=="entier" and retour_fct==arbre_abstrait.Entier)or (table_des_symboles[fonction_en_cours]=="booleen" and retour_fct==arbre_abstrait.Booleen)):
+        nasm_instruction("pop", "eax", "", "", "met le résultat dans eax")
+        nasm_instruction("ret", "", "", "", "revenir à l’appel de la fonction")
+        fonction_en_cours=""
+    else:
+        print("Nous ne sommes pas dans une fonction ou type non concordant ")
+        exit(0)
+
+
+
+
+def gen_si(si):
+    etiquette_vrai = nom_nouvelle_etiquette()
+    etiquette_fin = nom_nouvelle_etiquette()
+    type_exp = gen_expression(si.expression)
+    if type_exp == arbre_abstrait.Booleen:
+        nasm_instruction("pop", "eax", "", "", "mettre la valeur de la condition dans eax")
+        nasm_instruction("cmp", "eax", "1", "", " vérifie si la condition est vraie")
+        nasm_instruction("je", etiquette_vrai, "", "", "")
+        gen_listeInstructions(si.liste_instructions_faux)
+        nasm_instruction("jmp", etiquette_fin, "", "", "")
+        nasm_instruction(etiquette_vrai)
+        gen_listeInstructions(si.liste_instructions_vrai)
+        nasm_instruction(etiquette_fin)
+    else:
+        print("you made a mistake ")
+        exit(0)
+
+    # return 2
+
+
+def gen_tantque(tantque):
+    etiquette_debut = nom_nouvelle_etiquette()
+    etiquette_vrai = nom_nouvelle_etiquette()
+    etiquette_fin = nom_nouvelle_etiquette()
+    nasm_instruction(etiquette_debut)
+    type_exp = gen_expression(tantque.expression)
+    if type_exp == arbre_abstrait.Booleen:
+        nasm_instruction("pop", "eax", "", "", "mettre la valeur de la condition dans eax")
+        nasm_instruction("cmp", "eax", "1", "", " compare exp1 et exp2")
+        nasm_instruction("je", etiquette_vrai, "", "", "")
+        nasm_instruction("jmp", etiquette_fin, "", "", "")
+        nasm_instruction(etiquette_vrai)
+        gen_listeInstructions(tantque.liste_instructions)
+        nasm_instruction("jmp", etiquette_debut, "", "", "")
+
+        nasm_instruction(etiquette_fin)
+    else:
+        print("you made a mistake ")
+        exit(0)
+
+    # return 2
 
 
 def gen_ecrire(ecrire):
@@ -174,16 +262,20 @@ Affiche le code nasm pour calculer et empiler la valeur d'une expression
 
 def gen_expression(expression):
     if type(expression) == arbre_abstrait.Operation:
-        gen_operation(expression)
-        return arbre_abstrait.Operation  # on calcule et empile la valeur de l'opération
+        return gen_operation(expression)
+        # on calcule et empile la valeur de l'opération
+    # if type(expression)==arbre_abstrait.Condition:
+    #   gen_operation(expression)
+
     elif type(expression) == arbre_abstrait.Entier:
         nasm_instruction("push", str(expression.valeur), "", "", "")
         return arbre_abstrait.Entier  # on met sur la pile la valeur entière
-    elif type(expression) == arbre_abstrait.Identifiant and (expression.nom == "vrai" or expression.nom == "faux"):
-        if str(expression.nom) == "vrai":
+    # elif (type(expression) == arbre_abstrait.Identifiant and (expression.nom == "vrai" or expression.nom == "faux"))or type(expression)==arbre_abstrait.Booleen:
+    elif type(expression) == arbre_abstrait.Booleen:
+        if str(expression.valeur) == "True":
             nasm_instruction("push", "1", "", "", "")
             return arbre_abstrait.Booleen  # on met sur la pile la valeur booléenne
-        elif str(expression.nom) == "faux":
+        elif str(expression.valeur) == "False":
             nasm_instruction("push", "0", "", "", "")
             return arbre_abstrait.Booleen
 
@@ -198,6 +290,7 @@ Affiche le code nasm pour calculer l'opération et la mettre en haut de la pile
 
 
 def gen_operation(operation):
+    type_op = arbre_abstrait.Operation
     op = operation.op
 
     # on calcule et empile la valeur de exp1
@@ -218,57 +311,65 @@ def gen_operation(operation):
     if op in ['+']:
         nasm_instruction(code[op], "eax", "ebx", "",
                          "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
-    if op == '*':
+    elif op == '*':
         nasm_instruction(code[op], "ebx", "", "", "effectue l'opération eax" +
                          op + "ebx et met le résultat dans eax")
-    if op == '-':
+    elif op == '-':
         nasm_instruction(code[op], "eax", "ebx", "",
                          "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
-    if op == '/':
+    elif op == '/':
         nasm_instruction(code[op], "ebx", "", "",
                          "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
-    if op == '%':
+    elif op == '%':
         nasm_instruction("idiv", "ebx", "", "",
                          "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
         nasm_instruction("mov", "eax", "edx", "",
                          "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
         # nasm_instruction(code[op], "ebx", "", "",
         # "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
-    if op == 'et':
+    elif op == 'et':
         if type_exp2 == arbre_abstrait.Booleen and type_exp1 == arbre_abstrait.Booleen:
-            nasm_instruction(code[op], "ebx", "", "",
+            nasm_instruction(code[op], "eax", "ebx", "",
                              "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
+            type_op = arbre_abstrait.Booleen
         else:
             print("you made a mistake ")
             exit(0)
-    if op == 'ou':
+    elif op == 'ou':
         if type_exp2 == arbre_abstrait.Booleen and type_exp1 == arbre_abstrait.Booleen:
-            nasm_instruction(code[op], "ebx", "", "",
+            nasm_instruction(code[op], "eax", "ebx", "",
                              "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
+            type_op = arbre_abstrait.Booleen
         else:
             print("you made a mistake ")
             exit(0)
-    if op == 'non':
+    elif op == 'non':
         if type_exp1 == arbre_abstrait.Booleen:
-            nasm_instruction(code[op], "ebx", "", "",
+            nasm_instruction(code[op], "eax", "", "",
                              "effectue l'opération eax" + op + "ebx et met le résultat dans eax")
+            type_op = arbre_abstrait.Booleen
         else:
             print("you made a mistake ")
             exit(0)
 
 
-    if op == "==" or op == "!=" or op == "<=" or op == ">=" or op == "<" or op == ">":
+    elif op == "==" or op == "!=" or op == "<=" or op == ">=" or op == "<" or op == ">":
         etiquette_vrai = nom_nouvelle_etiquette()
         etiquette_fin = nom_nouvelle_etiquette()
         nasm_instruction("cmp", "eax", "ebx", "", " compare exp1 et exp2")
         nasm_instruction(code[op], etiquette_vrai, "", "", "")
         nasm_instruction("push", "0", "", "", "")  # Mettre la valeur 0 sur la pile (faux)
         nasm_instruction("jmp", etiquette_fin, "", "", "")
-        nasm_instruction(etiquette_vrai )
+        nasm_instruction(etiquette_vrai)
         nasm_instruction("push", "1", "", "", "")  # Mettre la valeur 1 sur la pile (vrai)
-        nasm_instruction(etiquette_fin )
-
+        nasm_instruction(etiquette_fin)
+        nasm_instruction("pop", "eax", "", "", "met le résultat dans eax")
+        type_op = arbre_abstrait.Booleen
     nasm_instruction("push", "eax", "", "", "empile le résultat")
+    return type_op
+
+
+# ici je veux plutot faire une mv de 1 ou 0 dans eax
 
 
 if __name__ == "__main__":
