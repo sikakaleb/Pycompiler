@@ -55,6 +55,10 @@ class FloParser(Parser):
     def declaration(self, p):
         return arbre_abstrait.Declaration(p.IDENTIFIANT, p.expr, p.type)
 
+    @_('type IDENTIFIANT ";"')
+    def declaration(self, p):
+        return arbre_abstrait.Declaration(p.IDENTIFIANT, None, p.type)
+
     @_('IDENTIFIANT "=" expr ";"')
     def affectation(self, p):
         return arbre_abstrait.Affectation(p.IDENTIFIANT, p.expr)

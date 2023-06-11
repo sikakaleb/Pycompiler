@@ -7,7 +7,3 @@ entier puissance(entier a, entier b){
 	}
 	retourner r;
 }
-
-ecrire(puissance(2,3));
-ecrire(puissance(3,4));
-ecrire(puissance(4,5));

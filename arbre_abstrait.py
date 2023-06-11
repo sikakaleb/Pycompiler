@@ -93,7 +93,8 @@ class Declaration:
         afficher("<declaration>", indent)
         afficher(f"[Identifiant: {self.identifiant}]", indent + 1)
         afficher(f"[Type: {self.type}]", indent + 1)
-        self.expression.afficher(indent + 1)
+        if self.expression:
+            self.expression.afficher(indent + 1)
         afficher("</declaration>", indent)
 
 
