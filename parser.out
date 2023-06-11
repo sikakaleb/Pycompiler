@@ -39,20 +39,20 @@ Rule 35    expr -> expr DIV term  [precedence=left, level=3]
 Rule 36    expr -> expr COMPARATEUR expr  [precedence=nonassoc, level=7]
 Rule 37    expr -> expr MODULO term  [precedence=left, level=3]
 Rule 38    expr -> term
-Rule 39    term -> term MINUS factor  [precedence=left, level=4]
-Rule 40    term -> term PLUS factor  [precedence=left, level=4]
-Rule 41    term -> factor
-Rule 42    term -> term MULT factor  [precedence=left, level=3]
-Rule 43    term -> appel_fonction_expr_without_parm
-Rule 44    term -> appel_fonction_expr
-Rule 45    factor -> LIRE ( )
-Rule 46    factor -> MINUS factor  [precedence=nonassoc, level=2]
-Rule 47    factor -> NON expr  [precedence=nonassoc, level=1]
-Rule 48    factor -> factor OU expr  [precedence=left, level=6]
-Rule 49    factor -> IDENTIFIANT
-Rule 50    factor -> ( expr )
-Rule 51    factor -> BOOLEEN_LITERAL
-Rule 52    factor -> ENTIER
+Rule 39    factor -> LIRE ( )
+Rule 40    factor -> MINUS factor  [precedence=nonassoc, level=2]
+Rule 41    factor -> NON expr  [precedence=nonassoc, level=1]
+Rule 42    factor -> factor OU expr  [precedence=left, level=6]
+Rule 43    factor -> IDENTIFIANT
+Rule 44    factor -> ( expr )
+Rule 45    factor -> BOOLEEN_LITERAL
+Rule 46    factor -> ENTIER
+Rule 47    factor -> appel_fonction_expr_without_parm
+Rule 48    factor -> appel_fonction_expr
+Rule 49    term -> term MINUS factor  [precedence=left, level=4]
+Rule 50    term -> term PLUS factor  [precedence=left, level=4]
+Rule 51    term -> factor
+Rule 52    term -> term MULT factor  [precedence=left, level=3]
 Rule 53    type -> ENT
 Rule 54    type -> BOOLEEN
 Rule 55    arg_list -> arg_list , expr
@@ -65,28 +65,28 @@ Unused terminals:
 
 Terminals, with rules where they appear:
 
-(                    : 15 18 20 22 25 26 27 28 29 30 45 50
-)                    : 15 18 20 22 25 26 27 28 29 30 45 50
+(                    : 15 18 20 22 25 26 27 28 29 30 39 44
+)                    : 15 18 20 22 25 26 27 28 29 30 39 44
 ,                    : 31 55
 ;                    : 15 16 17 23 25 27
 =                    : 16 17
 ALORS                : 
 BOOLEEN              : 54
-BOOLEEN_LITERAL      : 51
+BOOLEEN_LITERAL      : 45
 COMPARATEUR          : 36
 DIV                  : 35
 ECRIRE               : 15
 ENT                  : 53
-ENTIER               : 52
+ENTIER               : 46
 ET                   : 34
-IDENTIFIANT          : 16 17 25 26 27 28 29 30 33 49
-LIRE                 : 45
-MINUS                : 39 46
+IDENTIFIANT          : 16 17 25 26 27 28 29 30 33 43
+LIRE                 : 39
+MINUS                : 40 49
 MODULO               : 37
-MULT                 : 42
-NON                  : 47
-OU                   : 48
-PLUS                 : 40
+MULT                 : 52
+NON                  : 41
+OU                   : 42
+PLUS                 : 50
 RETOURNER            : 23
 SI                   : 18 20
 SINON                : 20 21
@@ -99,8 +99,8 @@ error                :
 Nonterminals, with rules where they appear:
 
 affectation          : 12
-appel_fonction_expr  : 44
-appel_fonction_expr_without_parm : 43
+appel_fonction_expr  : 48
+appel_fonction_expr_without_parm : 47
 appel_fonction_instr : 8
 appel_fonction_instr_without_parm : 7
 arg_list             : 25 26 55
@@ -108,8 +108,8 @@ boucle               : 10
 condition            : 11
 declaration          : 13
 ecrire               : 14
-expr                 : 15 16 17 18 20 22 23 34 34 35 36 36 37 47 48 50 55 56
-factor               : 39 40 41 42 46 48
+expr                 : 15 16 17 18 20 22 23 34 34 35 36 36 37 41 42 44 55 56
+factor               : 40 42 49 50 51 52
 fonction_declaration : 5
 fonction_declaration_without_parm : 6
 instruction          : 3 4
@@ -120,7 +120,7 @@ prog                 : 1
 retourner            : 9 24
 statement            : 0
 suite_sinosi         : 18 20
-term                 : 35 37 38 39 40 42
+term                 : 35 37 38 49 50 52
 type                 : 16 29 30 33
 
 
@@ -427,35 +427,35 @@ state 17
     (36) expr -> . expr COMPARATEUR expr
     (37) expr -> . expr MODULO term
     (38) expr -> . term
-    (39) term -> . term MINUS factor
-    (40) term -> . term PLUS factor
-    (41) term -> . factor
-    (42) term -> . term MULT factor
-    (43) term -> . appel_fonction_expr_without_parm
-    (44) term -> . appel_fonction_expr
-    (45) factor -> . LIRE ( )
-    (46) factor -> . MINUS factor
-    (47) factor -> . NON expr
-    (48) factor -> . factor OU expr
-    (49) factor -> . IDENTIFIANT
-    (50) factor -> . ( expr )
-    (51) factor -> . BOOLEEN_LITERAL
-    (52) factor -> . ENTIER
+    (49) term -> . term MINUS factor
+    (50) term -> . term PLUS factor
+    (51) term -> . factor
+    (52) term -> . term MULT factor
+    (39) factor -> . LIRE ( )
+    (40) factor -> . MINUS factor
+    (41) factor -> . NON expr
+    (42) factor -> . factor OU expr
+    (43) factor -> . IDENTIFIANT
+    (44) factor -> . ( expr )
+    (45) factor -> . BOOLEEN_LITERAL
+    (46) factor -> . ENTIER
+    (47) factor -> . appel_fonction_expr_without_parm
+    (48) factor -> . appel_fonction_expr
     (28) appel_fonction_expr_without_parm -> . IDENTIFIANT ( )
     (26) appel_fonction_expr -> . IDENTIFIANT ( arg_list )
-    LIRE            shift and go to state 33
+    LIRE            shift and go to state 31
     MINUS           shift and go to state 29
-    NON             shift and go to state 35
-    IDENTIFIANT     shift and go to state 36
-    (               shift and go to state 34
-    BOOLEEN_LITERAL shift and go to state 37
-    ENTIER          shift and go to state 38
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
     expr                           shift and go to state 27
     term                           shift and go to state 28
     factor                         shift and go to state 30
-    appel_fonction_expr_without_parm shift and go to state 31
-    appel_fonction_expr            shift and go to state 32
+    appel_fonction_expr_without_parm shift and go to state 37
+    appel_fonction_expr            shift and go to state 38
 
 state 18
 
@@ -521,37 +521,37 @@ state 25
     (36) expr -> . expr COMPARATEUR expr
     (37) expr -> . expr MODULO term
     (38) expr -> . term
-    (39) term -> . term MINUS factor
-    (40) term -> . term PLUS factor
-    (41) term -> . factor
-    (42) term -> . term MULT factor
-    (43) term -> . appel_fonction_expr_without_parm
-    (44) term -> . appel_fonction_expr
-    (45) factor -> . LIRE ( )
-    (46) factor -> . MINUS factor
-    (47) factor -> . NON expr
-    (48) factor -> . factor OU expr
-    (49) factor -> . IDENTIFIANT
-    (50) factor -> . ( expr )
-    (51) factor -> . BOOLEEN_LITERAL
-    (52) factor -> . ENTIER
+    (49) term -> . term MINUS factor
+    (50) term -> . term PLUS factor
+    (51) term -> . factor
+    (52) term -> . term MULT factor
+    (39) factor -> . LIRE ( )
+    (40) factor -> . MINUS factor
+    (41) factor -> . NON expr
+    (42) factor -> . factor OU expr
+    (43) factor -> . IDENTIFIANT
+    (44) factor -> . ( expr )
+    (45) factor -> . BOOLEEN_LITERAL
+    (46) factor -> . ENTIER
+    (47) factor -> . appel_fonction_expr_without_parm
+    (48) factor -> . appel_fonction_expr
     (28) appel_fonction_expr_without_parm -> . IDENTIFIANT ( )
     (26) appel_fonction_expr -> . IDENTIFIANT ( arg_list )
     )               shift and go to state 44
-    LIRE            shift and go to state 33
+    LIRE            shift and go to state 31
     MINUS           shift and go to state 29
-    NON             shift and go to state 35
-    IDENTIFIANT     shift and go to state 36
-    (               shift and go to state 34
-    BOOLEEN_LITERAL shift and go to state 37
-    ENTIER          shift and go to state 38
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
     arg_list                       shift and go to state 45
     expr                           shift and go to state 46
     term                           shift and go to state 28
     factor                         shift and go to state 30
-    appel_fonction_expr_without_parm shift and go to state 31
-    appel_fonction_expr            shift and go to state 32
+    appel_fonction_expr_without_parm shift and go to state 37
+    appel_fonction_expr            shift and go to state 38
 
 state 26
 
@@ -561,35 +561,35 @@ state 26
     (36) expr -> . expr COMPARATEUR expr
     (37) expr -> . expr MODULO term
     (38) expr -> . term
-    (39) term -> . term MINUS factor
-    (40) term -> . term PLUS factor
-    (41) term -> . factor
-    (42) term -> . term MULT factor
-    (43) term -> . appel_fonction_expr_without_parm
-    (44) term -> . appel_fonction_expr
-    (45) factor -> . LIRE ( )
-    (46) factor -> . MINUS factor
-    (47) factor -> . NON expr
-    (48) factor -> . factor OU expr
-    (49) factor -> . IDENTIFIANT
-    (50) factor -> . ( expr )
-    (51) factor -> . BOOLEEN_LITERAL
-    (52) factor -> . ENTIER
+    (49) term -> . term MINUS factor
+    (50) term -> . term PLUS factor
+    (51) term -> . factor
+    (52) term -> . term MULT factor
+    (39) factor -> . LIRE ( )
+    (40) factor -> . MINUS factor
+    (41) factor -> . NON expr
+    (42) factor -> . factor OU expr
+    (43) factor -> . IDENTIFIANT
+    (44) factor -> . ( expr )
+    (45) factor -> . BOOLEEN_LITERAL
+    (46) factor -> . ENTIER
+    (47) factor -> . appel_fonction_expr_without_parm
+    (48) factor -> . appel_fonction_expr
     (28) appel_fonction_expr_without_parm -> . IDENTIFIANT ( )
     (26) appel_fonction_expr -> . IDENTIFIANT ( arg_list )
-    LIRE            shift and go to state 33
+    LIRE            shift and go to state 31
     MINUS           shift and go to state 29
-    NON             shift and go to state 35
-    IDENTIFIANT     shift and go to state 36
-    (               shift and go to state 34
-    BOOLEEN_LITERAL shift and go to state 37
-    ENTIER          shift and go to state 38
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
     expr                           shift and go to state 47
     term                           shift and go to state 28
     factor                         shift and go to state 30
-    appel_fonction_expr_without_parm shift and go to state 31
-    appel_fonction_expr            shift and go to state 32
+    appel_fonction_expr_without_parm shift and go to state 37
+    appel_fonction_expr            shift and go to state 38
 
 state 27
 
@@ -608,9 +608,9 @@ state 27
 state 28
 
     (38) expr -> term .
-    (39) term -> term . MINUS factor
-    (40) term -> term . PLUS factor
-    (42) term -> term . MULT factor
+    (49) term -> term . MINUS factor
+    (50) term -> term . PLUS factor
+    (52) term -> term . MULT factor
   ! shift/reduce conflict for MINUS resolved as shift
   ! shift/reduce conflict for PLUS resolved as shift
   ! shift/reduce conflict for MULT resolved as shift
@@ -629,206 +629,212 @@ state 28
 
 state 29
 
-    (46) factor -> MINUS . factor
-    (45) factor -> . LIRE ( )
-    (46) factor -> . MINUS factor
-    (47) factor -> . NON expr
-    (48) factor -> . factor OU expr
-    (49) factor -> . IDENTIFIANT
-    (50) factor -> . ( expr )
-    (51) factor -> . BOOLEEN_LITERAL
-    (52) factor -> . ENTIER
-    LIRE            shift and go to state 33
+    (40) factor -> MINUS . factor
+    (39) factor -> . LIRE ( )
+    (40) factor -> . MINUS factor
+    (41) factor -> . NON expr
+    (42) factor -> . factor OU expr
+    (43) factor -> . IDENTIFIANT
+    (44) factor -> . ( expr )
+    (45) factor -> . BOOLEEN_LITERAL
+    (46) factor -> . ENTIER
+    (47) factor -> . appel_fonction_expr_without_parm
+    (48) factor -> . appel_fonction_expr
+    (28) appel_fonction_expr_without_parm -> . IDENTIFIANT ( )
+    (26) appel_fonction_expr -> . IDENTIFIANT ( arg_list )
+    LIRE            shift and go to state 31
     MINUS           shift and go to state 29
-    NON             shift and go to state 35
-    IDENTIFIANT     shift and go to state 57
-    (               shift and go to state 34
-    BOOLEEN_LITERAL shift and go to state 37
-    ENTIER          shift and go to state 38
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
     factor                         shift and go to state 56
+    appel_fonction_expr_without_parm shift and go to state 37
+    appel_fonction_expr            shift and go to state 38
 
 state 30
 
-    (41) term -> factor .
-    (48) factor -> factor . OU expr
+    (51) term -> factor .
+    (42) factor -> factor . OU expr
   ! shift/reduce conflict for OU resolved as shift
-    MINUS           reduce using rule 41 (term -> factor .)
-    PLUS            reduce using rule 41 (term -> factor .)
-    MULT            reduce using rule 41 (term -> factor .)
-    ;               reduce using rule 41 (term -> factor .)
-    ET              reduce using rule 41 (term -> factor .)
-    DIV             reduce using rule 41 (term -> factor .)
-    COMPARATEUR     reduce using rule 41 (term -> factor .)
-    MODULO          reduce using rule 41 (term -> factor .)
-    )               reduce using rule 41 (term -> factor .)
-    ,               reduce using rule 41 (term -> factor .)
-    OU              shift and go to state 58
+    MINUS           reduce using rule 51 (term -> factor .)
+    PLUS            reduce using rule 51 (term -> factor .)
+    MULT            reduce using rule 51 (term -> factor .)
+    ;               reduce using rule 51 (term -> factor .)
+    ET              reduce using rule 51 (term -> factor .)
+    DIV             reduce using rule 51 (term -> factor .)
+    COMPARATEUR     reduce using rule 51 (term -> factor .)
+    MODULO          reduce using rule 51 (term -> factor .)
+    )               reduce using rule 51 (term -> factor .)
+    ,               reduce using rule 51 (term -> factor .)
+    OU              shift and go to state 57
 
 
 state 31
 
-    (43) term -> appel_fonction_expr_without_parm .
-    MINUS           reduce using rule 43 (term -> appel_fonction_expr_without_parm .)
-    PLUS            reduce using rule 43 (term -> appel_fonction_expr_without_parm .)
-    MULT            reduce using rule 43 (term -> appel_fonction_expr_without_parm .)
-    ;               reduce using rule 43 (term -> appel_fonction_expr_without_parm .)
-    ET              reduce using rule 43 (term -> appel_fonction_expr_without_parm .)
-    DIV             reduce using rule 43 (term -> appel_fonction_expr_without_parm .)
-    COMPARATEUR     reduce using rule 43 (term -> appel_fonction_expr_without_parm .)
-    MODULO          reduce using rule 43 (term -> appel_fonction_expr_without_parm .)
-    )               reduce using rule 43 (term -> appel_fonction_expr_without_parm .)
-    ,               reduce using rule 43 (term -> appel_fonction_expr_without_parm .)
-    OU              reduce using rule 43 (term -> appel_fonction_expr_without_parm .)
+    (39) factor -> LIRE . ( )
+    (               shift and go to state 58
 
 
 state 32
 
-    (44) term -> appel_fonction_expr .
-    MINUS           reduce using rule 44 (term -> appel_fonction_expr .)
-    PLUS            reduce using rule 44 (term -> appel_fonction_expr .)
-    MULT            reduce using rule 44 (term -> appel_fonction_expr .)
-    ;               reduce using rule 44 (term -> appel_fonction_expr .)
-    ET              reduce using rule 44 (term -> appel_fonction_expr .)
-    DIV             reduce using rule 44 (term -> appel_fonction_expr .)
-    COMPARATEUR     reduce using rule 44 (term -> appel_fonction_expr .)
-    MODULO          reduce using rule 44 (term -> appel_fonction_expr .)
-    )               reduce using rule 44 (term -> appel_fonction_expr .)
-    ,               reduce using rule 44 (term -> appel_fonction_expr .)
-    OU              reduce using rule 44 (term -> appel_fonction_expr .)
-
-
-state 33
-
-    (45) factor -> LIRE . ( )
-    (               shift and go to state 59
-
-
-state 34
-
-    (50) factor -> ( . expr )
+    (44) factor -> ( . expr )
     (34) expr -> . expr ET expr
     (35) expr -> . expr DIV term
     (36) expr -> . expr COMPARATEUR expr
     (37) expr -> . expr MODULO term
     (38) expr -> . term
-    (39) term -> . term MINUS factor
-    (40) term -> . term PLUS factor
-    (41) term -> . factor
-    (42) term -> . term MULT factor
-    (43) term -> . appel_fonction_expr_without_parm
-    (44) term -> . appel_fonction_expr
-    (45) factor -> . LIRE ( )
-    (46) factor -> . MINUS factor
-    (47) factor -> . NON expr
-    (48) factor -> . factor OU expr
-    (49) factor -> . IDENTIFIANT
-    (50) factor -> . ( expr )
-    (51) factor -> . BOOLEEN_LITERAL
-    (52) factor -> . ENTIER
+    (49) term -> . term MINUS factor
+    (50) term -> . term PLUS factor
+    (51) term -> . factor
+    (52) term -> . term MULT factor
+    (39) factor -> . LIRE ( )
+    (40) factor -> . MINUS factor
+    (41) factor -> . NON expr
+    (42) factor -> . factor OU expr
+    (43) factor -> . IDENTIFIANT
+    (44) factor -> . ( expr )
+    (45) factor -> . BOOLEEN_LITERAL
+    (46) factor -> . ENTIER
+    (47) factor -> . appel_fonction_expr_without_parm
+    (48) factor -> . appel_fonction_expr
     (28) appel_fonction_expr_without_parm -> . IDENTIFIANT ( )
     (26) appel_fonction_expr -> . IDENTIFIANT ( arg_list )
-    LIRE            shift and go to state 33
+    LIRE            shift and go to state 31
     MINUS           shift and go to state 29
-    NON             shift and go to state 35
-    IDENTIFIANT     shift and go to state 36
-    (               shift and go to state 34
-    BOOLEEN_LITERAL shift and go to state 37
-    ENTIER          shift and go to state 38
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
+
+    expr                           shift and go to state 59
+    term                           shift and go to state 28
+    factor                         shift and go to state 30
+    appel_fonction_expr_without_parm shift and go to state 37
+    appel_fonction_expr            shift and go to state 38
+
+state 33
+
+    (41) factor -> NON . expr
+    (34) expr -> . expr ET expr
+    (35) expr -> . expr DIV term
+    (36) expr -> . expr COMPARATEUR expr
+    (37) expr -> . expr MODULO term
+    (38) expr -> . term
+    (49) term -> . term MINUS factor
+    (50) term -> . term PLUS factor
+    (51) term -> . factor
+    (52) term -> . term MULT factor
+    (39) factor -> . LIRE ( )
+    (40) factor -> . MINUS factor
+    (41) factor -> . NON expr
+    (42) factor -> . factor OU expr
+    (43) factor -> . IDENTIFIANT
+    (44) factor -> . ( expr )
+    (45) factor -> . BOOLEEN_LITERAL
+    (46) factor -> . ENTIER
+    (47) factor -> . appel_fonction_expr_without_parm
+    (48) factor -> . appel_fonction_expr
+    (28) appel_fonction_expr_without_parm -> . IDENTIFIANT ( )
+    (26) appel_fonction_expr -> . IDENTIFIANT ( arg_list )
+    LIRE            shift and go to state 31
+    MINUS           shift and go to state 29
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
     expr                           shift and go to state 60
     term                           shift and go to state 28
     factor                         shift and go to state 30
-    appel_fonction_expr_without_parm shift and go to state 31
-    appel_fonction_expr            shift and go to state 32
+    appel_fonction_expr_without_parm shift and go to state 37
+    appel_fonction_expr            shift and go to state 38
+
+state 34
+
+    (43) factor -> IDENTIFIANT .
+    (28) appel_fonction_expr_without_parm -> IDENTIFIANT . ( )
+    (26) appel_fonction_expr -> IDENTIFIANT . ( arg_list )
+    OU              reduce using rule 43 (factor -> IDENTIFIANT .)
+    MINUS           reduce using rule 43 (factor -> IDENTIFIANT .)
+    PLUS            reduce using rule 43 (factor -> IDENTIFIANT .)
+    MULT            reduce using rule 43 (factor -> IDENTIFIANT .)
+    ;               reduce using rule 43 (factor -> IDENTIFIANT .)
+    ET              reduce using rule 43 (factor -> IDENTIFIANT .)
+    DIV             reduce using rule 43 (factor -> IDENTIFIANT .)
+    COMPARATEUR     reduce using rule 43 (factor -> IDENTIFIANT .)
+    MODULO          reduce using rule 43 (factor -> IDENTIFIANT .)
+    )               reduce using rule 43 (factor -> IDENTIFIANT .)
+    ,               reduce using rule 43 (factor -> IDENTIFIANT .)
+    (               shift and go to state 61
+
 
 state 35
 
-    (47) factor -> NON . expr
-    (34) expr -> . expr ET expr
-    (35) expr -> . expr DIV term
-    (36) expr -> . expr COMPARATEUR expr
-    (37) expr -> . expr MODULO term
-    (38) expr -> . term
-    (39) term -> . term MINUS factor
-    (40) term -> . term PLUS factor
-    (41) term -> . factor
-    (42) term -> . term MULT factor
-    (43) term -> . appel_fonction_expr_without_parm
-    (44) term -> . appel_fonction_expr
-    (45) factor -> . LIRE ( )
-    (46) factor -> . MINUS factor
-    (47) factor -> . NON expr
-    (48) factor -> . factor OU expr
-    (49) factor -> . IDENTIFIANT
-    (50) factor -> . ( expr )
-    (51) factor -> . BOOLEEN_LITERAL
-    (52) factor -> . ENTIER
-    (28) appel_fonction_expr_without_parm -> . IDENTIFIANT ( )
-    (26) appel_fonction_expr -> . IDENTIFIANT ( arg_list )
-    LIRE            shift and go to state 33
-    MINUS           shift and go to state 29
-    NON             shift and go to state 35
-    IDENTIFIANT     shift and go to state 36
-    (               shift and go to state 34
-    BOOLEEN_LITERAL shift and go to state 37
-    ENTIER          shift and go to state 38
+    (45) factor -> BOOLEEN_LITERAL .
+    OU              reduce using rule 45 (factor -> BOOLEEN_LITERAL .)
+    MINUS           reduce using rule 45 (factor -> BOOLEEN_LITERAL .)
+    PLUS            reduce using rule 45 (factor -> BOOLEEN_LITERAL .)
+    MULT            reduce using rule 45 (factor -> BOOLEEN_LITERAL .)
+    ;               reduce using rule 45 (factor -> BOOLEEN_LITERAL .)
+    ET              reduce using rule 45 (factor -> BOOLEEN_LITERAL .)
+    DIV             reduce using rule 45 (factor -> BOOLEEN_LITERAL .)
+    COMPARATEUR     reduce using rule 45 (factor -> BOOLEEN_LITERAL .)
+    MODULO          reduce using rule 45 (factor -> BOOLEEN_LITERAL .)
+    )               reduce using rule 45 (factor -> BOOLEEN_LITERAL .)
+    ,               reduce using rule 45 (factor -> BOOLEEN_LITERAL .)
 
-    expr                           shift and go to state 61
-    term                           shift and go to state 28
-    factor                         shift and go to state 30
-    appel_fonction_expr_without_parm shift and go to state 31
-    appel_fonction_expr            shift and go to state 32
 
 state 36
 
-    (49) factor -> IDENTIFIANT .
-    (28) appel_fonction_expr_without_parm -> IDENTIFIANT . ( )
-    (26) appel_fonction_expr -> IDENTIFIANT . ( arg_list )
-    OU              reduce using rule 49 (factor -> IDENTIFIANT .)
-    MINUS           reduce using rule 49 (factor -> IDENTIFIANT .)
-    PLUS            reduce using rule 49 (factor -> IDENTIFIANT .)
-    MULT            reduce using rule 49 (factor -> IDENTIFIANT .)
-    ;               reduce using rule 49 (factor -> IDENTIFIANT .)
-    ET              reduce using rule 49 (factor -> IDENTIFIANT .)
-    DIV             reduce using rule 49 (factor -> IDENTIFIANT .)
-    COMPARATEUR     reduce using rule 49 (factor -> IDENTIFIANT .)
-    MODULO          reduce using rule 49 (factor -> IDENTIFIANT .)
-    )               reduce using rule 49 (factor -> IDENTIFIANT .)
-    ,               reduce using rule 49 (factor -> IDENTIFIANT .)
-    (               shift and go to state 62
+    (46) factor -> ENTIER .
+    OU              reduce using rule 46 (factor -> ENTIER .)
+    MINUS           reduce using rule 46 (factor -> ENTIER .)
+    PLUS            reduce using rule 46 (factor -> ENTIER .)
+    MULT            reduce using rule 46 (factor -> ENTIER .)
+    ;               reduce using rule 46 (factor -> ENTIER .)
+    ET              reduce using rule 46 (factor -> ENTIER .)
+    DIV             reduce using rule 46 (factor -> ENTIER .)
+    COMPARATEUR     reduce using rule 46 (factor -> ENTIER .)
+    MODULO          reduce using rule 46 (factor -> ENTIER .)
+    )               reduce using rule 46 (factor -> ENTIER .)
+    ,               reduce using rule 46 (factor -> ENTIER .)
 
 
 state 37
 
-    (51) factor -> BOOLEEN_LITERAL .
-    OU              reduce using rule 51 (factor -> BOOLEEN_LITERAL .)
-    MINUS           reduce using rule 51 (factor -> BOOLEEN_LITERAL .)
-    PLUS            reduce using rule 51 (factor -> BOOLEEN_LITERAL .)
-    MULT            reduce using rule 51 (factor -> BOOLEEN_LITERAL .)
-    ;               reduce using rule 51 (factor -> BOOLEEN_LITERAL .)
-    ET              reduce using rule 51 (factor -> BOOLEEN_LITERAL .)
-    DIV             reduce using rule 51 (factor -> BOOLEEN_LITERAL .)
-    COMPARATEUR     reduce using rule 51 (factor -> BOOLEEN_LITERAL .)
-    MODULO          reduce using rule 51 (factor -> BOOLEEN_LITERAL .)
-    )               reduce using rule 51 (factor -> BOOLEEN_LITERAL .)
-    ,               reduce using rule 51 (factor -> BOOLEEN_LITERAL .)
+    (47) factor -> appel_fonction_expr_without_parm .
+    OU              reduce using rule 47 (factor -> appel_fonction_expr_without_parm .)
+    MINUS           reduce using rule 47 (factor -> appel_fonction_expr_without_parm .)
+    PLUS            reduce using rule 47 (factor -> appel_fonction_expr_without_parm .)
+    MULT            reduce using rule 47 (factor -> appel_fonction_expr_without_parm .)
+    ;               reduce using rule 47 (factor -> appel_fonction_expr_without_parm .)
+    ET              reduce using rule 47 (factor -> appel_fonction_expr_without_parm .)
+    DIV             reduce using rule 47 (factor -> appel_fonction_expr_without_parm .)
+    COMPARATEUR     reduce using rule 47 (factor -> appel_fonction_expr_without_parm .)
+    MODULO          reduce using rule 47 (factor -> appel_fonction_expr_without_parm .)
+    )               reduce using rule 47 (factor -> appel_fonction_expr_without_parm .)
+    ,               reduce using rule 47 (factor -> appel_fonction_expr_without_parm .)
 
 
 state 38
 
-    (52) factor -> ENTIER .
-    OU              reduce using rule 52 (factor -> ENTIER .)
-    MINUS           reduce using rule 52 (factor -> ENTIER .)
-    PLUS            reduce using rule 52 (factor -> ENTIER .)
-    MULT            reduce using rule 52 (factor -> ENTIER .)
-    ;               reduce using rule 52 (factor -> ENTIER .)
-    ET              reduce using rule 52 (factor -> ENTIER .)
-    DIV             reduce using rule 52 (factor -> ENTIER .)
-    COMPARATEUR     reduce using rule 52 (factor -> ENTIER .)
-    MODULO          reduce using rule 52 (factor -> ENTIER .)
-    )               reduce using rule 52 (factor -> ENTIER .)
-    ,               reduce using rule 52 (factor -> ENTIER .)
+    (48) factor -> appel_fonction_expr .
+    OU              reduce using rule 48 (factor -> appel_fonction_expr .)
+    MINUS           reduce using rule 48 (factor -> appel_fonction_expr .)
+    PLUS            reduce using rule 48 (factor -> appel_fonction_expr .)
+    MULT            reduce using rule 48 (factor -> appel_fonction_expr .)
+    ;               reduce using rule 48 (factor -> appel_fonction_expr .)
+    ET              reduce using rule 48 (factor -> appel_fonction_expr .)
+    DIV             reduce using rule 48 (factor -> appel_fonction_expr .)
+    COMPARATEUR     reduce using rule 48 (factor -> appel_fonction_expr .)
+    MODULO          reduce using rule 48 (factor -> appel_fonction_expr .)
+    )               reduce using rule 48 (factor -> appel_fonction_expr .)
+    ,               reduce using rule 48 (factor -> appel_fonction_expr .)
 
 
 state 39
@@ -839,35 +845,35 @@ state 39
     (36) expr -> . expr COMPARATEUR expr
     (37) expr -> . expr MODULO term
     (38) expr -> . term
-    (39) term -> . term MINUS factor
-    (40) term -> . term PLUS factor
-    (41) term -> . factor
-    (42) term -> . term MULT factor
-    (43) term -> . appel_fonction_expr_without_parm
-    (44) term -> . appel_fonction_expr
-    (45) factor -> . LIRE ( )
-    (46) factor -> . MINUS factor
-    (47) factor -> . NON expr
-    (48) factor -> . factor OU expr
-    (49) factor -> . IDENTIFIANT
-    (50) factor -> . ( expr )
-    (51) factor -> . BOOLEEN_LITERAL
-    (52) factor -> . ENTIER
+    (49) term -> . term MINUS factor
+    (50) term -> . term PLUS factor
+    (51) term -> . factor
+    (52) term -> . term MULT factor
+    (39) factor -> . LIRE ( )
+    (40) factor -> . MINUS factor
+    (41) factor -> . NON expr
+    (42) factor -> . factor OU expr
+    (43) factor -> . IDENTIFIANT
+    (44) factor -> . ( expr )
+    (45) factor -> . BOOLEEN_LITERAL
+    (46) factor -> . ENTIER
+    (47) factor -> . appel_fonction_expr_without_parm
+    (48) factor -> . appel_fonction_expr
     (28) appel_fonction_expr_without_parm -> . IDENTIFIANT ( )
     (26) appel_fonction_expr -> . IDENTIFIANT ( arg_list )
-    LIRE            shift and go to state 33
+    LIRE            shift and go to state 31
     MINUS           shift and go to state 29
-    NON             shift and go to state 35
-    IDENTIFIANT     shift and go to state 36
-    (               shift and go to state 34
-    BOOLEEN_LITERAL shift and go to state 37
-    ENTIER          shift and go to state 38
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
-    expr                           shift and go to state 63
+    expr                           shift and go to state 62
     term                           shift and go to state 28
     factor                         shift and go to state 30
-    appel_fonction_expr_without_parm shift and go to state 31
-    appel_fonction_expr            shift and go to state 32
+    appel_fonction_expr_without_parm shift and go to state 37
+    appel_fonction_expr            shift and go to state 38
 
 state 40
 
@@ -877,35 +883,35 @@ state 40
     (36) expr -> . expr COMPARATEUR expr
     (37) expr -> . expr MODULO term
     (38) expr -> . term
-    (39) term -> . term MINUS factor
-    (40) term -> . term PLUS factor
-    (41) term -> . factor
-    (42) term -> . term MULT factor
-    (43) term -> . appel_fonction_expr_without_parm
-    (44) term -> . appel_fonction_expr
-    (45) factor -> . LIRE ( )
-    (46) factor -> . MINUS factor
-    (47) factor -> . NON expr
-    (48) factor -> . factor OU expr
-    (49) factor -> . IDENTIFIANT
-    (50) factor -> . ( expr )
-    (51) factor -> . BOOLEEN_LITERAL
-    (52) factor -> . ENTIER
+    (49) term -> . term MINUS factor
+    (50) term -> . term PLUS factor
+    (51) term -> . factor
+    (52) term -> . term MULT factor
+    (39) factor -> . LIRE ( )
+    (40) factor -> . MINUS factor
+    (41) factor -> . NON expr
+    (42) factor -> . factor OU expr
+    (43) factor -> . IDENTIFIANT
+    (44) factor -> . ( expr )
+    (45) factor -> . BOOLEEN_LITERAL
+    (46) factor -> . ENTIER
+    (47) factor -> . appel_fonction_expr_without_parm
+    (48) factor -> . appel_fonction_expr
     (28) appel_fonction_expr_without_parm -> . IDENTIFIANT ( )
     (26) appel_fonction_expr -> . IDENTIFIANT ( arg_list )
-    LIRE            shift and go to state 33
+    LIRE            shift and go to state 31
     MINUS           shift and go to state 29
-    NON             shift and go to state 35
-    IDENTIFIANT     shift and go to state 36
-    (               shift and go to state 34
-    BOOLEEN_LITERAL shift and go to state 37
-    ENTIER          shift and go to state 38
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
-    expr                           shift and go to state 64
+    expr                           shift and go to state 63
     term                           shift and go to state 28
     factor                         shift and go to state 30
-    appel_fonction_expr_without_parm shift and go to state 31
-    appel_fonction_expr            shift and go to state 32
+    appel_fonction_expr_without_parm shift and go to state 37
+    appel_fonction_expr            shift and go to state 38
 
 state 41
 
@@ -915,35 +921,35 @@ state 41
     (36) expr -> . expr COMPARATEUR expr
     (37) expr -> . expr MODULO term
     (38) expr -> . term
-    (39) term -> . term MINUS factor
-    (40) term -> . term PLUS factor
-    (41) term -> . factor
-    (42) term -> . term MULT factor
-    (43) term -> . appel_fonction_expr_without_parm
-    (44) term -> . appel_fonction_expr
-    (45) factor -> . LIRE ( )
-    (46) factor -> . MINUS factor
-    (47) factor -> . NON expr
-    (48) factor -> . factor OU expr
-    (49) factor -> . IDENTIFIANT
-    (50) factor -> . ( expr )
-    (51) factor -> . BOOLEEN_LITERAL
-    (52) factor -> . ENTIER
+    (49) term -> . term MINUS factor
+    (50) term -> . term PLUS factor
+    (51) term -> . factor
+    (52) term -> . term MULT factor
+    (39) factor -> . LIRE ( )
+    (40) factor -> . MINUS factor
+    (41) factor -> . NON expr
+    (42) factor -> . factor OU expr
+    (43) factor -> . IDENTIFIANT
+    (44) factor -> . ( expr )
+    (45) factor -> . BOOLEEN_LITERAL
+    (46) factor -> . ENTIER
+    (47) factor -> . appel_fonction_expr_without_parm
+    (48) factor -> . appel_fonction_expr
     (28) appel_fonction_expr_without_parm -> . IDENTIFIANT ( )
     (26) appel_fonction_expr -> . IDENTIFIANT ( arg_list )
-    LIRE            shift and go to state 33
+    LIRE            shift and go to state 31
     MINUS           shift and go to state 29
-    NON             shift and go to state 35
-    IDENTIFIANT     shift and go to state 36
-    (               shift and go to state 34
-    BOOLEEN_LITERAL shift and go to state 37
-    ENTIER          shift and go to state 38
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
-    expr                           shift and go to state 65
+    expr                           shift and go to state 64
     term                           shift and go to state 28
     factor                         shift and go to state 30
-    appel_fonction_expr_without_parm shift and go to state 31
-    appel_fonction_expr            shift and go to state 32
+    appel_fonction_expr_without_parm shift and go to state 37
+    appel_fonction_expr            shift and go to state 38
 
 state 42
 
@@ -954,13 +960,13 @@ state 42
     (33) param -> . type IDENTIFIANT
     (53) type -> . ENT
     (54) type -> . BOOLEEN
-    )               shift and go to state 68
+    )               shift and go to state 67
     ENT             shift and go to state 21
     BOOLEEN         shift and go to state 22
 
-    type                           shift and go to state 66
-    param_list                     shift and go to state 67
-    param                          shift and go to state 69
+    type                           shift and go to state 65
+    param_list                     shift and go to state 66
+    param                          shift and go to state 68
 
 state 43
 
@@ -970,48 +976,48 @@ state 43
     (36) expr -> . expr COMPARATEUR expr
     (37) expr -> . expr MODULO term
     (38) expr -> . term
-    (39) term -> . term MINUS factor
-    (40) term -> . term PLUS factor
-    (41) term -> . factor
-    (42) term -> . term MULT factor
-    (43) term -> . appel_fonction_expr_without_parm
-    (44) term -> . appel_fonction_expr
-    (45) factor -> . LIRE ( )
-    (46) factor -> . MINUS factor
-    (47) factor -> . NON expr
-    (48) factor -> . factor OU expr
-    (49) factor -> . IDENTIFIANT
-    (50) factor -> . ( expr )
-    (51) factor -> . BOOLEEN_LITERAL
-    (52) factor -> . ENTIER
+    (49) term -> . term MINUS factor
+    (50) term -> . term PLUS factor
+    (51) term -> . factor
+    (52) term -> . term MULT factor
+    (39) factor -> . LIRE ( )
+    (40) factor -> . MINUS factor
+    (41) factor -> . NON expr
+    (42) factor -> . factor OU expr
+    (43) factor -> . IDENTIFIANT
+    (44) factor -> . ( expr )
+    (45) factor -> . BOOLEEN_LITERAL
+    (46) factor -> . ENTIER
+    (47) factor -> . appel_fonction_expr_without_parm
+    (48) factor -> . appel_fonction_expr
     (28) appel_fonction_expr_without_parm -> . IDENTIFIANT ( )
     (26) appel_fonction_expr -> . IDENTIFIANT ( arg_list )
-    LIRE            shift and go to state 33
+    LIRE            shift and go to state 31
     MINUS           shift and go to state 29
-    NON             shift and go to state 35
-    IDENTIFIANT     shift and go to state 36
-    (               shift and go to state 34
-    BOOLEEN_LITERAL shift and go to state 37
-    ENTIER          shift and go to state 38
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
-    expr                           shift and go to state 70
+    expr                           shift and go to state 69
     term                           shift and go to state 28
     factor                         shift and go to state 30
-    appel_fonction_expr_without_parm shift and go to state 31
-    appel_fonction_expr            shift and go to state 32
+    appel_fonction_expr_without_parm shift and go to state 37
+    appel_fonction_expr            shift and go to state 38
 
 state 44
 
     (27) appel_fonction_instr_without_parm -> IDENTIFIANT ( ) . ;
-    ;               shift and go to state 71
+    ;               shift and go to state 70
 
 
 state 45
 
     (25) appel_fonction_instr -> IDENTIFIANT ( arg_list . ) ;
     (55) arg_list -> arg_list . , expr
-    )               shift and go to state 72
-    ,               shift and go to state 73
+    )               shift and go to state 71
+    ,               shift and go to state 72
 
 
 state 46
@@ -1036,7 +1042,7 @@ state 47
     (35) expr -> expr . DIV term
     (36) expr -> expr . COMPARATEUR expr
     (37) expr -> expr . MODULO term
-    ;               shift and go to state 74
+    ;               shift and go to state 73
     ET              shift and go to state 49
     DIV             shift and go to state 50
     COMPARATEUR     shift and go to state 51
@@ -1065,67 +1071,67 @@ state 49
     (36) expr -> . expr COMPARATEUR expr
     (37) expr -> . expr MODULO term
     (38) expr -> . term
-    (39) term -> . term MINUS factor
-    (40) term -> . term PLUS factor
-    (41) term -> . factor
-    (42) term -> . term MULT factor
-    (43) term -> . appel_fonction_expr_without_parm
-    (44) term -> . appel_fonction_expr
-    (45) factor -> . LIRE ( )
-    (46) factor -> . MINUS factor
-    (47) factor -> . NON expr
-    (48) factor -> . factor OU expr
-    (49) factor -> . IDENTIFIANT
-    (50) factor -> . ( expr )
-    (51) factor -> . BOOLEEN_LITERAL
-    (52) factor -> . ENTIER
+    (49) term -> . term MINUS factor
+    (50) term -> . term PLUS factor
+    (51) term -> . factor
+    (52) term -> . term MULT factor
+    (39) factor -> . LIRE ( )
+    (40) factor -> . MINUS factor
+    (41) factor -> . NON expr
+    (42) factor -> . factor OU expr
+    (43) factor -> . IDENTIFIANT
+    (44) factor -> . ( expr )
+    (45) factor -> . BOOLEEN_LITERAL
+    (46) factor -> . ENTIER
+    (47) factor -> . appel_fonction_expr_without_parm
+    (48) factor -> . appel_fonction_expr
     (28) appel_fonction_expr_without_parm -> . IDENTIFIANT ( )
     (26) appel_fonction_expr -> . IDENTIFIANT ( arg_list )
-    LIRE            shift and go to state 33
+    LIRE            shift and go to state 31
     MINUS           shift and go to state 29
-    NON             shift and go to state 35
-    IDENTIFIANT     shift and go to state 36
-    (               shift and go to state 34
-    BOOLEEN_LITERAL shift and go to state 37
-    ENTIER          shift and go to state 38
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
-    expr                           shift and go to state 75
+    expr                           shift and go to state 74
     term                           shift and go to state 28
     factor                         shift and go to state 30
-    appel_fonction_expr_without_parm shift and go to state 31
-    appel_fonction_expr            shift and go to state 32
+    appel_fonction_expr_without_parm shift and go to state 37
+    appel_fonction_expr            shift and go to state 38
 
 state 50
 
     (35) expr -> expr DIV . term
-    (39) term -> . term MINUS factor
-    (40) term -> . term PLUS factor
-    (41) term -> . factor
-    (42) term -> . term MULT factor
-    (43) term -> . appel_fonction_expr_without_parm
-    (44) term -> . appel_fonction_expr
-    (45) factor -> . LIRE ( )
-    (46) factor -> . MINUS factor
-    (47) factor -> . NON expr
-    (48) factor -> . factor OU expr
-    (49) factor -> . IDENTIFIANT
-    (50) factor -> . ( expr )
-    (51) factor -> . BOOLEEN_LITERAL
-    (52) factor -> . ENTIER
+    (49) term -> . term MINUS factor
+    (50) term -> . term PLUS factor
+    (51) term -> . factor
+    (52) term -> . term MULT factor
+    (39) factor -> . LIRE ( )
+    (40) factor -> . MINUS factor
+    (41) factor -> . NON expr
+    (42) factor -> . factor OU expr
+    (43) factor -> . IDENTIFIANT
+    (44) factor -> . ( expr )
+    (45) factor -> . BOOLEEN_LITERAL
+    (46) factor -> . ENTIER
+    (47) factor -> . appel_fonction_expr_without_parm
+    (48) factor -> . appel_fonction_expr
     (28) appel_fonction_expr_without_parm -> . IDENTIFIANT ( )
     (26) appel_fonction_expr -> . IDENTIFIANT ( arg_list )
-    LIRE            shift and go to state 33
+    LIRE            shift and go to state 31
     MINUS           shift and go to state 29
-    NON             shift and go to state 35
-    IDENTIFIANT     shift and go to state 36
-    (               shift and go to state 34
-    BOOLEEN_LITERAL shift and go to state 37
-    ENTIER          shift and go to state 38
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
-    term                           shift and go to state 76
+    term                           shift and go to state 75
     factor                         shift and go to state 30
-    appel_fonction_expr_without_parm shift and go to state 31
-    appel_fonction_expr            shift and go to state 32
+    appel_fonction_expr_without_parm shift and go to state 37
+    appel_fonction_expr            shift and go to state 38
 
 state 51
 
@@ -1135,216 +1141,238 @@ state 51
     (36) expr -> . expr COMPARATEUR expr
     (37) expr -> . expr MODULO term
     (38) expr -> . term
-    (39) term -> . term MINUS factor
-    (40) term -> . term PLUS factor
-    (41) term -> . factor
-    (42) term -> . term MULT factor
-    (43) term -> . appel_fonction_expr_without_parm
-    (44) term -> . appel_fonction_expr
-    (45) factor -> . LIRE ( )
-    (46) factor -> . MINUS factor
-    (47) factor -> . NON expr
-    (48) factor -> . factor OU expr
-    (49) factor -> . IDENTIFIANT
-    (50) factor -> . ( expr )
-    (51) factor -> . BOOLEEN_LITERAL
-    (52) factor -> . ENTIER
+    (49) term -> . term MINUS factor
+    (50) term -> . term PLUS factor
+    (51) term -> . factor
+    (52) term -> . term MULT factor
+    (39) factor -> . LIRE ( )
+    (40) factor -> . MINUS factor
+    (41) factor -> . NON expr
+    (42) factor -> . factor OU expr
+    (43) factor -> . IDENTIFIANT
+    (44) factor -> . ( expr )
+    (45) factor -> . BOOLEEN_LITERAL
+    (46) factor -> . ENTIER
+    (47) factor -> . appel_fonction_expr_without_parm
+    (48) factor -> . appel_fonction_expr
     (28) appel_fonction_expr_without_parm -> . IDENTIFIANT ( )
     (26) appel_fonction_expr -> . IDENTIFIANT ( arg_list )
-    LIRE            shift and go to state 33
+    LIRE            shift and go to state 31
     MINUS           shift and go to state 29
-    NON             shift and go to state 35
-    IDENTIFIANT     shift and go to state 36
-    (               shift and go to state 34
-    BOOLEEN_LITERAL shift and go to state 37
-    ENTIER          shift and go to state 38
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
-    expr                           shift and go to state 77
+    expr                           shift and go to state 76
     term                           shift and go to state 28
     factor                         shift and go to state 30
-    appel_fonction_expr_without_parm shift and go to state 31
-    appel_fonction_expr            shift and go to state 32
+    appel_fonction_expr_without_parm shift and go to state 37
+    appel_fonction_expr            shift and go to state 38
 
 state 52
 
     (37) expr -> expr MODULO . term
-    (39) term -> . term MINUS factor
-    (40) term -> . term PLUS factor
-    (41) term -> . factor
-    (42) term -> . term MULT factor
-    (43) term -> . appel_fonction_expr_without_parm
-    (44) term -> . appel_fonction_expr
-    (45) factor -> . LIRE ( )
-    (46) factor -> . MINUS factor
-    (47) factor -> . NON expr
-    (48) factor -> . factor OU expr
-    (49) factor -> . IDENTIFIANT
-    (50) factor -> . ( expr )
-    (51) factor -> . BOOLEEN_LITERAL
-    (52) factor -> . ENTIER
+    (49) term -> . term MINUS factor
+    (50) term -> . term PLUS factor
+    (51) term -> . factor
+    (52) term -> . term MULT factor
+    (39) factor -> . LIRE ( )
+    (40) factor -> . MINUS factor
+    (41) factor -> . NON expr
+    (42) factor -> . factor OU expr
+    (43) factor -> . IDENTIFIANT
+    (44) factor -> . ( expr )
+    (45) factor -> . BOOLEEN_LITERAL
+    (46) factor -> . ENTIER
+    (47) factor -> . appel_fonction_expr_without_parm
+    (48) factor -> . appel_fonction_expr
     (28) appel_fonction_expr_without_parm -> . IDENTIFIANT ( )
     (26) appel_fonction_expr -> . IDENTIFIANT ( arg_list )
-    LIRE            shift and go to state 33
+    LIRE            shift and go to state 31
     MINUS           shift and go to state 29
-    NON             shift and go to state 35
-    IDENTIFIANT     shift and go to state 36
-    (               shift and go to state 34
-    BOOLEEN_LITERAL shift and go to state 37
-    ENTIER          shift and go to state 38
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
-    term                           shift and go to state 78
+    term                           shift and go to state 77
     factor                         shift and go to state 30
-    appel_fonction_expr_without_parm shift and go to state 31
-    appel_fonction_expr            shift and go to state 32
+    appel_fonction_expr_without_parm shift and go to state 37
+    appel_fonction_expr            shift and go to state 38
 
 state 53
 
-    (39) term -> term MINUS . factor
-    (45) factor -> . LIRE ( )
-    (46) factor -> . MINUS factor
-    (47) factor -> . NON expr
-    (48) factor -> . factor OU expr
-    (49) factor -> . IDENTIFIANT
-    (50) factor -> . ( expr )
-    (51) factor -> . BOOLEEN_LITERAL
-    (52) factor -> . ENTIER
-    LIRE            shift and go to state 33
+    (49) term -> term MINUS . factor
+    (39) factor -> . LIRE ( )
+    (40) factor -> . MINUS factor
+    (41) factor -> . NON expr
+    (42) factor -> . factor OU expr
+    (43) factor -> . IDENTIFIANT
+    (44) factor -> . ( expr )
+    (45) factor -> . BOOLEEN_LITERAL
+    (46) factor -> . ENTIER
+    (47) factor -> . appel_fonction_expr_without_parm
+    (48) factor -> . appel_fonction_expr
+    (28) appel_fonction_expr_without_parm -> . IDENTIFIANT ( )
+    (26) appel_fonction_expr -> . IDENTIFIANT ( arg_list )
+    LIRE            shift and go to state 31
     MINUS           shift and go to state 29
-    NON             shift and go to state 35
-    IDENTIFIANT     shift and go to state 57
-    (               shift and go to state 34
-    BOOLEEN_LITERAL shift and go to state 37
-    ENTIER          shift and go to state 38
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
-    factor                         shift and go to state 79
+    factor                         shift and go to state 78
+    appel_fonction_expr_without_parm shift and go to state 37
+    appel_fonction_expr            shift and go to state 38
 
 state 54
 
-    (40) term -> term PLUS . factor
-    (45) factor -> . LIRE ( )
-    (46) factor -> . MINUS factor
-    (47) factor -> . NON expr
-    (48) factor -> . factor OU expr
-    (49) factor -> . IDENTIFIANT
-    (50) factor -> . ( expr )
-    (51) factor -> . BOOLEEN_LITERAL
-    (52) factor -> . ENTIER
-    LIRE            shift and go to state 33
+    (50) term -> term PLUS . factor
+    (39) factor -> . LIRE ( )
+    (40) factor -> . MINUS factor
+    (41) factor -> . NON expr
+    (42) factor -> . factor OU expr
+    (43) factor -> . IDENTIFIANT
+    (44) factor -> . ( expr )
+    (45) factor -> . BOOLEEN_LITERAL
+    (46) factor -> . ENTIER
+    (47) factor -> . appel_fonction_expr_without_parm
+    (48) factor -> . appel_fonction_expr
+    (28) appel_fonction_expr_without_parm -> . IDENTIFIANT ( )
+    (26) appel_fonction_expr -> . IDENTIFIANT ( arg_list )
+    LIRE            shift and go to state 31
     MINUS           shift and go to state 29
-    NON             shift and go to state 35
-    IDENTIFIANT     shift and go to state 57
-    (               shift and go to state 34
-    BOOLEEN_LITERAL shift and go to state 37
-    ENTIER          shift and go to state 38
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
-    factor                         shift and go to state 80
+    factor                         shift and go to state 79
+    appel_fonction_expr_without_parm shift and go to state 37
+    appel_fonction_expr            shift and go to state 38
 
 state 55
 
-    (42) term -> term MULT . factor
-    (45) factor -> . LIRE ( )
-    (46) factor -> . MINUS factor
-    (47) factor -> . NON expr
-    (48) factor -> . factor OU expr
-    (49) factor -> . IDENTIFIANT
-    (50) factor -> . ( expr )
-    (51) factor -> . BOOLEEN_LITERAL
-    (52) factor -> . ENTIER
-    LIRE            shift and go to state 33
+    (52) term -> term MULT . factor
+    (39) factor -> . LIRE ( )
+    (40) factor -> . MINUS factor
+    (41) factor -> . NON expr
+    (42) factor -> . factor OU expr
+    (43) factor -> . IDENTIFIANT
+    (44) factor -> . ( expr )
+    (45) factor -> . BOOLEEN_LITERAL
+    (46) factor -> . ENTIER
+    (47) factor -> . appel_fonction_expr_without_parm
+    (48) factor -> . appel_fonction_expr
+    (28) appel_fonction_expr_without_parm -> . IDENTIFIANT ( )
+    (26) appel_fonction_expr -> . IDENTIFIANT ( arg_list )
+    LIRE            shift and go to state 31
     MINUS           shift and go to state 29
-    NON             shift and go to state 35
-    IDENTIFIANT     shift and go to state 57
-    (               shift and go to state 34
-    BOOLEEN_LITERAL shift and go to state 37
-    ENTIER          shift and go to state 38
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
-    factor                         shift and go to state 81
+    factor                         shift and go to state 80
+    appel_fonction_expr_without_parm shift and go to state 37
+    appel_fonction_expr            shift and go to state 38
 
 state 56
 
-    (46) factor -> MINUS factor .
-    (48) factor -> factor . OU expr
-    MINUS           reduce using rule 46 (factor -> MINUS factor .)
-    PLUS            reduce using rule 46 (factor -> MINUS factor .)
-    MULT            reduce using rule 46 (factor -> MINUS factor .)
-    ;               reduce using rule 46 (factor -> MINUS factor .)
-    ET              reduce using rule 46 (factor -> MINUS factor .)
-    DIV             reduce using rule 46 (factor -> MINUS factor .)
-    COMPARATEUR     reduce using rule 46 (factor -> MINUS factor .)
-    MODULO          reduce using rule 46 (factor -> MINUS factor .)
-    )               reduce using rule 46 (factor -> MINUS factor .)
-    ,               reduce using rule 46 (factor -> MINUS factor .)
-    OU              shift and go to state 58
+    (40) factor -> MINUS factor .
+    (42) factor -> factor . OU expr
+    MINUS           reduce using rule 40 (factor -> MINUS factor .)
+    PLUS            reduce using rule 40 (factor -> MINUS factor .)
+    MULT            reduce using rule 40 (factor -> MINUS factor .)
+    ;               reduce using rule 40 (factor -> MINUS factor .)
+    ET              reduce using rule 40 (factor -> MINUS factor .)
+    DIV             reduce using rule 40 (factor -> MINUS factor .)
+    COMPARATEUR     reduce using rule 40 (factor -> MINUS factor .)
+    MODULO          reduce using rule 40 (factor -> MINUS factor .)
+    )               reduce using rule 40 (factor -> MINUS factor .)
+    ,               reduce using rule 40 (factor -> MINUS factor .)
+    OU              shift and go to state 57
 
 
 state 57
 
-    (49) factor -> IDENTIFIANT .
-    OU              reduce using rule 49 (factor -> IDENTIFIANT .)
-    MINUS           reduce using rule 49 (factor -> IDENTIFIANT .)
-    PLUS            reduce using rule 49 (factor -> IDENTIFIANT .)
-    MULT            reduce using rule 49 (factor -> IDENTIFIANT .)
-    ;               reduce using rule 49 (factor -> IDENTIFIANT .)
-    ET              reduce using rule 49 (factor -> IDENTIFIANT .)
-    DIV             reduce using rule 49 (factor -> IDENTIFIANT .)
-    COMPARATEUR     reduce using rule 49 (factor -> IDENTIFIANT .)
-    MODULO          reduce using rule 49 (factor -> IDENTIFIANT .)
-    )               reduce using rule 49 (factor -> IDENTIFIANT .)
-    ,               reduce using rule 49 (factor -> IDENTIFIANT .)
-
-
-state 58
-
-    (48) factor -> factor OU . expr
+    (42) factor -> factor OU . expr
     (34) expr -> . expr ET expr
     (35) expr -> . expr DIV term
     (36) expr -> . expr COMPARATEUR expr
     (37) expr -> . expr MODULO term
     (38) expr -> . term
-    (39) term -> . term MINUS factor
-    (40) term -> . term PLUS factor
-    (41) term -> . factor
-    (42) term -> . term MULT factor
-    (43) term -> . appel_fonction_expr_without_parm
-    (44) term -> . appel_fonction_expr
-    (45) factor -> . LIRE ( )
-    (46) factor -> . MINUS factor
-    (47) factor -> . NON expr
-    (48) factor -> . factor OU expr
-    (49) factor -> . IDENTIFIANT
-    (50) factor -> . ( expr )
-    (51) factor -> . BOOLEEN_LITERAL
-    (52) factor -> . ENTIER
+    (49) term -> . term MINUS factor
+    (50) term -> . term PLUS factor
+    (51) term -> . factor
+    (52) term -> . term MULT factor
+    (39) factor -> . LIRE ( )
+    (40) factor -> . MINUS factor
+    (41) factor -> . NON expr
+    (42) factor -> . factor OU expr
+    (43) factor -> . IDENTIFIANT
+    (44) factor -> . ( expr )
+    (45) factor -> . BOOLEEN_LITERAL
+    (46) factor -> . ENTIER
+    (47) factor -> . appel_fonction_expr_without_parm
+    (48) factor -> . appel_fonction_expr
     (28) appel_fonction_expr_without_parm -> . IDENTIFIANT ( )
     (26) appel_fonction_expr -> . IDENTIFIANT ( arg_list )
-    LIRE            shift and go to state 33
+    LIRE            shift and go to state 31
     MINUS           shift and go to state 29
-    NON             shift and go to state 35
-    IDENTIFIANT     shift and go to state 36
-    (               shift and go to state 34
-    BOOLEEN_LITERAL shift and go to state 37
-    ENTIER          shift and go to state 38
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
     factor                         shift and go to state 30
-    expr                           shift and go to state 82
+    expr                           shift and go to state 81
     term                           shift and go to state 28
-    appel_fonction_expr_without_parm shift and go to state 31
-    appel_fonction_expr            shift and go to state 32
+    appel_fonction_expr_without_parm shift and go to state 37
+    appel_fonction_expr            shift and go to state 38
+
+state 58
+
+    (39) factor -> LIRE ( . )
+    )               shift and go to state 82
+
 
 state 59
 
-    (45) factor -> LIRE ( . )
-    )               shift and go to state 83
-
-
-state 60
-
-    (50) factor -> ( expr . )
+    (44) factor -> ( expr . )
     (34) expr -> expr . ET expr
     (35) expr -> expr . DIV term
     (36) expr -> expr . COMPARATEUR expr
     (37) expr -> expr . MODULO term
-    )               shift and go to state 84
+    )               shift and go to state 83
+    ET              shift and go to state 49
+    DIV             shift and go to state 50
+    COMPARATEUR     shift and go to state 51
+    MODULO          shift and go to state 52
+
+
+state 60
+
+    (41) factor -> NON expr .
+    (34) expr -> expr . ET expr
+    (35) expr -> expr . DIV term
+    (36) expr -> expr . COMPARATEUR expr
+    (37) expr -> expr . MODULO term
+    OU              reduce using rule 41 (factor -> NON expr .)
+    MINUS           reduce using rule 41 (factor -> NON expr .)
+    PLUS            reduce using rule 41 (factor -> NON expr .)
+    MULT            reduce using rule 41 (factor -> NON expr .)
+    ;               reduce using rule 41 (factor -> NON expr .)
+    )               reduce using rule 41 (factor -> NON expr .)
+    ,               reduce using rule 41 (factor -> NON expr .)
     ET              shift and go to state 49
     DIV             shift and go to state 50
     COMPARATEUR     shift and go to state 51
@@ -1352,26 +1380,6 @@ state 60
 
 
 state 61
-
-    (47) factor -> NON expr .
-    (34) expr -> expr . ET expr
-    (35) expr -> expr . DIV term
-    (36) expr -> expr . COMPARATEUR expr
-    (37) expr -> expr . MODULO term
-    OU              reduce using rule 47 (factor -> NON expr .)
-    MINUS           reduce using rule 47 (factor -> NON expr .)
-    PLUS            reduce using rule 47 (factor -> NON expr .)
-    MULT            reduce using rule 47 (factor -> NON expr .)
-    ;               reduce using rule 47 (factor -> NON expr .)
-    )               reduce using rule 47 (factor -> NON expr .)
-    ,               reduce using rule 47 (factor -> NON expr .)
-    ET              shift and go to state 49
-    DIV             shift and go to state 50
-    COMPARATEUR     shift and go to state 51
-    MODULO          shift and go to state 52
-
-
-state 62
 
     (28) appel_fonction_expr_without_parm -> IDENTIFIANT ( . )
     (26) appel_fonction_expr -> IDENTIFIANT ( . arg_list )
@@ -1382,41 +1390,55 @@ state 62
     (36) expr -> . expr COMPARATEUR expr
     (37) expr -> . expr MODULO term
     (38) expr -> . term
-    (39) term -> . term MINUS factor
-    (40) term -> . term PLUS factor
-    (41) term -> . factor
-    (42) term -> . term MULT factor
-    (43) term -> . appel_fonction_expr_without_parm
-    (44) term -> . appel_fonction_expr
-    (45) factor -> . LIRE ( )
-    (46) factor -> . MINUS factor
-    (47) factor -> . NON expr
-    (48) factor -> . factor OU expr
-    (49) factor -> . IDENTIFIANT
-    (50) factor -> . ( expr )
-    (51) factor -> . BOOLEEN_LITERAL
-    (52) factor -> . ENTIER
+    (49) term -> . term MINUS factor
+    (50) term -> . term PLUS factor
+    (51) term -> . factor
+    (52) term -> . term MULT factor
+    (39) factor -> . LIRE ( )
+    (40) factor -> . MINUS factor
+    (41) factor -> . NON expr
+    (42) factor -> . factor OU expr
+    (43) factor -> . IDENTIFIANT
+    (44) factor -> . ( expr )
+    (45) factor -> . BOOLEEN_LITERAL
+    (46) factor -> . ENTIER
+    (47) factor -> . appel_fonction_expr_without_parm
+    (48) factor -> . appel_fonction_expr
     (28) appel_fonction_expr_without_parm -> . IDENTIFIANT ( )
     (26) appel_fonction_expr -> . IDENTIFIANT ( arg_list )
-    )               shift and go to state 85
-    LIRE            shift and go to state 33
+    )               shift and go to state 84
+    LIRE            shift and go to state 31
     MINUS           shift and go to state 29
-    NON             shift and go to state 35
-    IDENTIFIANT     shift and go to state 36
-    (               shift and go to state 34
-    BOOLEEN_LITERAL shift and go to state 37
-    ENTIER          shift and go to state 38
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
-    arg_list                       shift and go to state 86
+    arg_list                       shift and go to state 85
     expr                           shift and go to state 46
     term                           shift and go to state 28
     factor                         shift and go to state 30
-    appel_fonction_expr_without_parm shift and go to state 31
-    appel_fonction_expr            shift and go to state 32
+    appel_fonction_expr_without_parm shift and go to state 37
+    appel_fonction_expr            shift and go to state 38
+
+state 62
+
+    (22) boucle -> TANTQUE ( expr . ) { listeInstructions }
+    (34) expr -> expr . ET expr
+    (35) expr -> expr . DIV term
+    (36) expr -> expr . COMPARATEUR expr
+    (37) expr -> expr . MODULO term
+    )               shift and go to state 86
+    ET              shift and go to state 49
+    DIV             shift and go to state 50
+    COMPARATEUR     shift and go to state 51
+    MODULO          shift and go to state 52
+
 
 state 63
 
-    (22) boucle -> TANTQUE ( expr . ) { listeInstructions }
+    (18) condition -> SI ( expr . ) { listeInstructions } suite_sinosi
     (34) expr -> expr . ET expr
     (35) expr -> expr . DIV term
     (36) expr -> expr . COMPARATEUR expr
@@ -1430,7 +1452,7 @@ state 63
 
 state 64
 
-    (18) condition -> SI ( expr . ) { listeInstructions } suite_sinosi
+    (15) ecrire -> ECRIRE ( expr . ) ;
     (34) expr -> expr . ET expr
     (35) expr -> expr . DIV term
     (36) expr -> expr . COMPARATEUR expr
@@ -1444,60 +1466,46 @@ state 64
 
 state 65
 
-    (15) ecrire -> ECRIRE ( expr . ) ;
-    (34) expr -> expr . ET expr
-    (35) expr -> expr . DIV term
-    (36) expr -> expr . COMPARATEUR expr
-    (37) expr -> expr . MODULO term
-    )               shift and go to state 89
-    ET              shift and go to state 49
-    DIV             shift and go to state 50
-    COMPARATEUR     shift and go to state 51
-    MODULO          shift and go to state 52
+    (33) param -> type . IDENTIFIANT
+    IDENTIFIANT     shift and go to state 89
 
 
 state 66
 
-    (33) param -> type . IDENTIFIANT
-    IDENTIFIANT     shift and go to state 90
+    (29) fonction_declaration -> type IDENTIFIANT ( param_list . ) { listeInstructions }
+    (31) param_list -> param_list . , param
+    )               shift and go to state 90
+    ,               shift and go to state 91
 
 
 state 67
 
-    (29) fonction_declaration -> type IDENTIFIANT ( param_list . ) { listeInstructions }
-    (31) param_list -> param_list . , param
-    )               shift and go to state 91
-    ,               shift and go to state 92
+    (30) fonction_declaration_without_parm -> type IDENTIFIANT ( ) . { listeInstructions }
+    {               shift and go to state 92
 
 
 state 68
-
-    (30) fonction_declaration_without_parm -> type IDENTIFIANT ( ) . { listeInstructions }
-    {               shift and go to state 93
-
-
-state 69
 
     (32) param_list -> param .
     )               reduce using rule 32 (param_list -> param .)
     ,               reduce using rule 32 (param_list -> param .)
 
 
-state 70
+state 69
 
     (16) declaration -> type IDENTIFIANT = expr . ;
     (34) expr -> expr . ET expr
     (35) expr -> expr . DIV term
     (36) expr -> expr . COMPARATEUR expr
     (37) expr -> expr . MODULO term
-    ;               shift and go to state 94
+    ;               shift and go to state 93
     ET              shift and go to state 49
     DIV             shift and go to state 50
     COMPARATEUR     shift and go to state 51
     MODULO          shift and go to state 52
 
 
-state 71
+state 70
 
     (27) appel_fonction_instr_without_parm -> IDENTIFIANT ( ) ; .
     IDENTIFIANT     reduce using rule 27 (appel_fonction_instr_without_parm -> IDENTIFIANT ( ) ; .)
@@ -1511,13 +1519,13 @@ state 71
     }               reduce using rule 27 (appel_fonction_instr_without_parm -> IDENTIFIANT ( ) ; .)
 
 
-state 72
+state 71
 
     (25) appel_fonction_instr -> IDENTIFIANT ( arg_list ) . ;
-    ;               shift and go to state 95
+    ;               shift and go to state 94
 
 
-state 73
+state 72
 
     (55) arg_list -> arg_list , . expr
     (34) expr -> . expr ET expr
@@ -1525,37 +1533,37 @@ state 73
     (36) expr -> . expr COMPARATEUR expr
     (37) expr -> . expr MODULO term
     (38) expr -> . term
-    (39) term -> . term MINUS factor
-    (40) term -> . term PLUS factor
-    (41) term -> . factor
-    (42) term -> . term MULT factor
-    (43) term -> . appel_fonction_expr_without_parm
-    (44) term -> . appel_fonction_expr
-    (45) factor -> . LIRE ( )
-    (46) factor -> . MINUS factor
-    (47) factor -> . NON expr
-    (48) factor -> . factor OU expr
-    (49) factor -> . IDENTIFIANT
-    (50) factor -> . ( expr )
-    (51) factor -> . BOOLEEN_LITERAL
-    (52) factor -> . ENTIER
+    (49) term -> . term MINUS factor
+    (50) term -> . term PLUS factor
+    (51) term -> . factor
+    (52) term -> . term MULT factor
+    (39) factor -> . LIRE ( )
+    (40) factor -> . MINUS factor
+    (41) factor -> . NON expr
+    (42) factor -> . factor OU expr
+    (43) factor -> . IDENTIFIANT
+    (44) factor -> . ( expr )
+    (45) factor -> . BOOLEEN_LITERAL
+    (46) factor -> . ENTIER
+    (47) factor -> . appel_fonction_expr_without_parm
+    (48) factor -> . appel_fonction_expr
     (28) appel_fonction_expr_without_parm -> . IDENTIFIANT ( )
     (26) appel_fonction_expr -> . IDENTIFIANT ( arg_list )
-    LIRE            shift and go to state 33
+    LIRE            shift and go to state 31
     MINUS           shift and go to state 29
-    NON             shift and go to state 35
-    IDENTIFIANT     shift and go to state 36
-    (               shift and go to state 34
-    BOOLEEN_LITERAL shift and go to state 37
-    ENTIER          shift and go to state 38
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
-    expr                           shift and go to state 96
+    expr                           shift and go to state 95
     term                           shift and go to state 28
     factor                         shift and go to state 30
-    appel_fonction_expr_without_parm shift and go to state 31
-    appel_fonction_expr            shift and go to state 32
+    appel_fonction_expr_without_parm shift and go to state 37
+    appel_fonction_expr            shift and go to state 38
 
-state 74
+state 73
 
     (17) affectation -> IDENTIFIANT = expr ; .
     IDENTIFIANT     reduce using rule 17 (affectation -> IDENTIFIANT = expr ; .)
@@ -1569,7 +1577,7 @@ state 74
     }               reduce using rule 17 (affectation -> IDENTIFIANT = expr ; .)
 
 
-state 75
+state 74
 
     (34) expr -> expr ET expr .
     (34) expr -> expr . ET expr
@@ -1589,12 +1597,12 @@ state 75
     COMPARATEUR     shift and go to state 51
 
 
-state 76
+state 75
 
     (35) expr -> expr DIV term .
-    (39) term -> term . MINUS factor
-    (40) term -> term . PLUS factor
-    (42) term -> term . MULT factor
+    (49) term -> term . MINUS factor
+    (50) term -> term . PLUS factor
+    (52) term -> term . MULT factor
     ;               reduce using rule 35 (expr -> expr DIV term .)
     ET              reduce using rule 35 (expr -> expr DIV term .)
     DIV             reduce using rule 35 (expr -> expr DIV term .)
@@ -1608,7 +1616,7 @@ state 76
     PLUS            shift and go to state 54
 
 
-state 77
+state 76
 
     (36) expr -> expr COMPARATEUR expr .
     (34) expr -> expr . ET expr
@@ -1628,12 +1636,12 @@ state 77
     MULT            reduce using rule 36 (expr -> expr COMPARATEUR expr .)
 
 
-state 78
+state 77
 
     (37) expr -> expr MODULO term .
-    (39) term -> term . MINUS factor
-    (40) term -> term . PLUS factor
-    (42) term -> term . MULT factor
+    (49) term -> term . MINUS factor
+    (50) term -> term . PLUS factor
+    (52) term -> term . MULT factor
     ;               reduce using rule 37 (expr -> expr MODULO term .)
     ET              reduce using rule 37 (expr -> expr MODULO term .)
     DIV             reduce using rule 37 (expr -> expr MODULO term .)
@@ -1647,112 +1655,113 @@ state 78
     PLUS            shift and go to state 54
 
 
+state 78
+
+    (49) term -> term MINUS factor .
+    (42) factor -> factor . OU expr
+    MINUS           reduce using rule 49 (term -> term MINUS factor .)
+    PLUS            reduce using rule 49 (term -> term MINUS factor .)
+    MULT            reduce using rule 49 (term -> term MINUS factor .)
+    ;               reduce using rule 49 (term -> term MINUS factor .)
+    ET              reduce using rule 49 (term -> term MINUS factor .)
+    DIV             reduce using rule 49 (term -> term MINUS factor .)
+    COMPARATEUR     reduce using rule 49 (term -> term MINUS factor .)
+    MODULO          reduce using rule 49 (term -> term MINUS factor .)
+    )               reduce using rule 49 (term -> term MINUS factor .)
+    ,               reduce using rule 49 (term -> term MINUS factor .)
+    OU              shift and go to state 57
+
+
 state 79
 
-    (39) term -> term MINUS factor .
-    (48) factor -> factor . OU expr
-    MINUS           reduce using rule 39 (term -> term MINUS factor .)
-    PLUS            reduce using rule 39 (term -> term MINUS factor .)
-    MULT            reduce using rule 39 (term -> term MINUS factor .)
-    ;               reduce using rule 39 (term -> term MINUS factor .)
-    ET              reduce using rule 39 (term -> term MINUS factor .)
-    DIV             reduce using rule 39 (term -> term MINUS factor .)
-    COMPARATEUR     reduce using rule 39 (term -> term MINUS factor .)
-    MODULO          reduce using rule 39 (term -> term MINUS factor .)
-    )               reduce using rule 39 (term -> term MINUS factor .)
-    ,               reduce using rule 39 (term -> term MINUS factor .)
-    OU              shift and go to state 58
+    (50) term -> term PLUS factor .
+    (42) factor -> factor . OU expr
+    MINUS           reduce using rule 50 (term -> term PLUS factor .)
+    PLUS            reduce using rule 50 (term -> term PLUS factor .)
+    MULT            reduce using rule 50 (term -> term PLUS factor .)
+    ;               reduce using rule 50 (term -> term PLUS factor .)
+    ET              reduce using rule 50 (term -> term PLUS factor .)
+    DIV             reduce using rule 50 (term -> term PLUS factor .)
+    COMPARATEUR     reduce using rule 50 (term -> term PLUS factor .)
+    MODULO          reduce using rule 50 (term -> term PLUS factor .)
+    )               reduce using rule 50 (term -> term PLUS factor .)
+    ,               reduce using rule 50 (term -> term PLUS factor .)
+    OU              shift and go to state 57
 
 
 state 80
 
-    (40) term -> term PLUS factor .
-    (48) factor -> factor . OU expr
-    MINUS           reduce using rule 40 (term -> term PLUS factor .)
-    PLUS            reduce using rule 40 (term -> term PLUS factor .)
-    MULT            reduce using rule 40 (term -> term PLUS factor .)
-    ;               reduce using rule 40 (term -> term PLUS factor .)
-    ET              reduce using rule 40 (term -> term PLUS factor .)
-    DIV             reduce using rule 40 (term -> term PLUS factor .)
-    COMPARATEUR     reduce using rule 40 (term -> term PLUS factor .)
-    MODULO          reduce using rule 40 (term -> term PLUS factor .)
-    )               reduce using rule 40 (term -> term PLUS factor .)
-    ,               reduce using rule 40 (term -> term PLUS factor .)
-    OU              shift and go to state 58
+    (52) term -> term MULT factor .
+    (42) factor -> factor . OU expr
+    MINUS           reduce using rule 52 (term -> term MULT factor .)
+    PLUS            reduce using rule 52 (term -> term MULT factor .)
+    MULT            reduce using rule 52 (term -> term MULT factor .)
+    ;               reduce using rule 52 (term -> term MULT factor .)
+    ET              reduce using rule 52 (term -> term MULT factor .)
+    DIV             reduce using rule 52 (term -> term MULT factor .)
+    COMPARATEUR     reduce using rule 52 (term -> term MULT factor .)
+    MODULO          reduce using rule 52 (term -> term MULT factor .)
+    )               reduce using rule 52 (term -> term MULT factor .)
+    ,               reduce using rule 52 (term -> term MULT factor .)
+    OU              shift and go to state 57
 
 
 state 81
 
-    (42) term -> term MULT factor .
-    (48) factor -> factor . OU expr
-    MINUS           reduce using rule 42 (term -> term MULT factor .)
-    PLUS            reduce using rule 42 (term -> term MULT factor .)
-    MULT            reduce using rule 42 (term -> term MULT factor .)
-    ;               reduce using rule 42 (term -> term MULT factor .)
-    ET              reduce using rule 42 (term -> term MULT factor .)
-    DIV             reduce using rule 42 (term -> term MULT factor .)
-    COMPARATEUR     reduce using rule 42 (term -> term MULT factor .)
-    MODULO          reduce using rule 42 (term -> term MULT factor .)
-    )               reduce using rule 42 (term -> term MULT factor .)
-    ,               reduce using rule 42 (term -> term MULT factor .)
-    OU              shift and go to state 58
-
-
-state 82
-
-    (48) factor -> factor OU expr .
+    (42) factor -> factor OU expr .
     (34) expr -> expr . ET expr
     (35) expr -> expr . DIV term
     (36) expr -> expr . COMPARATEUR expr
     (37) expr -> expr . MODULO term
-    OU              reduce using rule 48 (factor -> factor OU expr .)
-    MINUS           reduce using rule 48 (factor -> factor OU expr .)
-    PLUS            reduce using rule 48 (factor -> factor OU expr .)
-    MULT            reduce using rule 48 (factor -> factor OU expr .)
-    ;               reduce using rule 48 (factor -> factor OU expr .)
-    ET              reduce using rule 48 (factor -> factor OU expr .)
-    DIV             reduce using rule 48 (factor -> factor OU expr .)
-    MODULO          reduce using rule 48 (factor -> factor OU expr .)
-    )               reduce using rule 48 (factor -> factor OU expr .)
-    ,               reduce using rule 48 (factor -> factor OU expr .)
+    OU              reduce using rule 42 (factor -> factor OU expr .)
+    MINUS           reduce using rule 42 (factor -> factor OU expr .)
+    PLUS            reduce using rule 42 (factor -> factor OU expr .)
+    MULT            reduce using rule 42 (factor -> factor OU expr .)
+    ;               reduce using rule 42 (factor -> factor OU expr .)
+    ET              reduce using rule 42 (factor -> factor OU expr .)
+    DIV             reduce using rule 42 (factor -> factor OU expr .)
+    MODULO          reduce using rule 42 (factor -> factor OU expr .)
+    )               reduce using rule 42 (factor -> factor OU expr .)
+    ,               reduce using rule 42 (factor -> factor OU expr .)
     COMPARATEUR     shift and go to state 51
+
+
+state 82
+
+    (39) factor -> LIRE ( ) .
+    OU              reduce using rule 39 (factor -> LIRE ( ) .)
+    MINUS           reduce using rule 39 (factor -> LIRE ( ) .)
+    PLUS            reduce using rule 39 (factor -> LIRE ( ) .)
+    MULT            reduce using rule 39 (factor -> LIRE ( ) .)
+    ;               reduce using rule 39 (factor -> LIRE ( ) .)
+    ET              reduce using rule 39 (factor -> LIRE ( ) .)
+    DIV             reduce using rule 39 (factor -> LIRE ( ) .)
+    COMPARATEUR     reduce using rule 39 (factor -> LIRE ( ) .)
+    MODULO          reduce using rule 39 (factor -> LIRE ( ) .)
+    )               reduce using rule 39 (factor -> LIRE ( ) .)
+    ,               reduce using rule 39 (factor -> LIRE ( ) .)
 
 
 state 83
 
-    (45) factor -> LIRE ( ) .
-    OU              reduce using rule 45 (factor -> LIRE ( ) .)
-    MINUS           reduce using rule 45 (factor -> LIRE ( ) .)
-    PLUS            reduce using rule 45 (factor -> LIRE ( ) .)
-    MULT            reduce using rule 45 (factor -> LIRE ( ) .)
-    ;               reduce using rule 45 (factor -> LIRE ( ) .)
-    ET              reduce using rule 45 (factor -> LIRE ( ) .)
-    DIV             reduce using rule 45 (factor -> LIRE ( ) .)
-    COMPARATEUR     reduce using rule 45 (factor -> LIRE ( ) .)
-    MODULO          reduce using rule 45 (factor -> LIRE ( ) .)
-    )               reduce using rule 45 (factor -> LIRE ( ) .)
-    ,               reduce using rule 45 (factor -> LIRE ( ) .)
+    (44) factor -> ( expr ) .
+    OU              reduce using rule 44 (factor -> ( expr ) .)
+    MINUS           reduce using rule 44 (factor -> ( expr ) .)
+    PLUS            reduce using rule 44 (factor -> ( expr ) .)
+    MULT            reduce using rule 44 (factor -> ( expr ) .)
+    ;               reduce using rule 44 (factor -> ( expr ) .)
+    ET              reduce using rule 44 (factor -> ( expr ) .)
+    DIV             reduce using rule 44 (factor -> ( expr ) .)
+    COMPARATEUR     reduce using rule 44 (factor -> ( expr ) .)
+    MODULO          reduce using rule 44 (factor -> ( expr ) .)
+    )               reduce using rule 44 (factor -> ( expr ) .)
+    ,               reduce using rule 44 (factor -> ( expr ) .)
 
 
 state 84
 
-    (50) factor -> ( expr ) .
-    OU              reduce using rule 50 (factor -> ( expr ) .)
-    MINUS           reduce using rule 50 (factor -> ( expr ) .)
-    PLUS            reduce using rule 50 (factor -> ( expr ) .)
-    MULT            reduce using rule 50 (factor -> ( expr ) .)
-    ;               reduce using rule 50 (factor -> ( expr ) .)
-    ET              reduce using rule 50 (factor -> ( expr ) .)
-    DIV             reduce using rule 50 (factor -> ( expr ) .)
-    COMPARATEUR     reduce using rule 50 (factor -> ( expr ) .)
-    MODULO          reduce using rule 50 (factor -> ( expr ) .)
-    )               reduce using rule 50 (factor -> ( expr ) .)
-    ,               reduce using rule 50 (factor -> ( expr ) .)
-
-
-state 85
-
     (28) appel_fonction_expr_without_parm -> IDENTIFIANT ( ) .
+    OU              reduce using rule 28 (appel_fonction_expr_without_parm -> IDENTIFIANT ( ) .)
     MINUS           reduce using rule 28 (appel_fonction_expr_without_parm -> IDENTIFIANT ( ) .)
     PLUS            reduce using rule 28 (appel_fonction_expr_without_parm -> IDENTIFIANT ( ) .)
     MULT            reduce using rule 28 (appel_fonction_expr_without_parm -> IDENTIFIANT ( ) .)
@@ -1763,49 +1772,48 @@ state 85
     MODULO          reduce using rule 28 (appel_fonction_expr_without_parm -> IDENTIFIANT ( ) .)
     )               reduce using rule 28 (appel_fonction_expr_without_parm -> IDENTIFIANT ( ) .)
     ,               reduce using rule 28 (appel_fonction_expr_without_parm -> IDENTIFIANT ( ) .)
-    OU              reduce using rule 28 (appel_fonction_expr_without_parm -> IDENTIFIANT ( ) .)
+
+
+state 85
+
+    (26) appel_fonction_expr -> IDENTIFIANT ( arg_list . )
+    (55) arg_list -> arg_list . , expr
+    )               shift and go to state 96
+    ,               shift and go to state 72
 
 
 state 86
 
-    (26) appel_fonction_expr -> IDENTIFIANT ( arg_list . )
-    (55) arg_list -> arg_list . , expr
-    )               shift and go to state 97
-    ,               shift and go to state 73
+    (22) boucle -> TANTQUE ( expr ) . { listeInstructions }
+    {               shift and go to state 97
 
 
 state 87
 
-    (22) boucle -> TANTQUE ( expr ) . { listeInstructions }
+    (18) condition -> SI ( expr ) . { listeInstructions } suite_sinosi
     {               shift and go to state 98
 
 
 state 88
 
-    (18) condition -> SI ( expr ) . { listeInstructions } suite_sinosi
-    {               shift and go to state 99
+    (15) ecrire -> ECRIRE ( expr ) . ;
+    ;               shift and go to state 99
 
 
 state 89
-
-    (15) ecrire -> ECRIRE ( expr ) . ;
-    ;               shift and go to state 100
-
-
-state 90
 
     (33) param -> type IDENTIFIANT .
     )               reduce using rule 33 (param -> type IDENTIFIANT .)
     ,               reduce using rule 33 (param -> type IDENTIFIANT .)
 
 
-state 91
+state 90
 
     (29) fonction_declaration -> type IDENTIFIANT ( param_list ) . { listeInstructions }
-    {               shift and go to state 101
+    {               shift and go to state 100
 
 
-state 92
+state 91
 
     (31) param_list -> param_list , . param
     (33) param -> . type IDENTIFIANT
@@ -1814,10 +1822,10 @@ state 92
     ENT             shift and go to state 21
     BOOLEEN         shift and go to state 22
 
-    param                          shift and go to state 102
-    type                           shift and go to state 66
+    param                          shift and go to state 101
+    type                           shift and go to state 65
 
-state 93
+state 92
 
     (30) fonction_declaration_without_parm -> type IDENTIFIANT ( ) { . listeInstructions }
     (3) listeInstructions -> . instruction
@@ -1854,7 +1862,7 @@ state 93
     BOOLEEN         shift and go to state 22
 
     type                           shift and go to state 15
-    listeInstructions              shift and go to state 103
+    listeInstructions              shift and go to state 102
     instruction                    shift and go to state 4
     fonction_declaration           shift and go to state 5
     fonction_declaration_without_parm shift and go to state 6
@@ -1867,7 +1875,7 @@ state 93
     declaration                    shift and go to state 13
     ecrire                         shift and go to state 14
 
-state 94
+state 93
 
     (16) declaration -> type IDENTIFIANT = expr ; .
     IDENTIFIANT     reduce using rule 16 (declaration -> type IDENTIFIANT = expr ; .)
@@ -1881,7 +1889,7 @@ state 94
     }               reduce using rule 16 (declaration -> type IDENTIFIANT = expr ; .)
 
 
-state 95
+state 94
 
     (25) appel_fonction_instr -> IDENTIFIANT ( arg_list ) ; .
     IDENTIFIANT     reduce using rule 25 (appel_fonction_instr -> IDENTIFIANT ( arg_list ) ; .)
@@ -1895,7 +1903,7 @@ state 95
     }               reduce using rule 25 (appel_fonction_instr -> IDENTIFIANT ( arg_list ) ; .)
 
 
-state 96
+state 95
 
     (55) arg_list -> arg_list , expr .
     (34) expr -> expr . ET expr
@@ -1910,9 +1918,10 @@ state 96
     MODULO          shift and go to state 52
 
 
-state 97
+state 96
 
     (26) appel_fonction_expr -> IDENTIFIANT ( arg_list ) .
+    OU              reduce using rule 26 (appel_fonction_expr -> IDENTIFIANT ( arg_list ) .)
     MINUS           reduce using rule 26 (appel_fonction_expr -> IDENTIFIANT ( arg_list ) .)
     PLUS            reduce using rule 26 (appel_fonction_expr -> IDENTIFIANT ( arg_list ) .)
     MULT            reduce using rule 26 (appel_fonction_expr -> IDENTIFIANT ( arg_list ) .)
@@ -1923,12 +1932,61 @@ state 97
     MODULO          reduce using rule 26 (appel_fonction_expr -> IDENTIFIANT ( arg_list ) .)
     )               reduce using rule 26 (appel_fonction_expr -> IDENTIFIANT ( arg_list ) .)
     ,               reduce using rule 26 (appel_fonction_expr -> IDENTIFIANT ( arg_list ) .)
-    OU              reduce using rule 26 (appel_fonction_expr -> IDENTIFIANT ( arg_list ) .)
 
+
+state 97
+
+    (22) boucle -> TANTQUE ( expr ) { . listeInstructions }
+    (3) listeInstructions -> . instruction
+    (4) listeInstructions -> . listeInstructions instruction
+    (5) instruction -> . fonction_declaration
+    (6) instruction -> . fonction_declaration_without_parm
+    (7) instruction -> . appel_fonction_instr_without_parm
+    (8) instruction -> . appel_fonction_instr
+    (9) instruction -> . retourner
+    (10) instruction -> . boucle
+    (11) instruction -> . condition
+    (12) instruction -> . affectation
+    (13) instruction -> . declaration
+    (14) instruction -> . ecrire
+    (29) fonction_declaration -> . type IDENTIFIANT ( param_list ) { listeInstructions }
+    (30) fonction_declaration_without_parm -> . type IDENTIFIANT ( ) { listeInstructions }
+    (27) appel_fonction_instr_without_parm -> . IDENTIFIANT ( ) ;
+    (25) appel_fonction_instr -> . IDENTIFIANT ( arg_list ) ;
+    (23) retourner -> . RETOURNER expr ;
+    (24) retourner -> . retourner
+    (22) boucle -> . TANTQUE ( expr ) { listeInstructions }
+    (18) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
+    (17) affectation -> . IDENTIFIANT = expr ;
+    (16) declaration -> . type IDENTIFIANT = expr ;
+    (15) ecrire -> . ECRIRE ( expr ) ;
+    (53) type -> . ENT
+    (54) type -> . BOOLEEN
+    IDENTIFIANT     shift and go to state 16
+    RETOURNER       shift and go to state 17
+    TANTQUE         shift and go to state 18
+    SI              shift and go to state 19
+    ECRIRE          shift and go to state 20
+    ENT             shift and go to state 21
+    BOOLEEN         shift and go to state 22
+
+    listeInstructions              shift and go to state 103
+    instruction                    shift and go to state 4
+    fonction_declaration           shift and go to state 5
+    fonction_declaration_without_parm shift and go to state 6
+    appel_fonction_instr_without_parm shift and go to state 7
+    appel_fonction_instr           shift and go to state 8
+    retourner                      shift and go to state 9
+    boucle                         shift and go to state 10
+    condition                      shift and go to state 11
+    affectation                    shift and go to state 12
+    declaration                    shift and go to state 13
+    ecrire                         shift and go to state 14
+    type                           shift and go to state 15
 
 state 98
 
-    (22) boucle -> TANTQUE ( expr ) { . listeInstructions }
+    (18) condition -> SI ( expr ) { . listeInstructions } suite_sinosi
     (3) listeInstructions -> . instruction
     (4) listeInstructions -> . listeInstructions instruction
     (5) instruction -> . fonction_declaration
@@ -1978,56 +2036,6 @@ state 98
 
 state 99
 
-    (18) condition -> SI ( expr ) { . listeInstructions } suite_sinosi
-    (3) listeInstructions -> . instruction
-    (4) listeInstructions -> . listeInstructions instruction
-    (5) instruction -> . fonction_declaration
-    (6) instruction -> . fonction_declaration_without_parm
-    (7) instruction -> . appel_fonction_instr_without_parm
-    (8) instruction -> . appel_fonction_instr
-    (9) instruction -> . retourner
-    (10) instruction -> . boucle
-    (11) instruction -> . condition
-    (12) instruction -> . affectation
-    (13) instruction -> . declaration
-    (14) instruction -> . ecrire
-    (29) fonction_declaration -> . type IDENTIFIANT ( param_list ) { listeInstructions }
-    (30) fonction_declaration_without_parm -> . type IDENTIFIANT ( ) { listeInstructions }
-    (27) appel_fonction_instr_without_parm -> . IDENTIFIANT ( ) ;
-    (25) appel_fonction_instr -> . IDENTIFIANT ( arg_list ) ;
-    (23) retourner -> . RETOURNER expr ;
-    (24) retourner -> . retourner
-    (22) boucle -> . TANTQUE ( expr ) { listeInstructions }
-    (18) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
-    (17) affectation -> . IDENTIFIANT = expr ;
-    (16) declaration -> . type IDENTIFIANT = expr ;
-    (15) ecrire -> . ECRIRE ( expr ) ;
-    (53) type -> . ENT
-    (54) type -> . BOOLEEN
-    IDENTIFIANT     shift and go to state 16
-    RETOURNER       shift and go to state 17
-    TANTQUE         shift and go to state 18
-    SI              shift and go to state 19
-    ECRIRE          shift and go to state 20
-    ENT             shift and go to state 21
-    BOOLEEN         shift and go to state 22
-
-    listeInstructions              shift and go to state 105
-    instruction                    shift and go to state 4
-    fonction_declaration           shift and go to state 5
-    fonction_declaration_without_parm shift and go to state 6
-    appel_fonction_instr_without_parm shift and go to state 7
-    appel_fonction_instr           shift and go to state 8
-    retourner                      shift and go to state 9
-    boucle                         shift and go to state 10
-    condition                      shift and go to state 11
-    affectation                    shift and go to state 12
-    declaration                    shift and go to state 13
-    ecrire                         shift and go to state 14
-    type                           shift and go to state 15
-
-state 100
-
     (15) ecrire -> ECRIRE ( expr ) ; .
     IDENTIFIANT     reduce using rule 15 (ecrire -> ECRIRE ( expr ) ; .)
     RETOURNER       reduce using rule 15 (ecrire -> ECRIRE ( expr ) ; .)
@@ -2040,7 +2048,7 @@ state 100
     }               reduce using rule 15 (ecrire -> ECRIRE ( expr ) ; .)
 
 
-state 101
+state 100
 
     (29) fonction_declaration -> type IDENTIFIANT ( param_list ) { . listeInstructions }
     (3) listeInstructions -> . instruction
@@ -2077,7 +2085,7 @@ state 101
     BOOLEEN         shift and go to state 22
 
     type                           shift and go to state 15
-    listeInstructions              shift and go to state 106
+    listeInstructions              shift and go to state 105
     instruction                    shift and go to state 4
     fonction_declaration           shift and go to state 5
     fonction_declaration_without_parm shift and go to state 6
@@ -2090,16 +2098,65 @@ state 101
     declaration                    shift and go to state 13
     ecrire                         shift and go to state 14
 
-state 102
+state 101
 
     (31) param_list -> param_list , param .
     )               reduce using rule 31 (param_list -> param_list , param .)
     ,               reduce using rule 31 (param_list -> param_list , param .)
 
 
-state 103
+state 102
 
     (30) fonction_declaration_without_parm -> type IDENTIFIANT ( ) { listeInstructions . }
+    (4) listeInstructions -> listeInstructions . instruction
+    (5) instruction -> . fonction_declaration
+    (6) instruction -> . fonction_declaration_without_parm
+    (7) instruction -> . appel_fonction_instr_without_parm
+    (8) instruction -> . appel_fonction_instr
+    (9) instruction -> . retourner
+    (10) instruction -> . boucle
+    (11) instruction -> . condition
+    (12) instruction -> . affectation
+    (13) instruction -> . declaration
+    (14) instruction -> . ecrire
+    (29) fonction_declaration -> . type IDENTIFIANT ( param_list ) { listeInstructions }
+    (30) fonction_declaration_without_parm -> . type IDENTIFIANT ( ) { listeInstructions }
+    (27) appel_fonction_instr_without_parm -> . IDENTIFIANT ( ) ;
+    (25) appel_fonction_instr -> . IDENTIFIANT ( arg_list ) ;
+    (23) retourner -> . RETOURNER expr ;
+    (24) retourner -> . retourner
+    (22) boucle -> . TANTQUE ( expr ) { listeInstructions }
+    (18) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
+    (17) affectation -> . IDENTIFIANT = expr ;
+    (16) declaration -> . type IDENTIFIANT = expr ;
+    (15) ecrire -> . ECRIRE ( expr ) ;
+    (53) type -> . ENT
+    (54) type -> . BOOLEEN
+    }               shift and go to state 106
+    IDENTIFIANT     shift and go to state 16
+    RETOURNER       shift and go to state 17
+    TANTQUE         shift and go to state 18
+    SI              shift and go to state 19
+    ECRIRE          shift and go to state 20
+    ENT             shift and go to state 21
+    BOOLEEN         shift and go to state 22
+
+    type                           shift and go to state 15
+    instruction                    shift and go to state 23
+    fonction_declaration           shift and go to state 5
+    fonction_declaration_without_parm shift and go to state 6
+    appel_fonction_instr_without_parm shift and go to state 7
+    appel_fonction_instr           shift and go to state 8
+    retourner                      shift and go to state 9
+    boucle                         shift and go to state 10
+    condition                      shift and go to state 11
+    affectation                    shift and go to state 12
+    declaration                    shift and go to state 13
+    ecrire                         shift and go to state 14
+
+state 103
+
+    (22) boucle -> TANTQUE ( expr ) { listeInstructions . }
     (4) listeInstructions -> listeInstructions . instruction
     (5) instruction -> . fonction_declaration
     (6) instruction -> . fonction_declaration_without_parm
@@ -2133,7 +2190,6 @@ state 103
     ENT             shift and go to state 21
     BOOLEEN         shift and go to state 22
 
-    type                           shift and go to state 15
     instruction                    shift and go to state 23
     fonction_declaration           shift and go to state 5
     fonction_declaration_without_parm shift and go to state 6
@@ -2145,10 +2201,11 @@ state 103
     affectation                    shift and go to state 12
     declaration                    shift and go to state 13
     ecrire                         shift and go to state 14
+    type                           shift and go to state 15
 
 state 104
 
-    (22) boucle -> TANTQUE ( expr ) { listeInstructions . }
+    (18) condition -> SI ( expr ) { listeInstructions . } suite_sinosi
     (4) listeInstructions -> listeInstructions . instruction
     (5) instruction -> . fonction_declaration
     (6) instruction -> . fonction_declaration_without_parm
@@ -2197,7 +2254,7 @@ state 104
 
 state 105
 
-    (18) condition -> SI ( expr ) { listeInstructions . } suite_sinosi
+    (29) fonction_declaration -> type IDENTIFIANT ( param_list ) { listeInstructions . }
     (4) listeInstructions -> listeInstructions . instruction
     (5) instruction -> . fonction_declaration
     (6) instruction -> . fonction_declaration_without_parm
@@ -2231,6 +2288,7 @@ state 105
     ENT             shift and go to state 21
     BOOLEEN         shift and go to state 22
 
+    type                           shift and go to state 15
     instruction                    shift and go to state 23
     fonction_declaration           shift and go to state 5
     fonction_declaration_without_parm shift and go to state 6
@@ -2242,58 +2300,8 @@ state 105
     affectation                    shift and go to state 12
     declaration                    shift and go to state 13
     ecrire                         shift and go to state 14
-    type                           shift and go to state 15
 
 state 106
-
-    (29) fonction_declaration -> type IDENTIFIANT ( param_list ) { listeInstructions . }
-    (4) listeInstructions -> listeInstructions . instruction
-    (5) instruction -> . fonction_declaration
-    (6) instruction -> . fonction_declaration_without_parm
-    (7) instruction -> . appel_fonction_instr_without_parm
-    (8) instruction -> . appel_fonction_instr
-    (9) instruction -> . retourner
-    (10) instruction -> . boucle
-    (11) instruction -> . condition
-    (12) instruction -> . affectation
-    (13) instruction -> . declaration
-    (14) instruction -> . ecrire
-    (29) fonction_declaration -> . type IDENTIFIANT ( param_list ) { listeInstructions }
-    (30) fonction_declaration_without_parm -> . type IDENTIFIANT ( ) { listeInstructions }
-    (27) appel_fonction_instr_without_parm -> . IDENTIFIANT ( ) ;
-    (25) appel_fonction_instr -> . IDENTIFIANT ( arg_list ) ;
-    (23) retourner -> . RETOURNER expr ;
-    (24) retourner -> . retourner
-    (22) boucle -> . TANTQUE ( expr ) { listeInstructions }
-    (18) condition -> . SI ( expr ) { listeInstructions } suite_sinosi
-    (17) affectation -> . IDENTIFIANT = expr ;
-    (16) declaration -> . type IDENTIFIANT = expr ;
-    (15) ecrire -> . ECRIRE ( expr ) ;
-    (53) type -> . ENT
-    (54) type -> . BOOLEEN
-    }               shift and go to state 110
-    IDENTIFIANT     shift and go to state 16
-    RETOURNER       shift and go to state 17
-    TANTQUE         shift and go to state 18
-    SI              shift and go to state 19
-    ECRIRE          shift and go to state 20
-    ENT             shift and go to state 21
-    BOOLEEN         shift and go to state 22
-
-    type                           shift and go to state 15
-    instruction                    shift and go to state 23
-    fonction_declaration           shift and go to state 5
-    fonction_declaration_without_parm shift and go to state 6
-    appel_fonction_instr_without_parm shift and go to state 7
-    appel_fonction_instr           shift and go to state 8
-    retourner                      shift and go to state 9
-    boucle                         shift and go to state 10
-    condition                      shift and go to state 11
-    affectation                    shift and go to state 12
-    declaration                    shift and go to state 13
-    ecrire                         shift and go to state 14
-
-state 107
 
     (30) fonction_declaration_without_parm -> type IDENTIFIANT ( ) { listeInstructions } .
     IDENTIFIANT     reduce using rule 30 (fonction_declaration_without_parm -> type IDENTIFIANT ( ) { listeInstructions } .)
@@ -2307,7 +2315,7 @@ state 107
     }               reduce using rule 30 (fonction_declaration_without_parm -> type IDENTIFIANT ( ) { listeInstructions } .)
 
 
-state 108
+state 107
 
     (22) boucle -> TANTQUE ( expr ) { listeInstructions } .
     IDENTIFIANT     reduce using rule 22 (boucle -> TANTQUE ( expr ) { listeInstructions } .)
@@ -2321,7 +2329,7 @@ state 108
     }               reduce using rule 22 (boucle -> TANTQUE ( expr ) { listeInstructions } .)
 
 
-state 109
+state 108
 
     (18) condition -> SI ( expr ) { listeInstructions } . suite_sinosi
     (19) suite_sinosi -> .
@@ -2336,11 +2344,11 @@ state 109
     BOOLEEN         reduce using rule 19 (suite_sinosi -> .)
     $end            reduce using rule 19 (suite_sinosi -> .)
     }               reduce using rule 19 (suite_sinosi -> .)
-    SINON           shift and go to state 112
+    SINON           shift and go to state 111
 
-    suite_sinosi                   shift and go to state 111
+    suite_sinosi                   shift and go to state 110
 
-state 110
+state 109
 
     (29) fonction_declaration -> type IDENTIFIANT ( param_list ) { listeInstructions } .
     IDENTIFIANT     reduce using rule 29 (fonction_declaration -> type IDENTIFIANT ( param_list ) { listeInstructions } .)
@@ -2354,7 +2362,7 @@ state 110
     }               reduce using rule 29 (fonction_declaration -> type IDENTIFIANT ( param_list ) { listeInstructions } .)
 
 
-state 111
+state 110
 
     (18) condition -> SI ( expr ) { listeInstructions } suite_sinosi .
     IDENTIFIANT     reduce using rule 18 (condition -> SI ( expr ) { listeInstructions } suite_sinosi .)
@@ -2368,21 +2376,21 @@ state 111
     }               reduce using rule 18 (condition -> SI ( expr ) { listeInstructions } suite_sinosi .)
 
 
-state 112
+state 111
 
     (20) suite_sinosi -> SINON . SI ( expr ) { listeInstructions } suite_sinosi
     (21) suite_sinosi -> SINON . { listeInstructions }
-    SI              shift and go to state 113
-    {               shift and go to state 114
+    SI              shift and go to state 112
+    {               shift and go to state 113
+
+
+state 112
+
+    (20) suite_sinosi -> SINON SI . ( expr ) { listeInstructions } suite_sinosi
+    (               shift and go to state 114
 
 
 state 113
-
-    (20) suite_sinosi -> SINON SI . ( expr ) { listeInstructions } suite_sinosi
-    (               shift and go to state 115
-
-
-state 114
 
     (21) suite_sinosi -> SINON { . listeInstructions }
     (3) listeInstructions -> . instruction
@@ -2418,7 +2426,7 @@ state 114
     ENT             shift and go to state 21
     BOOLEEN         shift and go to state 22
 
-    listeInstructions              shift and go to state 116
+    listeInstructions              shift and go to state 115
     instruction                    shift and go to state 4
     fonction_declaration           shift and go to state 5
     fonction_declaration_without_parm shift and go to state 6
@@ -2432,7 +2440,7 @@ state 114
     ecrire                         shift and go to state 14
     type                           shift and go to state 15
 
-state 115
+state 114
 
     (20) suite_sinosi -> SINON SI ( . expr ) { listeInstructions } suite_sinosi
     (34) expr -> . expr ET expr
@@ -2440,37 +2448,37 @@ state 115
     (36) expr -> . expr COMPARATEUR expr
     (37) expr -> . expr MODULO term
     (38) expr -> . term
-    (39) term -> . term MINUS factor
-    (40) term -> . term PLUS factor
-    (41) term -> . factor
-    (42) term -> . term MULT factor
-    (43) term -> . appel_fonction_expr_without_parm
-    (44) term -> . appel_fonction_expr
-    (45) factor -> . LIRE ( )
-    (46) factor -> . MINUS factor
-    (47) factor -> . NON expr
-    (48) factor -> . factor OU expr
-    (49) factor -> . IDENTIFIANT
-    (50) factor -> . ( expr )
-    (51) factor -> . BOOLEEN_LITERAL
-    (52) factor -> . ENTIER
+    (49) term -> . term MINUS factor
+    (50) term -> . term PLUS factor
+    (51) term -> . factor
+    (52) term -> . term MULT factor
+    (39) factor -> . LIRE ( )
+    (40) factor -> . MINUS factor
+    (41) factor -> . NON expr
+    (42) factor -> . factor OU expr
+    (43) factor -> . IDENTIFIANT
+    (44) factor -> . ( expr )
+    (45) factor -> . BOOLEEN_LITERAL
+    (46) factor -> . ENTIER
+    (47) factor -> . appel_fonction_expr_without_parm
+    (48) factor -> . appel_fonction_expr
     (28) appel_fonction_expr_without_parm -> . IDENTIFIANT ( )
     (26) appel_fonction_expr -> . IDENTIFIANT ( arg_list )
-    LIRE            shift and go to state 33
+    LIRE            shift and go to state 31
     MINUS           shift and go to state 29
-    NON             shift and go to state 35
-    IDENTIFIANT     shift and go to state 36
-    (               shift and go to state 34
-    BOOLEEN_LITERAL shift and go to state 37
-    ENTIER          shift and go to state 38
+    NON             shift and go to state 33
+    IDENTIFIANT     shift and go to state 34
+    (               shift and go to state 32
+    BOOLEEN_LITERAL shift and go to state 35
+    ENTIER          shift and go to state 36
 
-    expr                           shift and go to state 117
+    expr                           shift and go to state 116
     term                           shift and go to state 28
     factor                         shift and go to state 30
-    appel_fonction_expr_without_parm shift and go to state 31
-    appel_fonction_expr            shift and go to state 32
+    appel_fonction_expr_without_parm shift and go to state 37
+    appel_fonction_expr            shift and go to state 38
 
-state 116
+state 115
 
     (21) suite_sinosi -> SINON { listeInstructions . }
     (4) listeInstructions -> listeInstructions . instruction
@@ -2497,7 +2505,7 @@ state 116
     (15) ecrire -> . ECRIRE ( expr ) ;
     (53) type -> . ENT
     (54) type -> . BOOLEEN
-    }               shift and go to state 118
+    }               shift and go to state 117
     IDENTIFIANT     shift and go to state 16
     RETOURNER       shift and go to state 17
     TANTQUE         shift and go to state 18
@@ -2519,21 +2527,21 @@ state 116
     ecrire                         shift and go to state 14
     type                           shift and go to state 15
 
-state 117
+state 116
 
     (20) suite_sinosi -> SINON SI ( expr . ) { listeInstructions } suite_sinosi
     (34) expr -> expr . ET expr
     (35) expr -> expr . DIV term
     (36) expr -> expr . COMPARATEUR expr
     (37) expr -> expr . MODULO term
-    )               shift and go to state 119
+    )               shift and go to state 118
     ET              shift and go to state 49
     DIV             shift and go to state 50
     COMPARATEUR     shift and go to state 51
     MODULO          shift and go to state 52
 
 
-state 118
+state 117
 
     (21) suite_sinosi -> SINON { listeInstructions } .
     IDENTIFIANT     reduce using rule 21 (suite_sinosi -> SINON { listeInstructions } .)
@@ -2547,13 +2555,13 @@ state 118
     }               reduce using rule 21 (suite_sinosi -> SINON { listeInstructions } .)
 
 
-state 119
+state 118
 
     (20) suite_sinosi -> SINON SI ( expr ) . { listeInstructions } suite_sinosi
-    {               shift and go to state 120
+    {               shift and go to state 119
 
 
-state 120
+state 119
 
     (20) suite_sinosi -> SINON SI ( expr ) { . listeInstructions } suite_sinosi
     (3) listeInstructions -> . instruction
@@ -2589,7 +2597,7 @@ state 120
     ENT             shift and go to state 21
     BOOLEEN         shift and go to state 22
 
-    listeInstructions              shift and go to state 121
+    listeInstructions              shift and go to state 120
     instruction                    shift and go to state 4
     fonction_declaration           shift and go to state 5
     fonction_declaration_without_parm shift and go to state 6
@@ -2603,7 +2611,7 @@ state 120
     ecrire                         shift and go to state 14
     type                           shift and go to state 15
 
-state 121
+state 120
 
     (20) suite_sinosi -> SINON SI ( expr ) { listeInstructions . } suite_sinosi
     (4) listeInstructions -> listeInstructions . instruction
@@ -2630,7 +2638,7 @@ state 121
     (15) ecrire -> . ECRIRE ( expr ) ;
     (53) type -> . ENT
     (54) type -> . BOOLEEN
-    }               shift and go to state 122
+    }               shift and go to state 121
     IDENTIFIANT     shift and go to state 16
     RETOURNER       shift and go to state 17
     TANTQUE         shift and go to state 18
@@ -2652,7 +2660,7 @@ state 121
     ecrire                         shift and go to state 14
     type                           shift and go to state 15
 
-state 122
+state 121
 
     (20) suite_sinosi -> SINON SI ( expr ) { listeInstructions } . suite_sinosi
     (19) suite_sinosi -> .
@@ -2667,11 +2675,11 @@ state 122
     BOOLEEN         reduce using rule 19 (suite_sinosi -> .)
     $end            reduce using rule 19 (suite_sinosi -> .)
     }               reduce using rule 19 (suite_sinosi -> .)
-    SINON           shift and go to state 112
+    SINON           shift and go to state 111
 
-    suite_sinosi                   shift and go to state 123
+    suite_sinosi                   shift and go to state 122
 
-state 123
+state 122
 
     (20) suite_sinosi -> SINON SI ( expr ) { listeInstructions } suite_sinosi .
     IDENTIFIANT     reduce using rule 20 (suite_sinosi -> SINON SI ( expr ) { listeInstructions } suite_sinosi .)

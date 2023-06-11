@@ -137,11 +137,11 @@ class FloParser(Parser):
         return arbre_abstrait.Operation(p[1], p[0], p[2])
 
     @_('appel_fonction_expr')
-    def term(self, p):
-        return p.appel_fonction
+    def factor(self, p):
+        return p.appel_fonction_expr
 
     @_('appel_fonction_expr_without_parm')
-    def term(self, p):
+    def factor(self, p):
         return p.appel_fonction_expr_without_parm
 
     @_('expr DIV term')
