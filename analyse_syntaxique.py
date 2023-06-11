@@ -107,6 +107,7 @@ class FloParser(Parser):
     def suite_sinosi(self, p):
         return None
 
+
     @_('TANTQUE "(" expr ")" "{" listeInstructions "}"')
     def boucle(self, p):
         return arbre_abstrait.TantQue(p.expr, p.listeInstructions)

@@ -6,3 +6,15 @@ ecrire(2*3+4+5);
 ecrire(2*3+4*5);
 ecrire(2*3*4+5);
 ecrire(2*3*4*5);
+#ecrire( 2/3);
+#ecrire(vrai);
+#ecrire(faux);
+#ecrire(vrai ou faux);
+#ecrire(vrai et faux);
+#ecrire(6==7);
+#ecrire(6<=7);
+#ecrire(3*2!=7*1);
+#ecrire(vrai ou faux);
+#ecrire(vrai et faux);
+#ecrire(non vrai);
+
