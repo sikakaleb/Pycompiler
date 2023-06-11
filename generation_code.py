@@ -2,9 +2,12 @@ import sys
 from analyse_lexicale import FloLexer
 from analyse_syntaxique import FloParser
 import arbre_abstrait
+from table_des_symboles import TableSymboles
 
 # Permet de donner des noms différents à toutes les étiquettes (en les appelant e0, e1,e2,...)
 num_etiquette_courante = -1
+table_des_symboles = TableSymboles()
+fonction_en_cours=""
 
 
 def nom_nouvelle_etiquette():
@@ -119,12 +122,21 @@ def gen_programme(programme):
 """
 Affiche le code nasm correspondant à une suite d'instructions
 """
+
+
 def gen_fonctions(fonctions):
     for fonction in fonctions:
-        gen_def_fonction(fonction)
+        if fonction.type == "entier" or fonction.type == "booleen":
+            table_des_symboles.ajouter_fonction(fonction.identifiant, fonction.type)
+            gen_def_fonction(fonction)
+        else:
+            print("your fonction don't return entier or booleen  ")
+            exit(0)
+
+
 def gen_def_fonction(fonction):
-    nasm_instruction("_"+fonction)
-    gen_listeInstructions(fonction.listeInstructions)
+    nasm_instruction("_" + fonction.identifiant)
+    gen_listeInstructions(fonction.liste_instructions)
 
 
 def gen_listeInstructions(listeInstructions):
@@ -144,8 +156,13 @@ def gen_instruction(instruction):
         gen_lire(instruction)
     elif type(instruction) == arbre_abstrait.TantQue:
         gen_tantque(instruction)
-    elif type(instruction)==arbre_abstrait.Condition:
+    elif type(instruction) == arbre_abstrait.Condition:
         gen_si(instruction)
+    elif type(instruction) == arbre_abstrait.Retourner:
+        gen_retourner(instruction)
+    elif type(instruction) == arbre_abstrait.AppelFonction:
+        gen_appel_fct(instruction)
+
 
     else:
         print("type instruction inconnu ", type(instruction))
@@ -155,6 +172,26 @@ def gen_instruction(instruction):
 """
 Affiche le code nasm correspondant au fait d'envoyer la valeur entière d'une expression sur la sortie standard
 """
+
+
+def gen_appel_fct(instruction):
+    if table_des_symboles.verifier_exist(instruction.identifiant):
+        fonction_en_cours=instruction.identifiant
+        nasm_instruction("call", "_" + instruction.identifiant, "", "", "appel de la fonction")
+
+
+def gen_retourner(retourner):
+    retour_fct= gen_expression(retourner.expression)
+    if fonction_en_cours!="" and((table_des_symboles[fonction_en_cours]=="entier" and retour_fct==arbre_abstrait.Entier)or (table_des_symboles[fonction_en_cours]=="booleen" and retour_fct==arbre_abstrait.Booleen)):
+        nasm_instruction("pop", "eax", "", "", "met le résultat dans eax")
+        nasm_instruction("ret", "", "", "", "revenir à l’appel de la fonction")
+        fonction_en_cours=""
+    else:
+        print("Nous ne sommes pas dans une fonction ou type non concordant ")
+        exit(0)
+
+
+
 
 def gen_si(si):
     etiquette_vrai = nom_nouvelle_etiquette()
@@ -326,10 +363,13 @@ def gen_operation(operation):
         nasm_instruction(etiquette_vrai)
         nasm_instruction("push", "1", "", "", "")  # Mettre la valeur 1 sur la pile (vrai)
         nasm_instruction(etiquette_fin)
-        nasm_instruction("pop", "eax", "", "", "empile le résultat")
+        nasm_instruction("pop", "eax", "", "", "met le résultat dans eax")
         type_op = arbre_abstrait.Booleen
     nasm_instruction("push", "eax", "", "", "empile le résultat")
     return type_op
+
+
+# ici je veux plutot faire une mv de 1 ou 0 dans eax
 
 
 if __name__ == "__main__":
