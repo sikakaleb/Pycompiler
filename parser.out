@@ -65,8 +65,8 @@ Rule 61    arg_list -> expr
 
 Unused terminals:
 
-    ALORS
     UMINUS
+    ALORS
 
 Terminals, with rules where they appear:
 
