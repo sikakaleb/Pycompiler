@@ -3,65 +3,113 @@ from sly import Lexer
 
 
 class FloLexer(Lexer):
-    # Noms des lexèmes (sauf les litéraux). En majuscule. Ordre non important
     tokens = {
+        BOOLEEN_LITERAL,
         IDENTIFIANT,
         ENTIER,
         ENT,
         ECRIRE,
-        INFERIEUR_OU_EGAL,
+        TANTQUE,
         SI,
         ALORS,
-        TANTQUE,
         SINON,
+        ET,
+        OU,
+        NON,
+        PLUS,
+        MINUS,
+        MULT,
+        DIV,
+        UMINUS,
         BOOLEEN,
-        AFFICHER
+        COMPARATEUR,
+        MODULO,
+        LIRE,
+        RETOURNER
     }
 
-    # Les caractères litéraux sont des caractères uniques qui sont retournés tel quel quand rencontré par l'analyse lexicale.
-    # Les litéraux sont vérifiés en dernier, après toutes les autres règles définies par des expressions régulières.
-    # Donc, si une règle commence par un de ces littérals (comme INFERIEUR_OU_EGAL), cette règle aura la priorité.
-    literals = {'+', '*', '-', '/', '%', '!',
-                '{', '}', '(', ')', ',', ";", "=", '<', '>', 'et', 'ou', 'non'}
 
-    # Chaînes contenant les caractères à ignorer. Ici espace et tabulation
+    BOOLEEN = r'booleen'
+    ECRIRE = r'ecrire'
+    LIRE = r'lire'
+    SINON = r'sinon'
+    SI = r'si'
+    ALORS = r'alors'
+    TANTQUE = r'tantque'
+    RETOURNER = r'retourner'
+
+    literals = {'+', '-', '*', '/', '(', ')', ';', '{', '}',
+                '[', ']', ',',  '=', '<', '>', '&', '!', ':', '%'}
+
+    @_(r'Vrai|Faux|booleen')
+    def BOOLEEN_LITERAL(self, t):
+        # Convertir la valeur en un vrai booléen
+        if (t.value == 'booleen'):
+            return t
+        t.value = (t.value == 'Vrai')
+        return t
+
+    ET = r'et'
+    OU = r'ou'
+    NON = r'non'
+    PLUS = r'\+'
+    MINUS = r'-'
+    MULT = r'\*'
+    DIV = r'/'
     ignore = ' \t'
+    UMINUS = r'-'
+    ignore_comment = r'\#.*'
 
-    # Expressions régulières correspondant aux différents Lexèmes par ordre de priorité
-    INFERIEUR_OU_EGAL = r'<='
+    @_('%')
+    def MODULO(self, t):
+        return t
+
+    @_(r'<=|>=|<|>|==|!=')
+    def COMPARATEUR(self, t):
+        return t
+
+    # INF = r'<'
+    # SUP = r'>'
+    # INF_EGAL = r'<='
+    # SUP_EGAL = r'>='
+    # EGAL = r'=='
+    # DIFF = r'!='
 
     @_(r'0|[1-9][0-9]*')
     def ENTIER(self, t):
         t.value = int(t.value)
         return t
 
-    # Cas général
-    # En général, variable ou nom de fonction
-    IDENTIFIANT = r'[a-zA-Z][a-zA-Z0-9_]*'
+    IDENTIFIANT = r'(?!entier\b|booleen\b)[a-zA-Z][a-zA-Z0-9_]*'
+    ENT = r'entier'
 
-    # Cas spéciaux:
-    IDENTIFIANT['entier'] = ENT
-    IDENTIFIANT['booleen'] = BOOLEEN
-    IDENTIFIANT['ecrire'] = ECRIRE
-    IDENTIFIANT['si'] = SI
-    IDENTIFIANT['alors'] = ALORS
-    IDENTIFIANT['sinon'] = SINON
-    IDENTIFIANT['tantque'] = TANTQUE
-
-    # Syntaxe des commentaires à ignorer
-    ignore_comment = r'\#.*'
-
-    # Permet de conserver les numéros de ligne. Utile pour les messages d'erreurs
     @_(r'\n+')
     def ignore_newline(self, t):
         self.lineno += t.value.count('\n')
 
-    # En cas d'erreur, indique où elle se trouve
     def error(self, t):
-        print(f'Ligne {self.lineno}: caractère inattendu "{t.value[0]}"')
+        print(f"Ligne {self.lineno}: Caractère inattendu '{t.value[0]}'")
         self.index += 1
 
+def index_tokens(lexer, text):
+    index = 0
+    for token in lexer.tokenize(text):
+        # Récupérer la valeur du token sous forme de chaîne
+        value = str(token.value)
+        
+        # Trouver la position de début de ce token dans le texte
+        start = text.find(value, index)
+        
+        # Mettre à jour les attributs 'index' et 'end' du token
+        token.index = start
+        token.end = start + len(value)
+        
+        # Mettre à jour l'index pour la prochaine recherche
+        index = token.end
+        
+        yield token
 
+# Modifiez la section de code où vous appelez 'lexer.tokenize'
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print("usage: python3 analyse_lexicale.py NOM_FICHIER_SOURCE.flo")
@@ -69,5 +117,5 @@ if __name__ == '__main__':
         with open(sys.argv[1], "r") as f:
             data = f.read()
             lexer = FloLexer()
-            for tok in lexer.tokenize(data):
+            for tok in index_tokens(lexer, data):
                 print(tok)

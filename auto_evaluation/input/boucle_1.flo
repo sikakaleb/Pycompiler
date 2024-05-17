@@ -1,0 +1,4 @@
+tantque (2+3 != 0){
+	ecrire(0);
+}
+ecrire(1);

@@ -1,1 +1,2 @@
-ecrire(42);
+entier x =52;
+ecrire(x==x);

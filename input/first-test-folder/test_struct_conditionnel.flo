@@ -1,0 +1,6 @@
+
+si (vrai) {
+    ecrire(5);
+} sinon {
+    ecrire(51);
+}

@@ -1,5 +1,8 @@
 ecrire(42);
 entier x =52;
-booleen b;
-si b alors ecrire(4 + 2)
-sinon x = 2;
+booleen b = false;
+si a  alors {
+    ecrire(4 + 2);
+} sinon {
+    ecrire(20);
+}
